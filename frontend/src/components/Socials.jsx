@@ -29,7 +29,7 @@ const Socials = () => {
 
     return (
         <div className="p-4">
-            <h2 className="text-xl font-semibold mb-4">Users</h2>
+            <h2 className="text-xl font-semibold mb-4">Find Users</h2>
             <ul className="space-y-2">
                 {users.map(user => (
                     <li key={user.user_id} className="p-3 rounded shadow bg-white">

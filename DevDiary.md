@@ -15,3 +15,9 @@
             - 💡 Biggest learning: how to run the backend and frontend at the same time and how to connect the two (making two separate directories and deploying them in two separate terminals)
             - ❌ Biggest mistake/blocker: forgetting to put something in the index.html and wondering why nothing was being displayed for a solid hour...
             - 📌 Notes for tomorrow: creating the projects datatable and then getting started on the frontend (components, navigating, interactions, styling, etc...)
+
+## Day Nr. 3 - [June 10th]
+            - ✅ What I worked on today: finish the figma prototype; routes for "/", "/login" and "/socials", try to figure out the login functionality
+            - 💡 Biggest learning: how to navigate folders
+            - ❌ Biggest mistake/blocker: not being able to figure out how to do login. i was trying to stitch together FWOC and SSC but i was unsuccessful and wasted about 3 hours on login.
+            - 📌 Notes for tomorrow: maybe figure out login???!
