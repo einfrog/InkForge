@@ -98,6 +98,7 @@ function Header() {
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                     <Link to="/">Explore</Link>
                     <Link to="/socials">Socials</Link>
+                    <Link to="/projects">Projects</Link>
 
                     <div style={{ position: 'relative' }}>
                         <button onClick={toggleDropdown} className="btn btn-dark">

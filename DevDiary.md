@@ -23,7 +23,7 @@
             - 📌 Notes for tomorrow: make header with login and logout buttons
 
 ## Day Nr. 4 - [June 11th]
-            - ✅ What I worked on today: created the header component with login and logout buttons, implemented admin authorization and added the ability to register users. 
-            - 💡 Biggest learning:
-            - ❌ Biggest mistake/blocker: confusing routes (/inkforge_users vs /users) stitching together code and trying to make it work
-            - 📌 Notes for tomorrow:
+            - ✅ What I worked on today: created the header component with login and logout buttons, implemented admin authorization and added the ability to register users. added dropdown to profile button in header that allows you to view your profile or log out when logged in, and allows you to login or register when not logged in. added userdetail page, profile page that displays details of logged in user, added protected routes.
+            - 💡 Biggest learning: how to properly work with routes  and methods (this time, will probably have to relearn it a bunch more times)
+            - ❌ Biggest mistake/blocker: confusing routes (/inkforge_users vs /users) stitching together code and trying to make it work; typos, not importing things the right way (require vs import)
+            - 📌 Notes for tomorrow: automatically log in after registration, delete and update users (either admin and the logged in user can edit/delete their profile, nobody else); maybe get started on projects datatable and frontend :>
