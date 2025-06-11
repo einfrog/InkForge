@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import Header from "./Header.jsx";
 
 const Socials = () => {
     const [users, setUsers] = useState([]);
@@ -28,17 +29,20 @@ const Socials = () => {
     if (error) return <p className="text-red-500">{error}</p>;
 
     return (
-        <div className="p-4">
-            <h2 className="text-xl font-semibold mb-4">Find Users</h2>
-            <ul className="space-y-2">
-                {users.map(user => (
-                    <li key={user.user_id} className="p-3 rounded shadow bg-white">
-                        <p className="font-bold">{user.username}</p>
-                        <p className="text-sm text-gray-600">{user.email}</p>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <>
+            <Header/>
+            <div className="p-4">
+                <h2 className="text-xl font-semibold mb-4">Find Users</h2>
+                <ul className="space-y-2">
+                    {users.map(user => (
+                        <li key={user.user_id} className="p-3 rounded shadow bg-white">
+                            <p className="font-bold">{user.username}</p>
+                            <p className="text-sm text-gray-600">{user.email}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </>
     );
 };
 

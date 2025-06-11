@@ -17,7 +17,13 @@
             - 📌 Notes for tomorrow: creating the projects datatable and then getting started on the frontend (components, navigating, interactions, styling, etc...)
 
 ## Day Nr. 3 - [June 10th]
-            - ✅ What I worked on today: finish the figma prototype; routes for "/", "/login" and "/socials", try to figure out the login functionality
+            - ✅ What I worked on today: finish the figma prototype; routes for "/", "/login" and "/socials", try to figure out the login functionality. managed to fix login functionality late at night :D
             - 💡 Biggest learning: how to navigate folders
             - ❌ Biggest mistake/blocker: not being able to figure out how to do login. i was trying to stitch together FWOC and SSC but i was unsuccessful and wasted about 3 hours on login.
-            - 📌 Notes for tomorrow: maybe figure out login???!
+            - 📌 Notes for tomorrow: make header with login and logout buttons
+
+## Day Nr. 4 - [June 11th]
+            - ✅ What I worked on today:
+            - 💡 Biggest learning:
+            - ❌ Biggest mistake/blocker:
+            - 📌 Notes for tomorrow:

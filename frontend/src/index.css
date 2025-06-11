@@ -1,0 +1,88 @@
+.chakra-petch-semibold {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+#root {
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color-scheme: light dark;
+    color: black;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+
+
+    position: relative;
+    z-index: 1;
+
+}
+
+a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+}
+
+a:hover {
+    color: #535bf2;
+}
+
+body {
+    background: white;
+    background-size: cover;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    color: black;
+}
+
+h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+}
+
+.transparent-item {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        color: #213547;
+        background-color: #ffffff;
+    }
+
+    a:hover {
+        color: #747bff;
+    }
+
+    button {
+        background-color: #f9f9f9;
+    }
+}
+
+header {
+    background-color: #0a0e17;
+}
+
+.header-title {
+    font-family: "Chakra Petch", sans-serif;
+}
+
+

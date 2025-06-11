@@ -25,8 +25,8 @@ async function authenticateUser(email, password) {
         if (user && user.password === password) {
             // Create JWT token
             const accessToken = jwt.sign({
-                id: user.id,
-                name: user.name,
+                user_id: user.user_id,
+                username: user.username,
                 email: user.email
             }, ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
 
@@ -34,8 +34,8 @@ async function authenticateUser(email, password) {
                 success: true,
                 token: accessToken,
                 user: {
-                    id: user.id,
-                    name: user.name,
+                    user_id: user.user_id,
+                    username: user.username,
                     email: user.email
                 }
             };

@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState} from 'react';
+import Header from './Header';
 
 const Explore = () => {
     const [projects, setProjects] = useState([]);
 
     return (
-        <div className="p-4">
-            <h2 className="text-xl font-semibold mb-4">Explore Projects</h2>
-        </div>
+        <>
+            <Header/>
+
+            <div >
+                <h2 >Explore Projects</h2>
+            </div>
+        </>
     );
 }
 

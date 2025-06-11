@@ -5,37 +5,6 @@ const userController = require('../controllers/userController');
 
 console.log("auth routes loaded")
 
-// Login endpoint
-// router.post('/login', async (req, res) => {
-//     console.log('=== LOGIN ATTEMPT ===');
-//     console.log('Request body:', req.body);
-//
-//     try {
-//         const { username, password } = req.body;
-//         console.log('Extracted username:', username);
-//         console.log('Password provided:', !!password); // Just log if password exists, not the actual password
-//
-//         console.log('Attempting to get users...');
-//         const users = await userController.getUsers(req, res);
-//         console.log('Users retrieved:', users ? users.length : 'null');
-//
-//         console.log('Calling authenticateUser...');
-//         await authenticateUser(username, password);
-//
-//     } catch (error) {
-//         console.error('=== LOGIN ERROR ===');
-//         console.error('Error message:', error.message);
-//         console.error('Error stack:', error.stack);
-//         console.error('Error details:', error);
-//
-//         res.status(500).json({
-//             success: false,
-//             error: 'Internal server error',
-//             details: error.message // Add this for debugging (remove in production)
-//         });
-//     }
-// });
-
 router.post('/login', async (req, res) => {
     console.log('Login attempt received:', req.body);
     const { email, password } = req.body;
@@ -50,19 +19,19 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/test-users', async (req, res) => {
-    try {
-        const users = await userController.getUsers();
-        res.json({ users: users, count: users ? users.length : 0 });
-    } catch (error) {
-        console.error('Error getting users:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
+// router.get('/test-users', async (req, res) => {
+//     try {
+//         const users = await userController.getUsers();
+//         res.json({ users: users, count: users ? users.length : 0 });
+//     } catch (error) {
+//         console.error('Error getting users:', error);
+//         res.status(500).json({ error: error.message });
+//     }
+// });
 
 // Protected route example
-router.get('/profile', authenticateJWT, (req, res) => {
-    res.json({ user: req.user });
-});
+// router.get('/profile', authenticateJWT, (req, res) => {
+//     res.json({ user: req.user });
+// });
 
 module.exports = router;
