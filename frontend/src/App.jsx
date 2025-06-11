@@ -3,8 +3,7 @@ import Socials from "./components/Socials.jsx";
 import Explore from "./components/Explore.jsx";
 import LoginPage from "./components/Login.jsx";
 import AdminTest from "./components/AdminTest.jsx";
-// import UserForm from "./components/UserForm.jsx";
-// import RegisterForm from "./components/RegisterForm.jsx";
+import UserForm from "./components/UserForm.jsx";
 
 function App() {
     return (
@@ -16,7 +15,7 @@ function App() {
                 <Route path="/admin-test" element={<AdminTest/>}/>
                 {/*<Route path='/socials/new' element={<UserForm/>}></Route>*/}
                 {/*<Route path='/socials/:id/edit' element={<UserForm/>}></Route>*/}
-                {/*<Route path="/register" element={<RegisterForm />}/>*/}
+                <Route path="/register" element={<UserForm />}/>
             </Routes>
         </Router>
     )

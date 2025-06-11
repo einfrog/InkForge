@@ -52,7 +52,7 @@ export async function getUsers(token) {
 //get userby id, fetch specific user's data
 export async function getUserById(id, token) {
     //fetch user by id
-    const response = await fetch(`${API}/users/${id}`, {
+    const response = await fetch(`${API}/inkforge_users/${id}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -70,22 +70,16 @@ export async function getUserById(id, token) {
 export const createUser = async (userData) => {
     let response = null;
     try {
-        //use token to authorize
-        const token = localStorage.getItem('token');
-        response = await fetch(`${API}/users`, {
-            //post method
+        response = await fetch(`${API}/inkforge_users/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
-                name: userData.name,
-                surname: userData.surname,
-                hero: userData.hero,
+                username: userData.username,
                 email: userData.email,
                 password: userData.password,
-                info: userData.info
+                biography: userData.biography
             }),
         });
     } catch (error) {
@@ -93,17 +87,17 @@ export const createUser = async (userData) => {
     }
     if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create user'); //when first value=false, then go to next value;
+        throw new Error(errorData.message || 'Failed to create user');
     }
 
-    return await response.json(); // Return the created user or success message
+    return await response.json();
 };
 
 //sends a PUT request to /users/:id with the updated user information
 export async function updateUser(userId, updatedUserData) {
     try {
         const token = localStorage.getItem("token"); // or however you store it
-        const response = await fetch(`${API}/users/${userId}`, {
+        const response = await fetch(`${API}/inkforge_users/${userId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -128,7 +122,7 @@ export async function deleteUser(userId) {
     try {
         const token = localStorage.getItem("token");
 
-        response = await fetch(`${API}/users/${userId}`, {
+        response = await fetch(`${API}/inkforge_users/${userId}`, {
             method: "DELETE",
             headers: {
                 'Authorization': `Bearer ${token}`,

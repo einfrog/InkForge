@@ -7,11 +7,13 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 5000;
 
-app.use(cookieParser())
+// CORS configuration
 app.use(cors({
-    origin: 'http://localhost:5173', // Your frontend origin
-    credentials: true               // Allow cookies/headers
+    origin: 'http://localhost:5173', // Your frontend URL
+    credentials: true
 }));
+
+app.use(cookieParser());
 app.use(express.json());
 
 // const ReactEngine = require('react-view-engine')
