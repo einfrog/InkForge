@@ -9,7 +9,13 @@ register user✅
 
 userDetailPage✅
 
-turn userDetail page into profile page, only if logged in. when not logged in and trying to access socials, redirect to login page. when clicking on profile button, be able to log out. always display profile icon, where you can register or login, and when logged in, you can log out or view profile.
+turn userDetail page into profile page, only if logged in.✅
+
+when not logged in and trying to access socials, redirect to login page. 
+
+when clicking on profile button, be able to log out.✅
+
+always display profile icon, where you can register or login, and when logged in, you can log out or view profile.✅
 
 update user when you're logged in with that user or as admin
 
