@@ -27,7 +27,8 @@ async function authenticateUser(email, password) {
             const accessToken = jwt.sign({
                 user_id: user.user_id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                role: user.role,
             }, ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
 
             return {
@@ -36,7 +37,8 @@ async function authenticateUser(email, password) {
                 user: {
                     user_id: user.user_id,
                     username: user.username,
-                    email: user.email
+                    email: user.email,
+                    role: user.role,
                 }
             };
         } else {

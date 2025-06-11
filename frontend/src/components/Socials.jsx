@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Header from "./Header.jsx";
+import * as apiService from "../services/apiService.js";
 
 const Socials = () => {
     const [users, setUsers] = useState([]);
@@ -7,22 +8,19 @@ const Socials = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/inkforge_users')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch users');
-                }
-                return response.json();
-            })
-            .then(data => {
+        const fetchUsers = async () => {
+            try {
+                const data = await apiService.getUsers();
                 setUsers(data);
                 setLoading(false);
-            })
-            .catch(err => {
+            } catch (err) {
                 console.error('Error:', err);
-                setError('Could not load users');
+                setError(err.message || 'Could not load users');
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchUsers();
     }, []);
 
     if (loading) return <p className="text-gray-500">Loading users...</p>;
@@ -38,6 +36,7 @@ const Socials = () => {
                         <li key={user.user_id} className="p-3 rounded shadow bg-white">
                             <p className="font-bold">{user.username}</p>
                             <p className="text-sm text-gray-600">{user.email}</p>
+                            <p className="text-sm text-gray-600">{user.biography}</p>
                         </li>
                     ))}
                 </ul>

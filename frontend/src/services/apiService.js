@@ -32,11 +32,14 @@ export function handleLogout(navigate) {
 
 // sends a GET request to /users with the user's Bearer token
 export async function getUsers(token) {
-    const response = await fetch(`${API}/users`, {
+    const headers = {};
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API}/inkforge_users`, {
         method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
+        headers
     });
 
     if (!response.ok) {
@@ -141,5 +144,22 @@ export async function deleteUser(userId) {
 
     return await response.json();
 
+}
+
+// Test admin access
+export async function testAdminAccess(token) {
+    const response = await fetch(`${API}/inkforge_users/admin-test`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to verify admin access');
+    }
+
+    return await response.json();
 }
 
