@@ -23,7 +23,7 @@
             - 📌 Notes for tomorrow: make header with login and logout buttons
 
 ## Day Nr. 4 - [June 11th]
-            - ✅ What I worked on today:
+            - ✅ What I worked on today: created the header component with login and logout buttons, implemented admin authorization and added the ability to register users. 
             - 💡 Biggest learning:
-            - ❌ Biggest mistake/blocker:
+            - ❌ Biggest mistake/blocker: confusing routes (/inkforge_users vs /users) stitching together code and trying to make it work
             - 📌 Notes for tomorrow:

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Header from "./Header.jsx";
 import * as apiService from "../services/apiService.js";
+import {Link} from "react-router-dom";
 
 const Socials = () => {
     const [users, setUsers] = useState([]);
@@ -37,8 +38,11 @@ const Socials = () => {
                             <p className="font-bold">{user.username}</p>
                             <p className="text-sm text-gray-600">{user.email}</p>
                             <p className="text-sm text-gray-600">{user.biography}</p>
+                            <Link to={`/socials/${user.user_id}/`} className='btn btn-dark mx-2 my-1'>View</Link>
+                            {/*<Link to={`/socials/${user.user_id}/edit`} className='btn btn-dark mx-2 my-1'>Edit</Link>*/}
                         </li>
                     ))}
+
                 </ul>
             </div>
         </>

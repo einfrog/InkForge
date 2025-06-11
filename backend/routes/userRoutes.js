@@ -23,6 +23,16 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', async (req, res) => {
+    config.query('SELECT user_id, username, email, biography FROM inkforge_users WHERE user_id = ?', [req.params.id], (err, results) => {
+        if (err) {
+            console.log('Error fetching user:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json(results[0] || { error: 'User not found' });
+    }
+)});
+
 // Create new user (public registration)
 router.post('/register', (req, res) => {
     console.log('Registration attempt received:', req.body);

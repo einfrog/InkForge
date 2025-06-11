@@ -4,6 +4,7 @@ import Explore from "./components/Explore.jsx";
 import LoginPage from "./components/Login.jsx";
 import AdminTest from "./components/AdminTest.jsx";
 import UserForm from "./components/UserForm.jsx";
+import UserDetailPage from "./components/UserDetailPage.jsx";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 {/*<Route path='/socials/new' element={<UserForm/>}></Route>*/}
                 {/*<Route path='/socials/:id/edit' element={<UserForm/>}></Route>*/}
                 <Route path="/register" element={<UserForm />}/>
+                <Route path="/socials/:id" element={<UserDetailPage />}/>
             </Routes>
         </Router>
     )

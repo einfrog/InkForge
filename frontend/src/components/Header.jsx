@@ -28,6 +28,10 @@ function Header() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h1 style={{ margin: 0, color: "white" }}>InkForge</h1>
 
+                <Link to="/socials">Socials</Link>
+                <Link to="/register">Register</Link>
+
+
                 <div>
                     {isLoggedIn ? (
                         <button onClick={handleLogout}>Logout</button>
