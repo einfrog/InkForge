@@ -58,24 +58,21 @@ async function authenticateUser(email, password) {
 }
 
 function authenticateJWT(req, res, next) {
-    //gets the token from the cookie
-    const token = req.cookies.accessToken;
+    // Token nur noch aus Authorization-Header extrahieren
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.startsWith('Bearer ')
+        ? authHeader.split(' ')[1]
+        : null;
 
-    //if token exists
     if (token) {
-        //verifies authenticity of jwt and decodes its payload
         jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) {
-                // invalid or expired token: forbidden
                 return res.sendStatus(403);
             }
-            // attach the decoded payload (user info) to the request
             req.user = user;
-            //goes to next middleware or route handler
             next();
         })
     } else {
-        // no token: unauthorized
         res.sendStatus(401);
     }
 }

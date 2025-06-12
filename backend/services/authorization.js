@@ -2,9 +2,11 @@ const jwt = require('jsonwebtoken');
 
 function requireAdmin(req, res, next) {
     console.log('Authorization header:', req.headers.authorization);
-    console.log('Cookies:', req.cookies);
-    
-    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+    // Token nur noch aus Authorization-Header extrahieren
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.startsWith('Bearer ')
+        ? authHeader.split(' ')[1]
+        : null;
     console.log('Extracted token:', token);
 
     if (!token) {
@@ -29,7 +31,6 @@ function requireAdmin(req, res, next) {
         return res.status(403).json({ error: 'Invalid or expired token' });
     }
 }
-
 
 module.exports = {
     requireAdmin,
