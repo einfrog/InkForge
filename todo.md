@@ -33,7 +33,13 @@ crud for projects✅
 
 hash passwords with bcryptjs✅
 
+characters crud✅
+
 ## June 13th:
+
+settings crud
+
+story segments crud
 
 add authorization to project crud (only logged in users can create, update, delete their own projects)
 
