@@ -31,9 +31,9 @@ figure out userroutes to backup userform logic🔁
 db: set up projects✅
 crud for projects✅
 
-## June 13th:
+hash passwords with bcryptjs✅
 
-hash passwords with bcryptjs
+## June 13th:
 
 add authorization to project crud (only logged in users can create, update, delete their own projects)
 

@@ -4,6 +4,7 @@ const { config } = require('../services/database');
 const { requireAdmin, requireAuth, requireOwnProfileOrAdmin } = require("../services/authorization.js");
 const jwt = require("jsonwebtoken");
 const { authenticateJWT } = require('../services/authentication');
+const bcrypt = require('bcrypt');
 
 // Admin test route (must come before /:id route)
 router.get('/admin-test', requireAdmin, (req, res) => {
@@ -39,48 +40,56 @@ router.get('/:id', async (req, res) => {
 router.post('/register', (req, res) => {
     console.log('Registration attempt received:', req.body);
     const { username, email, password, biography } = req.body;
-    
-    // Check if user already exists
-    config.query('SELECT * FROM inkforge_users WHERE email = ?', [email], (err, results) => {
-        if (err) {
-            console.error('Error checking existing user:', err);
-            return res.status(500).json({ error: 'Database error' });
-        }
-        if (results.length > 0) {
-            return res.status(400).json({ error: 'Email already registered' });
+
+    // Passwort zuerst hashen, dann in die DB schreiben
+    bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
+        if (hashErr) {
+            console.error('Error hashing password:', hashErr);
+            return res.status(500).json({ error: 'Fehler beim Hashen des Passworts' });
         }
 
-        // Create new user
-        config.query(
-            'INSERT INTO inkforge_users (username, email, password, biography, role) VALUES (?, ?, ?, ?, ?)',
-            [username, email, password, biography || '', 'user'],
-            (err, result) => {
-                if (err) {
-                    console.error('Error creating user:', err);
-                    return res.status(500).json({ error: 'Failed to create user' });
-                }
-
-                const accessToken = jwt.sign({
-                    user_id: result.insertId,
-                    username: result.username,
-                    email: result.email,
-                    role: result.role
-                }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'
-                })
-
-                res.status(201).json({
-                    message: 'User created successfully',
-                    token: accessToken,
-                    user: {
-                        id: result.insertId,
-                        username,
-                        email,
-                        biography: biography || '',
-                        role: 'user'
-                    }
-                });
+        // Check if user already exists
+        config.query('SELECT * FROM inkforge_users WHERE email = ?', [email], (err, results) => {
+            if (err) {
+                console.error('Error checking existing user:', err);
+                return res.status(500).json({ error: 'Database error' });
             }
-        );
+            if (results.length > 0) {
+                return res.status(400).json({ error: 'Email already registered' });
+            }
+
+            // Create new user mit hashedPassword
+            config.query(
+                'INSERT INTO inkforge_users (username, email, password, biography, role) VALUES (?, ?, ?, ?, ?)',
+                [username, email, hashedPassword, biography || '', 'user'],
+                (err, result) => {
+                    if (err) {
+                        console.error('Error creating user:', err);
+                        return res.status(500).json({ error: 'Failed to create user' });
+                    }
+
+                    const accessToken = jwt.sign({
+                        user_id: result.insertId,
+                        username: result.username,
+                        email: result.email,
+                        role: result.role
+                    }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'
+                    })
+
+                    res.status(201).json({
+                        message: 'User created successfully',
+                        token: accessToken,
+                        user: {
+                            id: result.insertId,
+                            username,
+                            email,
+                            biography: biography || '',
+                            role: 'user'
+                        }
+                    });
+                }
+            );
+        });
     });
 });
 
@@ -100,7 +109,7 @@ router.put('/:id', authenticateJWT, async (req, res) => {
     // Build the update query dynamically based on provided fields
     let updateFields = [];
     let queryParams = [];
-    
+
     if (username) {
         updateFields.push('username = ?');
         queryParams.push(username);
@@ -110,8 +119,14 @@ router.put('/:id', authenticateJWT, async (req, res) => {
         queryParams.push(email);
     }
     if (password && password !== '********') {
-        updateFields.push('password = ?');
-        queryParams.push(password);
+        // Passwort hashen, bevor es gespeichert wird
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            updateFields.push('password = ?');
+            queryParams.push(hashedPassword);
+        } catch (err) {
+            return res.status(500).json({ error: 'Fehler beim Hashen des Passworts' });
+        }
     }
     if (biography !== undefined) {
         updateFields.push('biography = ?');

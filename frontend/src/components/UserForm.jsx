@@ -164,6 +164,16 @@ function UserForm() {
                             />
                         </div>
 
+                        {/*<div className="mb-3">*/}
+                        {/*    <label htmlFor="info" className="form-label">Passwort</label>*/}
+                        {/*    <textarea*/}
+                        {/*        id="password"*/}
+                        {/*        className="form-control"*/}
+                        {/*        value={newUser.password}*/}
+                        {/*        onChange={(e) => setNewUser({...newUser, password: e.target.value})}*/}
+                        {/*    />*/}
+                        {/*</div>*/}
+
                         <div className="d-flex">
                             <button type="submit" className="btn btn-dark me-2" disabled={isSubmitting}>
                                 {isSubmitting ? (id ? 'Updating...' : 'Creating...') : (id ? 'Update' : 'Create User')}

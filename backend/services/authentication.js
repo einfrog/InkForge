@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken");
 //getting the token secret from the .env file
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET; //process.env ensures the secret is not hardcoded; holds all environment variables available to the application
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
 
-// async function checkPassword (password, hash) {
-//     // returns true/false for whether the given plain-text password matches the hash
-//     let pw = await bcrypt.compare(password, hash);
-//     return pw;
-// }
+async function checkPassword (password, hash) {
+    // returns true/false for whether the given plain-text password matches the hash
+    let pw = await bcrypt.compare(password, hash);
+    return pw;
+}
 
 //the login function:
 async function authenticateUser(email, password) {
@@ -21,38 +21,38 @@ async function authenticateUser(email, password) {
 
         const user = users.find(u => u.email === email);
 
-        // Temporarily check password directly without hashing
-        if (user && user.password === password) {
-            // Create JWT token
-            const accessToken = jwt.sign({
-                user_id: user.user_id,
-                username: user.username,
-                email: user.email,
-                role: user.role,
-            }, ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
-
-            return {
-                success: true,
-                token: accessToken,
-                user: {
+        // Passwort-Hash-Vergleich mit bcrypt
+        if (user && user.password) {
+            const pwMatch = await checkPassword(password, user.password);
+            if (pwMatch) {
+                // Create JWT token
+                const accessToken = jwt.sign({
                     user_id: user.user_id,
                     username: user.username,
                     email: user.email,
                     role: user.role,
-                }
-            };
-        } else {
-            return {
-                success: false,
-                error: 'Invalid username or password'
-            };
-        }
+                }, ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
 
-    } catch (error) {
-        console.error('Authentication error:', error);
+                return {
+                    success: true,
+                    token: accessToken,
+                    user: {
+                        user_id: user.user_id,
+                        username: user.username,
+                        email: user.email,
+                        role: user.role,
+                    }
+                };
+            }
+        }
         return {
             success: false,
-            error: 'Internal server error'
+            error: 'Invalid username or password'
+        };
+    } catch (err) {
+        return {
+            success: false,
+            error: err.message || 'Authentication error'
         };
     }
 }
