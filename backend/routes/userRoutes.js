@@ -3,6 +3,7 @@ const router = express.Router();
 const { config } = require('../services/database');
 const { requireAdmin, requireAuth, requireOwnProfileOrAdmin } = require("../services/authorization.js");
 const jwt = require("jsonwebtoken");
+const { authenticateJWT } = require('../services/authentication');
 
 // Admin test route (must come before /:id route)
 router.get('/admin-test', requireAdmin, (req, res) => {
@@ -83,68 +84,92 @@ router.post('/register', (req, res) => {
     });
 });
 
-// // Update user (requires auth - own profile or admin)
-// router.put('/:id', requireOwnProfileOrAdmin, (req, res) => {
-//     const { username, email, password, biography } = req.body;
-//     const userId = req.params.id;
-
-//     // Build update query based on provided fields
-//     let updateFields = [];
-//     let values = [];
+// Update user
+router.put('/:id', authenticateJWT, async (req, res) => {
+    const userId = req.params.id;
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.decode(token);
     
-//     if (username) {
-//         updateFields.push('username = ?');
-//         values.push(username);
-//     }
-//     if (email) {
-//         updateFields.push('email = ?');
-//         values.push(email);
-//     }
-//     if (password) {
-//         updateFields.push('password = ?');
-//         values.push(password);
-//     }
-//     if (biography) {
-//         updateFields.push('biography = ?');
-//         values.push(biography);
-//     }
+    // Check if user is admin or updating their own profile
+    if (decoded.role !== 'admin' && decoded.user_id !== parseInt(userId)) {
+        return res.status(403).json({ error: 'Not authorized to update this user' });
+    }
 
-//     if (updateFields.length === 0) {
-//         return res.status(400).json({ error: 'No fields to update' });
-//     }
+    const { username, email, password, biography } = req.body;
+    
+    // Build the update query dynamically based on provided fields
+    let updateFields = [];
+    let queryParams = [];
+    
+    if (username) {
+        updateFields.push('username = ?');
+        queryParams.push(username);
+    }
+    if (email) {
+        updateFields.push('email = ?');
+        queryParams.push(email);
+    }
+    if (password && password !== '********') {
+        updateFields.push('password = ?');
+        queryParams.push(password);
+    }
+    if (biography !== undefined) {
+        updateFields.push('biography = ?');
+        queryParams.push(biography);
+    }
 
-//     values.push(userId);
+    if (updateFields.length === 0) {
+        return res.status(400).json({ error: 'No fields to update' });
+    }
 
-//     config.query(
-//         `UPDATE inkforge_users SET ${updateFields.join(', ')} WHERE user_id = ?`,
-//         values,
-//         (err, result) => {
-//             if (err) {
-//                 console.error('Error updating user:', err);
-//                 return res.status(500).json({ error: 'Failed to update user' });
-//             }
-//             if (result.affectedRows === 0) {
-//                 return res.status(404).json({ error: 'User not found' });
-//             }
-//             res.json({ message: 'User updated successfully' });
-//         }
-//     );
-// });
+    queryParams.push(userId); // Add userId for WHERE clause
 
-// // Delete user (admin only)
-// router.delete('/:id', requireAdmin, (req, res) => {
-//     config.query('DELETE FROM inkforge_users WHERE user_id = ?', 
-//         [req.params.id], 
-//         (err, result) => {
-//             if (err) {
-//                 console.error('Error deleting user:', err);
-//                 return res.status(500).json({ error: 'Failed to delete user' });
-//             }
-//             if (result.affectedRows === 0) {
-//                 return res.status(404).json({ error: 'User not found' });
-//             }
-//             res.json({ message: 'User deleted successfully' });
-//         });
-// });
+    const query = `UPDATE inkforge_users SET ${updateFields.join(', ')} WHERE user_id = ?`;
+    
+    config.query(query, queryParams, (err, result) => {
+        if (err) {
+            console.error('Error updating user:', err);
+            return res.status(500).json({ error: 'Failed to update user' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        // Return the updated user data
+        config.query('SELECT user_id, username, email, biography, role FROM inkforge_users WHERE user_id = ?', 
+            [userId], 
+            (err, users) => {
+                if (err) {
+                    console.error('Error fetching updated user:', err);
+                    return res.status(500).json({ error: 'Failed to fetch updated user data' });
+                }
+                res.json(users[0]);
+            }
+        );
+    });
+});
+
+// Delete user
+router.delete('/:id', authenticateJWT, async (req, res) => {
+    const userId = req.params.id;
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.decode(token);
+    
+    // Check if user is admin or deleting their own account
+    if (decoded.role !== 'admin' && decoded.user_id !== parseInt(userId)) {
+        return res.status(403).json({ error: 'Not authorized to delete this user' });
+    }
+
+    config.query('DELETE FROM inkforge_users WHERE user_id = ?', [userId], (err, result) => {
+        if (err) {
+            console.error('Error deleting user:', err);
+            return res.status(500).json({ error: 'Failed to delete user' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json({ message: 'User deleted successfully' });
+    });
+});
 
 module.exports = router;

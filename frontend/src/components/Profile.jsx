@@ -40,45 +40,49 @@ function Profile() {
     }, [userId, token]);
 
     const handleDelete = async () => {
-        if (!window.confirm('Are you sure you want to delete this user?')) return;
+        if (!window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) return;
         setIsDeleting(true);
         try {
             await apiService.deleteUser(userId);
-            navigate('/users');
+            localStorage.removeItem('token');
+            navigate('/');
         } catch (error) {
-            console.error('Error deleting user: ', error);
+            console.error("Failed to delete account: ", error);
         } finally {
             setIsDeleting(false);
         }
     };
 
-    if (isLoading) return <div>Loading ...</div>;
+    if (isLoading) return <div>Loading...</div>;
 
     return (
-        <div className="d-flex flex-column min-vh-100">
+        <>
             <Header />
-            <div className="flex-grow-1 d-flex justify-content-center align-items-center">
-                <div className="container mt-5 w-50">
-                    <div className="card transparent-item border-white">
-                        <div className="card-body">
-                            <h1 className="card-title display-5 ms-3">{user.username}</h1>
-                            <ul>
-                                <li className="list-group-item lead"><strong>ID:</strong> {user.user_id}</li>
-                                <li className="list-group-item lead"><strong>Username:</strong> {user.username}</li>
-                                <li className="list-group-item lead"><strong>Email:</strong> {user.email}</li>
-                                <li className="list-group-item lead"><strong>Biography:</strong> {user.biography || 'No biography provided.'}</li>
-                            </ul>
-                            <div className="d-flex flex-wrap gap-2 mt-3 ms-2">
-                                <Link to={`/socials/${user.user_id}/edit`} className="btn btn-dark">Edit</Link>
-                                {/*<button className="btn btn-danger" onClick={handleDelete} disabled={isDeleting}>*/}
-                                {/*    {isDeleting ? 'Deleting...' : 'Delete'}*/}
-                                {/*</button>*/}
+            <div className="container mt-5">
+                <div className="card shadow p-4">
+                    <h1 className="mb-4">Profile</h1>
+                    {user && (
+                        <div>
+                            <p><strong>Username:</strong> {user.username}</p>
+                            <p><strong>Email:</strong> {user.email}</p>
+                            <p><strong>Biography:</strong> {user.biography || 'No biography yet'}</p>
+                            <div className="mt-4">
+                                <Link to={`/socials/${userId}/edit`} className="btn btn-dark me-2">
+                                    Edit Profile
+                                </Link>
+                                <button 
+                                    onClick={handleDelete} 
+                                    className="btn btn-danger"
+                                    disabled={isDeleting}
+                                >
+                                    {isDeleting ? 'Deleting...' : 'Delete Account'}
+                                </button>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
