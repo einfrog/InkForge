@@ -22,13 +22,15 @@ always display profile icon, where you can register or login, and when logged in
 
 IMPORTANT: automatically log in after registration.✅
 
-update user when you're logged in with that user or as admin
+update user when you're logged in with that user or as admin✅
 
-delete user
+delete user✅
 
 figure out userroutes to backup userform logic🔁
 
-db: projects
+db: set up projects
+
+hash passwords with bcryptjs
 
 add projects, delete projects, update projects
 

@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -16,18 +17,11 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 
-// const ReactEngine = require('react-view-engine')
-// app.engine('jsx', ReactEngine.engine)  //set jsx files to use ReactEngine
-// app.set('view engine', 'jsx')
-//
-// app.set('views', [
-//     __dirname + '../frontend/src/components',  //jsx view folder
-// ])
-
 // API routes
 console.log('Registering routes...');
 app.use('/api/auth', authRoutes);  // More specific route first
 app.use('/api/inkforge_users', userRoutes);  // Then the user routes
+app.use('/api/projects', projectRoutes);
 console.log('Routes registered successfully');
 
 app.get('/test', (req, res) => {
