@@ -28,11 +28,14 @@ delete user✅
 
 figure out userroutes to backup userform logic🔁
 
-db: set up projects
+db: set up projects✅
+crud for projects✅
+
+## June 13th:
 
 hash passwords with bcryptjs
 
-add projects, delete projects, update projects
+add authorization to project crud (only logged in users can create, update, delete their own projects)
 
 fix error messages (zb trying to cretate account with existing email) and generally so it doesnt get displayed in the console but in the UI
 
