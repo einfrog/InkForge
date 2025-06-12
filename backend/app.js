@@ -26,8 +26,8 @@ app.use(express.json());
 
 // API routes
 console.log('Registering routes...');
-app.use('/api/inkforge_users', userRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes);  // More specific route first
+app.use('/api/inkforge_users', userRoutes);  // Then the user routes
 console.log('Routes registered successfully');
 
 app.get('/test', (req, res) => {

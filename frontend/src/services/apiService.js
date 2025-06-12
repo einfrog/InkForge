@@ -9,6 +9,7 @@ export async function login(email, password) {
         method: 'POST',
         headers: {'Content-Type': 'application/json'}, //extra info about the request im sending, f.e. that im sending/expecting JSON format, so API knows how to read it
         body: JSON.stringify({email, password}), //convert a JavaScript object into a JSON string
+        credentials: 'include'
     });
 
     console.log('Login response status:', response.status)
