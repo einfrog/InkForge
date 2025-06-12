@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
 const { authenticateJWT } = require('../services/authentication');
+const characterRoutes = require('./characterRoutes');
+
+router.use('/:project_id/characters', characterRoutes);
 
 // Create a project (user must be logged in)
 router.post('/', authenticateJWT, projectController.createProject);

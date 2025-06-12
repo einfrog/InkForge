@@ -4,6 +4,7 @@ const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const characterRoutes = require('./routes/characterRoutes');
+const segmentRoutes = require('./routes/segmentRoutes');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -23,7 +24,7 @@ console.log('Registering routes...');
 app.use('/api/auth', authRoutes);  // More specific route first
 app.use('/api/inkforge_users', userRoutes);  // Then the user routes
 app.use('/api/projects', projectRoutes);
-app.use('/api/projects/:project_id/characters', characterRoutes);
+// app.use('/api/projects/:project_id/segments', segmentRoutes);
 console.log('Routes registered successfully');
 
 app.get('/test', (req, res) => {
