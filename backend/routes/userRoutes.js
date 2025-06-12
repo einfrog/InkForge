@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { config } = require('../services/database');
 const { requireAdmin, requireAuth, requireOwnProfileOrAdmin } = require("../services/authorization.js");
+const jwt = require("jsonwebtoken");
 
 // Admin test route (must come before /:id route)
 router.get('/admin-test', requireAdmin, (req, res) => {
@@ -57,9 +58,25 @@ router.post('/register', (req, res) => {
                     console.error('Error creating user:', err);
                     return res.status(500).json({ error: 'Failed to create user' });
                 }
-                res.status(201).json({ 
+
+                const accessToken = jwt.sign({
+                    user_id: result.insertId,
+                    username: result.username,
+                    email: result.email,
+                    role: result.role
+                }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'
+                })
+
+                res.status(201).json({
                     message: 'User created successfully',
-                    userId: result.insertId 
+                    token: accessToken,
+                    user: {
+                        id: result.insertId,
+                        username,
+                        email,
+                        biography: biography || '',
+                        role: 'user'
+                    }
                 });
             }
         );

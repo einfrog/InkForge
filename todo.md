@@ -18,7 +18,9 @@ when clicking on profile button, be able to log out.✅
 
 always display profile icon, where you can register or login, and when logged in, you can log out or view profile.✅
 
-IMPORTANT: automatically log in after registration.
+## June 12th:
+
+IMPORTANT: automatically log in after registration.✅
 
 update user when you're logged in with that user or as admin
 
@@ -26,10 +28,21 @@ delete user
 
 figure out userroutes to backup userform logic🔁
 
-TODO: automatically login after registration
-
 db: projects
 
 add projects, delete projects, update projects
+
+fix error messages (zb trying to cretate account with existing email) and generally so it doesnt get displayed in the console but in the UI
+
+exchange jwt token in localstorage with http only cookie:
+res.cookie('token', accessToken, {
+httpOnly: true,
+secure: true,
+sameSite: 'Strict',
+maxAge: 86400000, // 1 day
+});
+
+and call APIs with 
+credentials: 'include'
 
 

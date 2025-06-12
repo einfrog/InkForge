@@ -27,3 +27,9 @@
             - 💡 Biggest learning: how to properly work with routes  and methods (this time, will probably have to relearn it a bunch more times)
             - ❌ Biggest mistake/blocker: confusing routes (/inkforge_users vs /users) stitching together code and trying to make it work; typos, not importing things the right way (require vs import)
             - 📌 Notes for tomorrow: automatically log in after registration, delete and update users (either admin and the logged in user can edit/delete their profile, nobody else); maybe get started on projects datatable and frontend :>
+
+## Day Nr. 5 - [June 12th]
+            - ✅ What I worked on today:
+            - 💡 Biggest learning:
+            - ❌ Biggest mistake/blocker:
+            - 📌 Notes for tomorrow:

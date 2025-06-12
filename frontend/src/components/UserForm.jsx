@@ -72,8 +72,10 @@ function UserForm() {
                 setCreateSuccess(`User ${updated.username} updated successfully.`);
             } else {
                 // if id is true = you're crating a new user, call create user from apiservice and setCreateSuccess
-                const createdUser = await createUser(newUser);
-                setCreateSuccess(`User ${createdUser.username} created successfully.`);
+                const { user, token } = await createUser(newUser);
+                localStorage.setItem('token', token);
+                setCreateSuccess(`User ${user.username} created successfully.`);
+
 
                 // clear form fields, so new data can be entered;
                 setNewUser({
