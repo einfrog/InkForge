@@ -3,8 +3,10 @@ const router = express.Router();
 const projectController = require('../controllers/projectController');
 const { authenticateJWT } = require('../services/authentication');
 const characterRoutes = require('./characterRoutes');
+const segmentRoutes = require("./segmentRoutes");
 
 router.use('/:project_id/characters', characterRoutes);
+router.use('/:project_id/segments', segmentRoutes);
 
 // Create a project (user must be logged in)
 router.post('/', authenticateJWT, projectController.createProject);

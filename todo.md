@@ -41,7 +41,7 @@ settings crud
 
 story segments crud
 
-add authorization to project crud (only logged in users can create, update, delete their own projects)
+add authorization to project, settings and segments crud (only logged in users can create, update, delete their own projects)
 
 fix error messages (zb trying to cretate account with existing email) and generally so it doesnt get displayed in the console but in the UI
 
@@ -55,5 +55,7 @@ maxAge: 86400000, // 1 day
 
 and call APIs with 
 credentials: 'include'
+
+beidseitige restriction (frontend und backend url) AUCH FÜR USER
 
 
