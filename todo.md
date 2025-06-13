@@ -53,11 +53,20 @@ character relationships (characters can have multiple relationships with other c
 
 rewrite user management to user userController✅
 
+beidseitige restriction (frontend und backend url) AUCH FÜR USER✅
+
 picture upload for users, characters and projects
 
 for projects, if no picture is uploaded, choose color
 
+clean up comments in code
+
 ## June 14th:
+
+
+## Optional:
+
+restrict delete of admin (can't be deleted)(?)
 
 fix error messages (zb trying to create account with existing email) and generally so it doesnt get displayed in the console but in the UI
 
@@ -72,10 +81,7 @@ maxAge: 86400000, // 1 day
 and call APIs with 
 credentials: 'include'
 
-restrict delete of admin (can't be deleted)
 
-when logged in can create projects for other id?
 
-beidseitige restriction (frontend und backend url) AUCH FÜR USER
 
 

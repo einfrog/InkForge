@@ -19,19 +19,4 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// router.get('/test-users', async (req, res) => {
-//     try {
-//         const users = await userController.getUsers();
-//         res.json({ users: users, count: users ? users.length : 0 });
-//     } catch (error) {
-//         console.error('Error getting users:', error);
-//         res.status(500).json({ error: error.message });
-//     }
-// });
-
-// Protected route example
-// router.get('/profile', authenticateJWT, (req, res) => {
-//     res.json({ user: req.user });
-// });
-
 module.exports = router;
