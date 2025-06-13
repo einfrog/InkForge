@@ -43,7 +43,9 @@ insert empty settings row when creating a new project✅
 
 story segments crud✅
 
-character_relationships crud
+character_relationships crud✅
+
+authorization for projects
 
 picture upload for users, characters and projects
 

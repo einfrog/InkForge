@@ -1,5 +1,15 @@
 const { config } = require('../services/database');
 
+function checkProjectOwnership(projectId, userId, callback) {
+    const sql = `SELECT * FROM projects WHERE project_id = ? AND user_id = ?`;
+    config.query(sql, [projectId, userId], (err, result) => {
+        if (err || result.length === 0) {
+            return callback(false);
+        }
+        callback(true);
+    });
+}
+
 exports.getAllProjects = (req, res) => {
     const sql = `SELECT * FROM projects`;
 
@@ -91,46 +101,59 @@ exports.getProjectById = (req, res) => {
 };
 
 exports.updateProject = (req, res) => {
+    const userId = req.user.user_id;
     const projectId = req.params.id;
     const { project_name, category, genre, description, visibility } = req.body;
 
-    const sql = `
-        UPDATE projects
-        SET project_name = ?, category = ?, genre = ?, description = ?, visibility = ?
-        WHERE project_id = ?
-    `;
-
-    config.query(sql, [project_name, category, genre, description, visibility, projectId], (err, result) => {
-        if (err) {
-            console.error('Error updating project:', err);
-            return res.status(500).json({ error: 'Failed to update project' });
+    checkProjectOwnership(projectId, userId, (isOwner) => {
+        if (!isOwner) {
+            return res.status(403).json({ error: 'You do not have permission to update this project.' });
         }
 
-        res.json({
-            message: 'Project updated successfully',
-            affectedRows: result.affectedRows,
+        const sql = `
+            UPDATE projects
+            SET project_name = ?, category = ?, genre = ?, description = ?, visibility = ?
+            WHERE project_id = ?
+        `;
+
+        config.query(sql, [project_name, category, genre, description, visibility, projectId], (err, result) => {
+            if (err) {
+                console.error('Error updating project:', err);
+                return res.status(500).json({ error: 'Failed to update project' });
+            }
+
+            res.json({
+                message: 'Project updated successfully',
+                affectedRows: result.affectedRows,
+            });
         });
     });
-}
+};
 
 exports.deleteProject = (req, res) => {
+    const userId = req.user.user_id;
     const projectId = req.params.id;
 
-    const sql = `DELETE FROM projects WHERE project_id = ?`;
-
-    config.query(sql, [projectId], (err, result) => {
-        if (err) {
-            console.error('Error deleting project:', err);
-            return res.status(500).json({ error: 'Failed to delete project' });
+    checkProjectOwnership(projectId, userId, (isOwner) => {
+        if (!isOwner) {
+            return res.status(403).json({ error: 'You do not have permission to delete this project.' });
         }
 
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Project not found' });
-        }
+        const sql = `DELETE FROM projects WHERE project_id = ?`;
+        config.query(sql, [projectId], (err, result) => {
+            if (err) {
+                console.error('Error deleting project:', err);
+                return res.status(500).json({ error: 'Failed to delete project' });
+            }
 
-        res.json({
-            message: 'Project deleted successfully',
-            affectedRows: result.affectedRows,
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'Project not found' });
+            }
+
+            res.json({
+                message: 'Project deleted successfully',
+                affectedRows: result.affectedRows,
+            });
         });
     });
-}
+};
