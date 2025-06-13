@@ -4,9 +4,11 @@ const projectController = require('../controllers/projectController');
 const { authenticateJWT } = require('../services/authentication');
 const characterRoutes = require('./characterRoutes');
 const segmentRoutes = require("./segmentRoutes");
+const settingsRoutes = require('./settingsRoutes');
 
 router.use('/:project_id/characters', characterRoutes);
 router.use('/:project_id/segments', segmentRoutes);
+router.use('/:project_id/settings', settingsRoutes);
 
 // Create a project (user must be logged in)
 router.post('/', authenticateJWT, projectController.createProject);

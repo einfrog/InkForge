@@ -37,13 +37,19 @@ characters crud✅
 
 ## June 13th:
 
-settings crud
+modular settings crud
 
-story segments crud
+insert empty settings row when creating a new project✅
+
+story segments crud✅
+
+picture upload for users, characters and projects
+
+for projects, if no picture is uploaded, choose color
 
 add authorization to project, settings and segments crud (only logged in users can create, update, delete their own projects)
 
-fix error messages (zb trying to cretate account with existing email) and generally so it doesnt get displayed in the console but in the UI
+fix error messages (zb trying to create account with existing email) and generally so it doesnt get displayed in the console but in the UI
 
 exchange jwt token in localstorage with http only cookie:
 res.cookie('token', accessToken, {
@@ -55,6 +61,10 @@ maxAge: 86400000, // 1 day
 
 and call APIs with 
 credentials: 'include'
+
+restrict delete of admin (can't be deleted)
+
+when logged in can create projects for other id?
 
 beidseitige restriction (frontend und backend url) AUCH FÜR USER
 

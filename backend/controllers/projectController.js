@@ -30,16 +30,28 @@ exports.createProject = (req, res) => {
             return res.status(500).json({ error: 'Failed to create project' });
         }
 
-        res.status(201).json({
-            message: 'Project created successfully',
-            project: {
-                id: result.insertId,
-                user_id: userId,
-                project_name,
+        const newProjectId = result.insertId;
+
+        // Insert empty settings row for the project
+        const settingsSql = `INSERT INTO settings (project_id) VALUES (?)`;
+        config.query(settingsSql, [newProjectId], (settingsErr, settingsResult) => {
+            if (settingsErr) {
+                console.error('Error creating settings row:', settingsErr);
+                return res.status(500).json({ error: 'Project created, but failed to initialize settings' });
             }
+
+            res.status(201).json({
+                message: 'Project and settings created successfully',
+                project: {
+                    id: newProjectId,
+                    user_id: userId,
+                    project_name,
+                }
+            });
         });
     });
 };
+
 
 exports.getMyProjects = (req, res) => {
     const userId = req.user.user_id; // from JWT middleware
