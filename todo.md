@@ -45,15 +45,17 @@ story segments crud✅
 
 character_relationships crud✅
 
-authorization for projects
+add authorization to project, settings and segments crud (only logged in users can create, update, delete their own projects)✅
+
+authorization for projects✅
+
+character relationships (characters can have multiple relationships with other characters, e.g. friends, enemies, lovers, etc.), asymmetric relationships (e.g. A is friend of B, but B is not friend of A)✅
+
+rewrite user management to user userController✅
 
 picture upload for users, characters and projects
 
-character relationships (characters can have multiple relationships with other characters, e.g. friends, enemies, lovers, etc.), asymmetric relationships (e.g. A is friend of B, but B is not friend of A)
-
 for projects, if no picture is uploaded, choose color
-
-add authorization to project, settings and segments crud (only logged in users can create, update, delete their own projects)
 
 fix error messages (zb trying to create account with existing email) and generally so it doesnt get displayed in the console but in the UI
 
