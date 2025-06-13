@@ -37,13 +37,17 @@ characters crud✅
 
 ## June 13th:
 
-modular settings crud
+modular settings crud✅
 
 insert empty settings row when creating a new project✅
 
 story segments crud✅
 
+character_relationships crud
+
 picture upload for users, characters and projects
+
+character relationships (characters can have multiple relationships with other characters, e.g. friends, enemies, lovers, etc.), asymmetric relationships (e.g. A is friend of B, but B is not friend of A)
 
 for projects, if no picture is uploaded, choose color
 
