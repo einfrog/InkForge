@@ -1,6 +1,6 @@
 const { config } = require('../services/database');
 
-// Reusable helper to check if the user owns the project
+// 🔁Reusable helper to check if the user owns the project
 function checkProjectOwnership(projectId, userId, callback) {
     const sql = `SELECT * FROM projects WHERE project_id = ? AND user_id = ?`;
     config.query(sql, [projectId, userId], (err, result) => {
@@ -25,7 +25,7 @@ exports.getSettingsByProject = (req, res) => {
     });
 };
 
-// ✅ Reusable upsert function factory (for both POST and PUT)
+// 🔁 Reusable upsert function factory (for both POST and PUT)
 const upsertSettingField = (field) => {
     return (req, res) => {
         const { project_id } = req.params;
@@ -61,7 +61,7 @@ const upsertSettingField = (field) => {
     };
 };
 
-// ✅ Reusable delete function factory (sets field to NULL)
+// 🔁 Reusable delete function factory (sets field to NULL)
 const deleteSettingField = (field) => {
     return (req, res) => {
         const { project_id } = req.params;

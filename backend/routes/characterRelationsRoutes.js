@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router({ mergeParams: true }); // Important to merge params from parent route!
+const router = express.Router({ mergeParams: true });
 const characterRelationsController = require('../controllers/characterRelationsController');
 const { authenticateJWT } = require('../services/authentication');
 

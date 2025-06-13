@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 function requireAdmin(req, res, next) {
     console.log('Authorization header:', req.headers.authorization);
-    // Token nur noch aus Authorization-Header extrahieren
+    // extract the token from the Authorization header
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.startsWith('Bearer ')
         ? authHeader.split(' ')[1]

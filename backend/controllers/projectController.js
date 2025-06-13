@@ -84,7 +84,7 @@ exports.getMyProjects = (req, res) => {
 }
 
 exports.getProjectById = (req, res) => {
-    const projectId = req.params.id; // <-- FIXED here
+    const projectId = req.params.id;
 
     const sql = `SELECT * FROM projects WHERE project_id = ?`;
 

@@ -55,16 +55,18 @@ rewrite user management to user userController✅
 
 beidseitige restriction (frontend und backend url) AUCH FÜR USER✅
 
-picture upload for users, characters and projects
+picture upload for users, characters and projects✅
 
-for projects, if no picture is uploaded, choose color
-
-clean up comments in code
+clean up comments in code✅
 
 ## June 14th:
 
+for projects, if no picture is uploaded, choose color
+
 
 ## Optional:
+
+delete old/unused pictures from uploads folder when updating a project, character or user picture
 
 restrict delete of admin (can't be deleted)(?)
 

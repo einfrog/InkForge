@@ -10,14 +10,14 @@ function query(sql, params) {
     });
 }
 
-// Project ownership check
+// 🔁Project ownership check
 async function checkUserOwnsProject(projectId, userId) {
     const sql = `SELECT 1 FROM projects WHERE project_id = ? AND user_id = ?`;
     const result = await query(sql, [projectId, userId]);
     return result.length > 0;
 }
 
-// Get project IDs of both characters
+// 🔁Get project IDs of both characters for checking if they belong to the same project
 async function getCharactersProjectIds(charId1, charId2) {
     const sql = `
         SELECT character_id, project_id
@@ -39,7 +39,7 @@ async function getCharactersProjectIds(charId1, charId2) {
     };
 }
 
-// Shared character ID validation - FIXED: Better validation and debugging
+// 🔁Shared character ID validation - FIXED: Better validation and debugging
 function validateCharacterIds(charId1, charId2, res) {
     console.log('Validating character IDs:', { charId1, charId2, type1: typeof charId1, type2: typeof charId2 });
 
@@ -65,7 +65,6 @@ exports.createRelation = async (req, res) => {
         console.log('Create relation params:', req.params);
         console.log('User ID:', req.user?.user_id);
 
-        // Use source_character_id to match your database schema
         const charId = Number(req.params.character_id || req.body.source_character_id);
         const targetCharId = Number(req.body.target_character_id);
         const { relationship_type, notes } = req.body;
@@ -86,7 +85,7 @@ exports.createRelation = async (req, res) => {
             return res.status(403).json({ error: 'You do not own this project.' });
         }
 
-        // FIXED: Check if relation already exists
+        // Check if relation already exists
         const existingRelationSql = `
             SELECT 1 FROM character_relations 
             WHERE source_character_id = ? AND target_character_id = ?
@@ -158,7 +157,7 @@ exports.updateRelation = async (req, res) => {
             return res.status(403).json({ error: 'Unauthorized project access' });
         }
 
-        // FIXED: Check if relation exists before updating
+        // Check if relation exists before updating
         const checkRelationSql = `
             SELECT 1 FROM character_relations
             WHERE source_character_id = ? AND target_character_id = ?
@@ -206,7 +205,7 @@ exports.deleteRelation = async (req, res) => {
             return res.status(403).json({ error: 'Unauthorized project access' });
         }
 
-        // FIXED: Check if relation exists before deleting
+        // Check if relation exists before deleting
         const checkRelationSql = `
             SELECT 1 FROM character_relations
             WHERE source_character_id = ? AND target_character_id = ?

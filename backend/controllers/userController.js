@@ -31,7 +31,7 @@ exports.registerUser = (req, res) => {
     bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
         if (hashErr) {
             console.error('Error hashing password:', hashErr);
-            return res.status(500).json({ error: 'Fehler beim Hashen des Passworts' });
+            return res.status(500).json({ error: 'Error when hashing password' });
         }
 
         config.query('SELECT * FROM inkforge_users WHERE email = ?', [email], (err, results) => {
@@ -104,7 +104,7 @@ exports.updateUser = async (req, res) => {
             updateFields.push('password = ?');
             queryParams.push(hashedPassword);
         } catch (err) {
-            return res.status(500).json({ error: 'Fehler beim Hashen des Passworts' });
+            return res.status(500).json({ error: 'Error when hashing password' });
         }
     }
     if (biography !== undefined) {

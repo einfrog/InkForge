@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../services/upload'); // or /middlewares/upload
+const upload = require('../services/upload');
 const uploadController = require('../controllers/uploadController');
 const multer = require('multer');
 const { authenticateJWT } = require('../services/authentication');

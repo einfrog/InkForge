@@ -35,7 +35,7 @@
             - 📌 Notes for tomorrow: rewrite user CRUD to be in controller; add authorization to project crud (only logged in users can create, update, delete their own projects); settings crud, story segments crud + authorization.
 
 ## Day Nr. 6 - [June 13th]
-            - ✅ What I worked on today: modular settings crud, insert empty settings row when creating a new project, story segments crud, character_relationships crud, add authorization to project, settings and segments authorization (only logged in users can create, update, delete their own projects), rewrite user management logic from userRoutes to userController.
+            - ✅ What I worked on today: modular settings crud, insert empty settings row when creating a new project, story segments crud, character_relationships crud, add authorization to project, settings and segments authorization (only logged in users can create, update, delete their own projects), rewrite user management logic from userRoutes to userController. implemented backend picture upload for users, characters and projects with restrictions (logged in users can upload pictures, only for their own profile, characters and projects).
             - 💡 Biggest learning: to check the exact path in postman before spending an hour debugging something that would have worked first try
-            - ❌ Biggest mistake/blocker: wasting time testing the wrong path in postman, not checking the exact path and then wondering why it didn't work
-            - 📌 Notes for tomorrow:
+            - ❌ Biggest mistake/blocker: wasting time testing the wrong path in postman, not checking the exact path and then wondering why it didn't work. trying to work out something over-engineered instead of just using a simple solution.
+            - 📌 Notes for tomorrow: for projects, if no picture is uploaded, choose color; clean up, start thinking about frontend, maybe start on it

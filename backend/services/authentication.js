@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 //getting the token secret from the .env file
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET; //process.env ensures the secret is not hardcoded; holds all environment variables available to the application
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
 
@@ -21,7 +21,7 @@ async function authenticateUser(email, password) {
 
         const user = users.find(u => u.email === email);
 
-        // Passwort-Hash-Vergleich mit bcrypt
+        // Passwort-Hash-comparison with bcrypt
         if (user && user.password) {
             const pwMatch = await checkPassword(password, user.password);
             if (pwMatch) {
@@ -58,7 +58,7 @@ async function authenticateUser(email, password) {
 }
 
 function authenticateJWT(req, res, next) {
-    // Token nur noch aus Authorization-Header extrahieren
+    // extract the token from the Authorization header
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.startsWith('Bearer ')
         ? authHeader.split(' ')[1]

@@ -6,7 +6,7 @@ const { authenticateJWT } = require('../services/authentication');
 // ✅ GET full settings for the project
 router.get('/', authenticateJWT, settingsController.getSettingsByProject);
 
-// ✅ Modular POSTs – create individual fields
+// Modular POSTs – create individual fields
 router.post('/geography', authenticateJWT, settingsController.createGeography);
 router.post('/climate', authenticateJWT, settingsController.createClimate);
 router.post('/time-period', authenticateJWT, settingsController.createTimePeriod);
@@ -14,7 +14,7 @@ router.post('/political-system', authenticateJWT, settingsController.createPolit
 router.post('/culture', authenticateJWT, settingsController.createCulture);
 router.post('/note', authenticateJWT, settingsController.createNote);
 
-// ✅ Modular PUTs – update individual fields
+// Modular PUTs – update individual fields
 router.put('/geography', authenticateJWT, settingsController.updateGeography);
 router.put('/climate', authenticateJWT, settingsController.updateClimate);
 router.put('/time-period', authenticateJWT, settingsController.updateTimePeriod);
@@ -22,7 +22,7 @@ router.put('/political-system', authenticateJWT, settingsController.updatePoliti
 router.put('/culture', authenticateJWT, settingsController.updateCulture);
 router.put('/note', authenticateJWT, settingsController.updateNote);
 
-// ✅ Modular DELETEs – clear out a field (e.g., set to NULL or empty string)
+// Modular DELETEs – clear out a field (e.g., set to NULL or empty string)
 router.delete('/geography', authenticateJWT, settingsController.deleteGeography);
 router.delete('/climate', authenticateJWT, settingsController.deleteClimate);
 router.delete('/time-period', authenticateJWT, settingsController.deleteTimePeriod);
