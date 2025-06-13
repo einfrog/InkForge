@@ -57,6 +57,8 @@ picture upload for users, characters and projects
 
 for projects, if no picture is uploaded, choose color
 
+## June 14th:
+
 fix error messages (zb trying to create account with existing email) and generally so it doesnt get displayed in the console but in the UI
 
 exchange jwt token in localstorage with http only cookie:

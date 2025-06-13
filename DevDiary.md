@@ -33,3 +33,9 @@
             - 💡 Biggest learning: that postman saves so much time, how cool controller are
             - ❌ Biggest mistake/blocker: i should have used postman from the start, i wasted so much time trying to figure out how to do it in the browser;
             - 📌 Notes for tomorrow: rewrite user CRUD to be in controller; add authorization to project crud (only logged in users can create, update, delete their own projects); settings crud, story segments crud + authorization.
+
+## Day Nr. 6 - [June 13th]
+            - ✅ What I worked on today: modular settings crud, insert empty settings row when creating a new project, story segments crud, character_relationships crud, add authorization to project, settings and segments authorization (only logged in users can create, update, delete their own projects), rewrite user management logic from userRoutes to userController.
+            - 💡 Biggest learning: to check the exact path in postman before spending an hour debugging something that would have worked first try
+            - ❌ Biggest mistake/blocker: wasting time testing the wrong path in postman, not checking the exact path and then wondering why it didn't work
+            - 📌 Notes for tomorrow:
