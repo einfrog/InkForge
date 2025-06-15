@@ -11,17 +11,23 @@ function checkProjectOwnership(projectId, userId, callback) {
 }
 
 exports.getAllProjects = (req, res) => {
-    const sql = `SELECT * FROM projects`;
+    const { visibility } = req.query;
 
-    config.query(sql, (err, result) => {
+    let query = 'SELECT * FROM projects';
+    let params = [];
+
+    if (visibility) {
+        query += ' WHERE visibility = ?';
+        params.push(visibility);
+    }
+
+    config.query(query, params, (err, results) => {
         if (err) {
-            console.error('Error fetching projects:', err);
+            console.error('Failed to fetch projects:', err);
             return res.status(500).json({ error: 'Failed to fetch projects' });
         }
 
-        res.json({
-            projects: result,
-        });
+        res.json({ projects: results });
     });
 };
 

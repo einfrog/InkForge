@@ -1,0 +1,80 @@
+/* Layout für ProjectDetailPage */
+
+.project-detail-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.project-detail-main {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.project-detail-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-y: auto;
+  padding: 2rem 0 2rem 2rem;
+  background: transparent;
+  min-width: 0;
+  min-height: 100vh;
+}
+
+.project-detail-card {
+  width: 100%;
+  max-width: 700px;
+  margin-top: 1rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.project-detail-card-body {
+  padding: 2rem;
+}
+
+.project-detail-title {
+  margin-bottom: 1.5rem;
+  font-size: 2.2rem;
+  font-weight: bold;
+}
+
+.project-detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.project-detail-list li {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.project-detail-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.project-detail-back-btn {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.project-detail-back-btn:hover {
+  background: #444;
+}

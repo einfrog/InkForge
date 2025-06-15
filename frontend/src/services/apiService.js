@@ -2,13 +2,13 @@
 
 const API = 'http://localhost:5000/api';
 
-//login functionality, send POST to /auth/login; if login successful it returns token;
+// USER API CALLS
 export async function login(email, password) {
     console.log('Making login request to:', `${API}/auth/login`)
     const response = await fetch(`${API}/auth/login`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'}, //extra info about the request im sending, f.e. that im sending/expecting JSON format, so API knows how to read it
-        body: JSON.stringify({email, password}), //convert a JavaScript object into a JSON string
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email, password}),
         credentials: 'include'
     });
 
@@ -21,12 +21,11 @@ export async function login(email, password) {
 
     const data = await response.json();
     console.log('Login response data:', data)
-    return data; // returns token, in LoginPage component it is saved in data and stored in localStorage
+    return data;
 }
 
-//handlelogout asks for navigate = useNavigate to navigate back to the homepage;
 export function handleLogout(navigate) {
-    // return token from localstorage and navigate back to homepage
+
     localStorage.removeItem('token');
     navigate('/');
 }
@@ -172,3 +171,50 @@ export function isAdmin() {
     }
 }
 
+// PROJECT API CALLS
+export async function getOwnProjects(token) {
+    const response = await fetch(`${API}/projects/own`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch own projects');
+    }
+
+    return await response.json(); // returns list of projects
+}
+
+export async function getProjectById(id, token) {
+    //fetch user by id
+    const response = await fetch(`${API}/projects/${id}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch project by ID');
+    }
+
+    return await response.json(); // returns user object
+}
+
+export async function getPublicProjects() {
+    const response = await fetch(`${API}/projects?visibility=public`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch public projects');
+    }
+
+    const data = await response.json();
+    return data;
+}

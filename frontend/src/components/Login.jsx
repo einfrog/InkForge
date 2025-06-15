@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import * as apiService from "../services/apiService.js"
+import './UserPages.css';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -8,28 +9,6 @@ function LoginPage() {
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
-
-    // const handleLogin = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const res = await fetch('/api/auth/login', {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({ email, password })
-    //         });
-    //
-    //         if (!res.ok) {
-    //             const text = await res.text(); // try to read raw text if not JSON
-    //             throw new Error(`Login failed: ${text}`);
-    //         }
-    //
-    //         const data = await res.json();
-    //         console.log("Login successful", data);
-    //         // redirect or update state
-    //     } catch (error) {
-    //         console.error("Login error:", error);
-    //     }
-    // };
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -49,36 +28,36 @@ function LoginPage() {
     }
 
     return (
-            <div >
-                <h1 >Login</h1>
-                {error && <p style={{color: 'red'}}>{error}</p>}
-                <form onSubmit={handleLogin}>
-                    <div >
-                        <label htmlFor="email" >Email:</label>
+            <div className="login-root">
+                <h1 className="login-title">Login</h1>
+                {error && <p className="login-error">{error}</p>}
+                <form onSubmit={handleLogin} className="login-main">
+                    <div style={{width: '100%'}}>
+                        <label htmlFor="email" className="login-label">Email:</label>
                         <input
                             type="email"
                             id="email"
-                            className="form-control"
+                            className="login-input"
                             value={email}
                             placeholder={"E-Mail"}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="password">Password:</label>
+                    <div style={{width: '100%'}}>
+                        <label htmlFor="password" className="login-label">Password:</label>
                         <input
                             type="password"
                             id="password"
-                            className="form-control"
+                            className="login-input"
                             value={password}
                             placeholder={'Password'}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
                     </div>
-                    <div className="d-flex">
-                        <button type='submit'>Login</button>
+                    <div className="login-actions">
+                        <button type='submit' className="login-btn">Login</button>
                     </div>
                 </form>
             </div>

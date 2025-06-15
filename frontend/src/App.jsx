@@ -8,6 +8,12 @@ import UserDetailPage from "./components/UserDetailPage.jsx";
 import Profile from "./components/Profile.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import ProjectPage from "./components/ProjectPage.jsx";
+import ProjectDetailPage from "./components/ProjectDetailPage.jsx";
+import PublicProjectDetailPage from "./components/PublicProjectDetailPage.jsx";
+import CharacterPage from "./components/CharacterPage.jsx";
+import WorldbuildingPage from "./components/WorldbuildingPage.jsx";
+import SegmentsPage from "./components/StorySegmentsPage.jsx";
+import AnalyticsPage from "./components/AnalyticsPage.jsx";
 
 function App() {
     return (
@@ -36,6 +42,36 @@ function App() {
                 <Route path="/projects" element={
                     <ProtectedRoute>
                         <ProjectPage/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/projects/:id" element={
+                    <ProtectedRoute>
+                        <ProjectDetailPage/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/projects/:id/characters" element={
+                    <ProtectedRoute>
+                        <CharacterPage/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/projects/:id/worldbuilding" element={
+                    <ProtectedRoute>
+                        <WorldbuildingPage/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/projects/:id/segments" element={
+                    <ProtectedRoute>
+                        <SegmentsPage/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/projects/:id/analytics" element={
+                    <ProtectedRoute>
+                        <AnalyticsPage/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/explore/:id" element={
+                    <ProtectedRoute>
+                        <PublicProjectDetailPage/>
                     </ProtectedRoute>
                 }/>
                 <Route path="/profile" element={

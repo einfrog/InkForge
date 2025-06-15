@@ -3,6 +3,7 @@ import {createUser, getUserById, updateUser} from '../services/apiService';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import Header from "./Header.jsx";
 import * as apiService from '../services/apiService';
+import './UserPages.css';
 
 function UserForm() {
     useEffect(() => {
@@ -106,40 +107,34 @@ function UserForm() {
     return (
         <>
             <Header/>
-            <div className="container mt-5 mb-5 w-25">
-                <div className="card shadow p-4 transparent-item border-white">
-                    <h1 className="mb-4 display-5">{id ? 'Edit User' : 'Create New User'}</h1>
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="name" className="form-label">Username</label>
+            <div className="userform-root">
+                <div className="userform-main">
+                    <div className="userform-card">
+                        <h1 className="userform-title">{id ? 'Edit User' : 'Create New User'}</h1>
+                        <form onSubmit={handleSubmit}>
+                            <label htmlFor="name" className="userform-label">Username</label>
                             <input
                                 type="text"
                                 id="name"
-                                className="form-control"
+                                className="userform-input"
                                 value={newUser.username}
                                 onChange={(e) => setNewUser({...newUser, username: e.target.value})}
                                 required
                             />
-                        </div>
-
-                        <div className="mb-3">
-                            <label htmlFor="email" className="form-label">Email</label>
+                            <label htmlFor="email" className="userform-label">Email</label>
                             <input
                                 type="email"
                                 id="email"
-                                className="form-control"
+                                className="userform-input"
                                 value={newUser.email}
                                 onChange={(e) => setNewUser({...newUser, email: e.target.value})}
                                 required
                             />
-                        </div>
-
-                        <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password</label>
+                            <label htmlFor="password" className="userform-label">Password</label>
                             <input
                                 type="password"
                                 id="password"
-                                className="form-control"
+                                className="userform-input"
                                 value={newUser.password}
                                 onFocus={() => {
                                     if (newUser.password === '********') {
@@ -152,41 +147,25 @@ function UserForm() {
                                 })}
                                 required={!id}
                             />
-                        </div>
-
-                        <div className="mb-3">
-                            <label htmlFor="info" className="form-label">Biography</label>
+                            <label htmlFor="biography" className="userform-label">Biography</label>
                             <textarea
                                 id="biography"
-                                className="form-control"
+                                className="userform-input"
                                 value={newUser.biography}
                                 onChange={(e) => setNewUser({...newUser, biography: e.target.value})}
                             />
-                        </div>
-
-                        {/*<div className="mb-3">*/}
-                        {/*    <label htmlFor="info" className="form-label">Passwort</label>*/}
-                        {/*    <textarea*/}
-                        {/*        id="password"*/}
-                        {/*        className="form-control"*/}
-                        {/*        value={newUser.password}*/}
-                        {/*        onChange={(e) => setNewUser({...newUser, password: e.target.value})}*/}
-                        {/*    />*/}
-                        {/*</div>*/}
-
-                        <div className="d-flex">
-                            <button type="submit" className="btn btn-dark me-2" disabled={isSubmitting}>
-                                {isSubmitting ? (id ? 'Updating...' : 'Creating...') : (id ? 'Update' : 'Create User')}
-                            </button>
-
-                            <Link to={id ? `/socials/${id}` : '/socials'} className="btn btn-dark">
-                                Cancel
-                            </Link>
-                        </div>
-                    </form>
-
-                    {createError && <p className="text-danger mt-3">{createError}</p>}
-                    {createSuccess && <p className="text-success mt-3">{createSuccess}</p>}
+                            <div className="userform-actions">
+                                <button type="submit" className="userform-btn" disabled={isSubmitting}>
+                                    {isSubmitting ? (id ? 'Updating...' : 'Creating...') : (id ? 'Update' : 'Create User')}
+                                </button>
+                                <Link to={id ? `/socials/${id}` : '/socials'} className="userform-btn">
+                                    Cancel
+                                </Link>
+                            </div>
+                        </form>
+                        {createError && <p className="userform-error">{createError}</p>}
+                        {createSuccess && <p className="userform-success">{createSuccess}</p>}
+                    </div>
                 </div>
             </div>
         </>
@@ -194,3 +173,4 @@ function UserForm() {
 }
 
 export default UserForm;
+

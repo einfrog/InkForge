@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
+import './UserPages.css';
 
 function UserDetailPage() {
     const [user, setUser] = useState({});
@@ -56,45 +57,19 @@ function UserDetailPage() {
     if (isLoading) return <div>Loading ... </div>
 
     return (
-        <div className="d-flex flex-column min-vh-100">
+        <div className="userdetail-root">
             <Header/>
-            <div className="flex-grow-1 d-flex justify-content-center align-items-center">
-
-                <div className="container mt-5 w-50">
-                    <div className="card transparent-item border-white">
-                        <div className="card-body">
-                            <h1 className="card-title display-5 ms-3">{user.username} </h1>
-                            <ul>
-                                <li className="list-group-item lead">
-                                    <strong>ID:</strong> {user.user_id}
-                                </li>
-                                <li className="list-group-item lead">
-                                    <strong>Username:</strong> {user.username}
-                                </li>
-                                <li className="list-group-item lead">
-                                    <strong>Email:</strong> {user.email}
-                                </li>
-                                <li className="list-group-item lead">
-                                    <strong>Biography:</strong> {user.biography || 'No biography provided.'}
-                                </li>
-
-                            </ul>
-
-                            <div className="d-flex flex-wrap gap-2 mt-3 ms-2">
-                                {/*link to userformpage for editing*/}
-                                {/*<Link to={`/socials/${user.user_id}/edit`} className="btn btn-dark">Edit</Link>*/}
-                                {/*link back to users*/}
-                                <Link to="/socials" className="btn btn-dark">Back to Users</Link>
-                                {/*delete button that call handleDelete and displays loading state*/}
-                                {/*<button*/}
-                                {/*    className="btn btn-danger"*/}
-                                {/*    onClick={() => handleDelete(user.id)}*/}
-                                {/*    disabled={isDeleting}*/}
-                                {/*>*/}
-                                {/*    {isDeleting ? 'Deleting...' : 'Delete'}*/}
-                                {/*</button>*/}
-                            </div>
-                        </div>
+            <div className="userdetail-main">
+                <div className="userdetail-card">
+                    <h1 className="userdetail-title">{user.username}</h1>
+                    <ul className="userdetail-list">
+                        <li><strong>ID:</strong> {user.user_id}</li>
+                        <li><strong>Username:</strong> {user.username}</li>
+                        <li><strong>Email:</strong> {user.email}</li>
+                        <li><strong>Biography:</strong> {user.biography || 'No biography provided.'}</li>
+                    </ul>
+                    <div className="userdetail-actions">
+                        <Link to="/socials" className="userdetail-btn">Back to Users</Link>
                     </div>
                 </div>
             </div>

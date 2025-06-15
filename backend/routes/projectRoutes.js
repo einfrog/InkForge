@@ -13,7 +13,8 @@ router.use('/:project_id/settings', settingsRoutes);
 // Create a project (user must be logged in)
 router.post('/', authenticateJWT, projectController.createProject);
 
-router.get('/', authenticateJWT, projectController.getAllProjects);
+router.get('/', projectController.getAllProjects); //get projects even when not logged in (public projects)
+
 // Get all projects for logged-in user
 router.get('/own', authenticateJWT, projectController.getMyProjects);
 

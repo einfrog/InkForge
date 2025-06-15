@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import Header from "./Header.jsx";
 import * as apiService from "../services/apiService.js";
 import {Link, useNavigate} from "react-router-dom";
+import './UserPages.css';
 
 const Socials = () => {
     const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [deletingUsers, setDeletingUsers] = useState({}); // Track which users are being deleted
@@ -16,14 +17,15 @@ const Socials = () => {
         setIsAdmin(apiService.isAdmin());
 
         const fetchUsers = async () => {
+            setLoading(true);
             try {
                 const token = localStorage.getItem('token');
                 const data = await apiService.getUsers(token);
                 setUsers(data);
-                setLoading(false);
             } catch (err) {
                 console.error('Error:', err);
                 setError(err.message || 'Could not load users');
+            } finally {
                 setLoading(false);
             }
         };
@@ -49,28 +51,29 @@ const Socials = () => {
         }
     };
 
-    if (loading) return <p className="text-gray-500">Loading users...</p>;
-    if (error) return <p className="text-red-500">{error}</p>;
+    if (loading) return <p>Loading users...</p>;
+    if (error) return <p className="userform-error">{error}</p>;
 
     return (
         <>
             <Header/>
-            <div className="p-4">
-                <h2 className="text-xl font-semibold mb-4">Find Users</h2>
-                <ul className="space-y-2">
+            <div className="socials-root">
+                <h2 style={{textAlign: 'center', margin: '2rem 0 1rem 0'}}>Find Users</h2>
+                <ul className="socials-list">
                     {users.map(user => (
-                        <li key={user.user_id} className="p-3 rounded shadow bg-white">
+                        <li key={user.user_id} className="socials-list-item">
                             <p className="font-bold">{user.username}</p>
-                            <p className="text-sm text-gray-600">{user.email}</p>
-                            <p className="text-sm text-gray-600">{user.biography}</p>
-                            <div className="mt-2">
-                                <Link to={`/socials/${user.user_id}/`} className='btn btn-dark mx-2 my-1'>View</Link>
+                            <p style={{fontSize: '0.95rem', color: '#555'}}>{user.email}</p>
+                            <p style={{fontSize: '0.95rem', color: '#555'}}>{user.biography}</p>
+                            <div className="socials-actions">
+                                <Link to={`/socials/${user.user_id}/`} className='userform-btn'>View</Link>
                                 {isAdmin && (
                                     <>
-                                        <Link to={`/socials/${user.user_id}/edit`} className='btn btn-dark mx-2 my-1'>Edit</Link>
-                                        <button 
+                                        <Link to={`/socials/${user.user_id}/edit`} className='userform-btn'>Edit</Link>
+                                        <button
                                             onClick={() => handleDelete(user.user_id)} 
-                                            className='btn btn-danger mx-2 my-1'
+                                            className='userform-btn'
+                                            style={{background: '#b91c1c'}}
                                             disabled={deletingUsers[user.user_id]}
                                         >
                                             {deletingUsers[user.user_id] ? 'Deleting...' : 'Delete'}

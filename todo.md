@@ -61,8 +61,19 @@ clean up comments in code✅
 
 ## June 14th:
 
-for projects, if no picture is uploaded, choose color
+own projects page with all projects of the logged in user✅
 
+explore page with all public projects✅
+
+project detail view for own projects with editing modes
+
+project detail view for public projects with read only mode
+
+Sidebar for project detail (overview, characters, worldbuilding, story segments, analytics)
+
+different pages/props for overview, characters, worldbuilding, story segments, analytics
+
+for projects, if no picture is uploaded, choose color
 
 ## Optional:
 

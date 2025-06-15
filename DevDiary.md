@@ -11,7 +11,7 @@
             - 📌 Notes for tomorrow: finish the Prototype!
 
 ## Day Nr. 2 - [June 9th, 2025]
-            - ✅ What I worked on today: finishing the Figma prototype!;csetting up the GitLab repository, creating a new react-vite project; setting up the database, connecting to the database; testing backend and frontend with the Socials.js Page, which displays the users I input to the inkforge_users datatable
+            - ✅ What I worked on today: finishing the Figma prototype!; setting up the GitLab repository, creating a new react-vite project; setting up the database, connecting to the database; testing backend and frontend with the Socials.js Page, which displays the users I input to the inkforge_users datatable
             - 💡 Biggest learning: how to run the backend and frontend at the same time and how to connect the two (making two separate directories and deploying them in two separate terminals)
             - ❌ Biggest mistake/blocker: forgetting to put something in the index.html and wondering why nothing was being displayed for a solid hour...
             - 📌 Notes for tomorrow: creating the projects datatable and then getting started on the frontend (components, navigating, interactions, styling, etc...)
@@ -39,3 +39,9 @@
             - 💡 Biggest learning: to check the exact path in postman before spending an hour debugging something that would have worked first try
             - ❌ Biggest mistake/blocker: wasting time testing the wrong path in postman, not checking the exact path and then wondering why it didn't work. trying to work out something over-engineered instead of just using a simple solution.
             - 📌 Notes for tomorrow: for projects, if no picture is uploaded, choose color; clean up, start thinking about frontend, maybe start on it
+
+## Day Nr. 7 - [June 15th]
+            - ✅ What I worked on today: fixed updateUser logic, so users can't update their email to an already registered email, optimized error handling for updateUser; started working of Doc for easier testing; adjusted getAllProjects to not require authentication, added filtering to getAllProject, so you can filter for public projects; ProjectDetail view for own projects and public projects, sidebar for navigation of project sections; reworked header; removed bootstrap classes and replaced them with custom CSS;
+            - 💡 Biggest learning:
+            - ❌ Biggest mistake/blocker:
+            - 📌 Notes for tomorrow:
