@@ -1,23 +1,33 @@
 import {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams, useLocation} from 'react-router-dom';
 import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import './ProjectDetailPage.css';
+import {jwtDecode} from "jwt-decode";
 
 function ProjectDetailPage() {
     const [project, setProject] = useState({});
     const params = useParams();
+    const location = useLocation();
     const projectId = params.id;
 
     //for loading states
     const [isLoading, setIsLoading] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
 
     const token = localStorage.getItem('token');
-
-    // returns a function that lets you navigate programmatically in the browser in response to user interactions
     const navigate = useNavigate();
+
+    const isPublicView = location.pathname.startsWith('/explore/');
+    const isOwner = project.user_id === getCurrentUserId();
+
+    const getBackPath = () => {
+        return isPublicView ? '/' : '/projects';
+    };
+
+    const getBackLabel = () => {
+        return isPublicView ? 'Back to Explore' : 'Back to Projects';
+    };
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -37,20 +47,31 @@ function ProjectDetailPage() {
         void fetchProject();
     }, [projectId, token]);
 
-    // const handleDelete = async (userId) => {
-    //     //alert window
+    // const handleDelete = async () => {
+    //     if (!isOwner) return;
+    //
     //     if (!window.confirm('Are you sure you want to delete this project?')) return;
     //
-    //     setIsDeleting(true); //for loading state
     //     try {
-    //         await apiService.deleteProject(userId);
+    //         await apiService.deleteProject(projectId, token);
     //         navigate('/projects');
     //     } catch (error) {
     //         console.error('Error deleting project: ', error);
-    //     } finally {
-    //         setIsDeleting(false); //for loading state
     //     }
     // };
+
+    function getCurrentUserId() {
+        let token = localStorage.getItem('token');
+        let userId;
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                return decoded.user_id || decoded.id || decoded.sub;
+            } catch (e) {
+                console.error("Failed to decode token", e);
+            }
+        }
+    }
 
     if (isLoading) return <div>Loading ... </div>
 
@@ -61,22 +82,51 @@ function ProjectDetailPage() {
                 <Sidebar
                     projectName={project.project_name}
                     projectId={project.project_id}
+                    isOwner={isOwner}
+                    isPublicView={isPublicView}
+                    canEdit={isOwner && !isPublicView}
                 />
                 <div className="project-detail-content">
                     <div className="project-detail-card">
                         <div className="project-detail-card-body">
                             <h1 className="project-detail-title">{project.project_name}</h1>
+
+                            {isPublicView && (
+                                <div className="project-owner">
+                                    <p><strong>By:</strong> {project.user_id || 'Unknown Author'}</p>
+                                </div>
+                            )}
+
                             <ul className="project-detail-list">
                                 <li><strong>ID:</strong> {project.project_id}</li>
                                 <li><strong>Category:</strong> {project.category}</li>
                                 <li><strong>Genre:</strong> {project.genre}</li>
-                                <li><strong>Description:</strong> {project.description || 'No description provided.'}</li>
+                                <li><strong>Description:</strong> {project.description || 'No description provided.'}
+                                </li>
                                 <li><strong>Visibility:</strong> {project.visibility}</li>
                             </ul>
+
                             <div className="project-detail-actions">
-                                <Link to="/projects" className="project-detail-back-btn">
-                                    Back to Projects
+                                <Link to={getBackPath()} className="project-detail-back-btn">
+                                    {getBackLabel()}
                                 </Link>
+
+                                {/*{isOwner && !isPublicView && (*/}
+                                {/*    <>*/}
+                                {/*        <Link*/}
+                                {/*            to={`/projects/${projectId}/edit`}*/}
+                                {/*            className="project-detail-edit-btn"*/}
+                                {/*        >*/}
+                                {/*            Edit Project*/}
+                                {/*        </Link>*/}
+                                {/*        <button*/}
+                                {/*            onClick={handleDelete}*/}
+                                {/*            className="project-detail-delete-btn"*/}
+                                {/*        >*/}
+                                {/*            Delete Project*/}
+                                {/*        </button>*/}
+                                {/*    </>*/}
+                                {/*)}*/}
                             </div>
                         </div>
                     </div>
@@ -84,7 +134,6 @@ function ProjectDetailPage() {
             </div>
         </div>
     );
-
 }
 
 export default ProjectDetailPage;

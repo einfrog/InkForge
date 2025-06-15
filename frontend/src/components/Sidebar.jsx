@@ -1,24 +1,72 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import './Sidebar.css';
 
-function Sidebar({ projectName, projectId }) {
+function Sidebar({projectName, projectId, isOwner, isPublicView, canEdit}) {
     const location = useLocation();
 
-    // Determine if we're in 'explore' or 'projects' based on the URL path
-    const basePath = location.pathname.includes('/explore/') ? 'explore' : 'projects';
+    const getBasePath = () => {
+        return isPublicView ? `/explore/${projectId}` : `/projects/${projectId}`;
+    };
+
+    const isActiveLink = (path) => {
+        return location.pathname === path;
+    };
 
     return (
         <div className="sidebar">
-            <h3>{projectName}</h3>
-            <nav>
-                <ul>
-                    <li><Link to={`/${basePath}/${projectId}`}>Overview</Link></li>
-                    <li><Link to={`/${basePath}/${projectId}/characters`}>Characters</Link></li>
-                    <li><Link to={`/${basePath}/${projectId}/worldbuilding`}>Worldbuilding</Link></li>
-                    <li><Link to={`/${basePath}/${projectId}/segments`}>Story Segments</Link></li>
-                    <li><Link to={`/${basePath}/${projectId}/analytics`}>Analytics</Link></li>
-                </ul>
+            <div className="sidebar-header">
+                <h3>{projectName}</h3>
+
+            </div>
+
+            <nav className="sidebar-nav">
+                <div>
+                    <Link
+                        to={getBasePath()}
+                        className={`sidebar-link ${isActiveLink(getBasePath()) ? 'active' : ''}`}
+                    >
+                        Overview
+                    </Link>
+                </div>
+                <div>
+
+                    <Link
+                        to={`${getBasePath()}/characters`}
+                        className={`sidebar-link ${isActiveLink(`${getBasePath()}/characters`) ? 'active' : ''}`}
+                    >
+                        Characters
+                    </Link>
+                </div>
+                <div>
+
+                    <Link
+                        to={`${getBasePath()}/worldbuilding`}
+                        className={`sidebar-link ${isActiveLink(`${getBasePath()}/worldbuilding`) ? 'active' : ''}`}
+                    >
+                        Worldbuilding
+                    </Link>
+                </div>
+                <div>
+
+                    <Link
+                        to={`${getBasePath()}/segments`}
+                        className={`sidebar-link ${isActiveLink(`${getBasePath()}/segments`) ? 'active' : ''}`}
+                    >
+                        Story Segments
+                    </Link>
+                </div>
+
+                <div>
+
+                    <Link
+                        to={`${getBasePath()}/analytics`}
+                        className={`sidebar-link ${isActiveLink(`${getBasePath()}/analytics`) ? 'active' : ''}`}
+                    >
+                        Analytics
+                    </Link>
+                </div>
+
             </nav>
         </div>
     );

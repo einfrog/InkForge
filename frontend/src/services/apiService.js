@@ -218,3 +218,89 @@ export async function getPublicProjects() {
     const data = await response.json();
     return data;
 }
+
+//TODO: test
+export async function createProject(projectData, token) {
+    const response = await fetch(`${API}/projects`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(projectData),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create project');
+    }
+
+    return await response.json();
+}
+
+//TODO: test
+export async function updateProject(projectId, updatedData, token) {
+    const response = await fetch(`${API}/projects/${projectId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update project');
+    }
+
+    return await response.json();
+}
+
+//TODO: test
+export async function deleteProject(projectId, token) {
+    const response = await fetch(`${API}/projects/${projectId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete project');
+    }
+
+    return await response.json();
+}
+
+// CHARACTER API CALLS
+export async function getCharactersByProjectId(projectId, token) {
+    const response = await fetch(`${API}/projects/${projectId}/characters`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch characters');
+    }
+
+    return await response.json(); // returns list of characters
+}
+
+export async function getCharacterById(project_id, characterId, token) {
+    const response = await fetch(`${API}/projects/${project_id}/characters/${characterId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch character by ID');
+    }
+
+    return await response.json(); // returns character object
+}

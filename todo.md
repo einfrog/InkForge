@@ -67,11 +67,11 @@ explore page with all public projects✅
 
 Sidebar for project detail (overview, characters, worldbuilding, story segments, analytics)✅
 
+rewrite components to use one ProjectDetail component for owned and public projects✅
+
 ## June 16th:
 
 sections for projectdetail view
-
-rewrite components to use one ProjectDetail component for owned and public projects
 
 implement CRUD for projects, characters, worldbuilding, story segments
 

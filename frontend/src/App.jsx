@@ -9,11 +9,11 @@ import Profile from "./components/Profile.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import ProjectPage from "./components/ProjectPage.jsx";
 import ProjectDetailPage from "./components/ProjectDetailPage.jsx";
-import PublicProjectDetailPage from "./components/PublicProjectDetailPage.jsx";
 import CharacterPage from "./components/CharacterPage.jsx";
 import WorldbuildingPage from "./components/WorldbuildingPage.jsx";
 import SegmentsPage from "./components/StorySegmentsPage.jsx";
 import AnalyticsPage from "./components/AnalyticsPage.jsx";
+import CharacterDetailPage from "./components/CharacterDetailPage.jsx";
 
 function App() {
     return (
@@ -39,6 +39,7 @@ function App() {
                         <UserForm/>
                     </ProtectedRoute>
                 }/>
+                {/* Private Project Routes */}
                 <Route path="/projects" element={
                     <ProtectedRoute>
                         <ProjectPage/>
@@ -52,6 +53,11 @@ function App() {
                 <Route path="/projects/:id/characters" element={
                     <ProtectedRoute>
                         <CharacterPage/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/projects/:id/characters/:characterId" element={
+                    <ProtectedRoute>
+                        <CharacterDetailPage/>
                     </ProtectedRoute>
                 }/>
                 <Route path="/projects/:id/worldbuilding" element={
@@ -69,11 +75,27 @@ function App() {
                         <AnalyticsPage/>
                     </ProtectedRoute>
                 }/>
+
+                {/* Public Project Routes (Explore) */}
                 <Route path="/explore/:id" element={
-                    <ProtectedRoute>
-                        <PublicProjectDetailPage/>
-                    </ProtectedRoute>
+                    <ProjectDetailPage/>
                 }/>
+                <Route path="/explore/:id/characters" element={
+                    <CharacterPage/>
+                }/>
+                <Route path="/explore/:id/characters/:characterId" element={
+                    <CharacterDetailPage/>
+                }/>
+                <Route path="/explore/:id/worldbuilding" element={
+                    <WorldbuildingPage/>
+                }/>
+                <Route path="/explore/:id/segments" element={
+                    <SegmentsPage/>
+                }/>
+                <Route path="/explore/:id/analytics" element={
+                    <AnalyticsPage/>
+                }/>
+
                 <Route path="/profile" element={
                     <ProtectedRoute>
                         <Profile/>
