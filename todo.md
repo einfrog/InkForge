@@ -59,19 +59,31 @@ picture upload for users, characters and projects✅
 
 clean up comments in code✅
 
-## June 14th:
+## June 15th:
 
 own projects page with all projects of the logged in user✅
 
 explore page with all public projects✅
 
+Sidebar for project detail (overview, characters, worldbuilding, story segments, analytics)✅
+
+## June 16th:
+
+sections for projectdetail view
+
+rewrite components to use one ProjectDetail component for owned and public projects
+
+implement CRUD for projects, characters, worldbuilding, story segments
+
 project detail view for own projects with editing modes
 
 project detail view for public projects with read only mode
 
-Sidebar for project detail (overview, characters, worldbuilding, story segments, analytics)
+upload/display pictures for projects, characters and users
 
 different pages/props for overview, characters, worldbuilding, story segments, analytics
+
+continue working on docs
 
 for projects, if no picture is uploaded, choose color
 
