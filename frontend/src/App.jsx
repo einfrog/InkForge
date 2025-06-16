@@ -14,7 +14,8 @@ import WorldbuildingPage from "./components/WorldbuildingPage.jsx";
 import SegmentsPage from "./components/StorySegmentsPage.jsx";
 import AnalyticsPage from "./components/AnalyticsPage.jsx";
 import CharacterDetailPage from "./components/CharacterDetailPage.jsx";
-import ProjectFrom from "./components/ProjectForm.jsx";
+import ProjectForm from "./components/ProjectForm.jsx";
+import CharacterForm from "./components/CharacterForm.jsx";
 
 function App() {
     return (
@@ -61,6 +62,16 @@ function App() {
                         <CharacterDetailPage/>
                     </ProtectedRoute>
                 }/>
+                <Route path="/projects/:id/characters/new" element={
+                    <ProtectedRoute>
+                        <CharacterForm/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/projects/:id/characters/:characterId/edit" element={
+                    <ProtectedRoute>
+                        <CharacterForm/>
+                    </ProtectedRoute>
+                }/>
                 <Route path="/projects/:id/worldbuilding" element={
                     <ProtectedRoute>
                         <WorldbuildingPage/>
@@ -78,12 +89,12 @@ function App() {
                 }/>
                 <Route path="/projects-new" element={
                     <ProtectedRoute>
-                        <ProjectFrom/>
+                        <ProjectForm/>
                     </ProtectedRoute>
                 }/>
                 <Route path="/projects/:id/edit" element={
                     <ProtectedRoute>
-                        <ProjectFrom/>
+                        <ProjectForm/>
                     </ProtectedRoute>
                 }/>
 

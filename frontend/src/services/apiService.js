@@ -309,14 +309,14 @@ export async function getCharacterById(project_id, characterId, token) {
 }
 
 //TODO: test
-export async function createCharacter(projectId, characterData, token) {
+export const createCharacter = async (projectId, character, token) => {
     const response = await fetch(`${API}/projects/${projectId}/characters`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(characterData),
+        body: JSON.stringify(character)
     });
 
     if (!response.ok) {
@@ -324,8 +324,9 @@ export async function createCharacter(projectId, characterData, token) {
         throw new Error(errorData.message || 'Failed to create character');
     }
 
-    return await response.json(); // returns created character object
-}
+    return await response.json();
+};
+
 
 //TODO: test
 export async function updateCharacter(projectId, characterId, updatedData, token) {

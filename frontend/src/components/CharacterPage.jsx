@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {useLocation, useParams} from "react-router-dom";
 import * as apiService from "../services/apiService.js";
 import Header from "./Header.jsx";
@@ -12,6 +12,7 @@ function CharacterPage() {
     const [isLoading, setIsLoading] = useState(true);
     const { id: projectId } = useParams();
     const location = useLocation();
+    const [deletingCharacter, setDeletingCharacter] = useState({});
     const token = localStorage.getItem('token');
 
     const isPublicView = location.pathname.startsWith('/explore/');
@@ -56,6 +57,19 @@ function CharacterPage() {
         }
     }
 
+    const handleDelete = async (characterId) => {
+        if (!window.confirm("Are you sure you want to delete this character?")) return;
+
+        try {
+            await apiService.deleteCharacter(projectId, characterId, token);
+            // Remove deleted character from state to update UI:
+            setCharacters((prevChars) => prevChars.filter((c) => c.character_id !== characterId));
+        } catch (error) {
+            console.error("Failed to delete character:", error);
+            alert("Failed to delete character, please try again.");
+        }
+    };
+
     if (isLoading) return <div>Loading...</div>;
 
     return (
@@ -78,10 +92,21 @@ function CharacterPage() {
                                     <p>{char.biography}</p>
                                     <div>
                                         <Link
+                                            to={`/projects/${projectId}/characters/${char.character_id}/edit`}>Edit</Link>
+
+
+                                        <Link
                                             to={getCharacterDetailPath(char.character_id)}
                                         >
                                             View Profile
                                         </Link>
+                                        <button
+                                            onClick={() => handleDelete(char.character_id)}
+                                            className="userform-btn"
+                                            disabled={deletingCharacter[char.character_id]}
+                                        >
+                                            {deletingCharacter[char.character_id] ? 'Deleting...' : 'Delete'}
+                                        </button>
                                     </div>
                                 </li>
                             ))}
@@ -89,8 +114,13 @@ function CharacterPage() {
                     ) : (
                         <p>No characters found for this project.</p>
                     )}
+                    <Link to={`/projects/${project.project_id}/characters/new`}
+                          className="block mt-4 text-blue-600 underline">New Character</Link>
+
                 </div>
+
             </div>
+
         </div>
     );
 }

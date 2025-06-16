@@ -45,3 +45,9 @@
             - 💡 Biggest learning: idk man 
             - ❌ Biggest mistake/blocker: tired and headache
             - 📌 Notes for tomorrow: continue working on project detail view, implement CRUD for projects, characters, worldbuilding, story segments
+
+## Day Nr. X - [Date]
+            - ✅ What I worked on today: fix frontend paths after character details view and sidebar, sections with data for project detail view (overview, characters, worldbuilding, story segments, analytics), implemented character detail view with sidebar navigation; CRUD for projects and characters;
+            - 💡 Biggest learning:
+            - ❌ Biggest mistake/blocker:
+            - 📌 Notes for tomorrow:

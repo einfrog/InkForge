@@ -79,7 +79,7 @@ restrictions when trying to access project detail view of a private project when
 
 Create, update and delete Projects✅
 
-Create, update and delete Characters
+Create, update and delete Characters✅
 
 dont let private projects be openend with explore path
 

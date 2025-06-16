@@ -20,7 +20,7 @@ function checkProjectOwnershipByCharacter(characterId, userId, callback) {
 exports.createCharacter = (req, res) => {
     const userId = req.user.user_id;
     const { project_id } = req.params;
-    const { name, role, personality, biography, image } = req.body;
+    const { name, role, personality, biography, image, description } = req.body;
 
     const projectIdInt = parseInt(project_id, 10);
     const userIdInt = parseInt(userId, 10);
@@ -32,10 +32,10 @@ exports.createCharacter = (req, res) => {
         }
 
         const sql = `
-            INSERT INTO characters (project_id, name, role, personality, biography, image)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO characters (project_id, name, role, personality, biography, image, description)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
-        config.query(sql, [projectIdInt, name, role, personality, biography, image], (err, result) => {
+        config.query(sql, [projectIdInt, name, role, personality, biography, image, description], (err, result) => {
             if (err) {
                 console.error('Error creating character:', err);
                 return res.status(500).json({ error: 'Failed to create character' });
@@ -83,17 +83,17 @@ exports.getCharacterById = (req, res) => {
 exports.updateCharacter = (req, res) => {
     const userId = req.user.user_id;
     const { id } = req.params;
-    const { name, role, personality, biography, image } = req.body;
+    const { name, role, personality, biography, image, description } = req.body;
 
     checkProjectOwnershipByCharacter(id, userId, (isOwner) => {
         if (!isOwner) return res.status(403).json({ error: 'You do not have permission to update this character.' });
 
         const sql = `
             UPDATE characters
-            SET name = ?, role = ?, personality = ?, biography = ?, image = ?
+            SET name = ?, role = ?, personality = ?, biography = ?, image = ?, description = ?
             WHERE character_id = ?
         `;
-        config.query(sql, [name, role, personality, biography, image, id], (err, result) => {
+        config.query(sql, [name, role, personality, biography, image, description, id], (err, result) => {
             if (err) {
                 console.error('Error updating character:', err);
                 return res.status(500).json({ error: 'Failed to update character' });
