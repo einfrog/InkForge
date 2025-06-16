@@ -47,7 +47,7 @@
             - 📌 Notes for tomorrow: continue working on project detail view, implement CRUD for projects, characters, worldbuilding, story segments
 
 ## Day Nr. X - [Date]
-            - ✅ What I worked on today: fix frontend paths after character details view and sidebar, sections with data for project detail view (overview, characters, worldbuilding, story segments, analytics), implemented character detail view with sidebar navigation; CRUD for projects and characters;
-            - 💡 Biggest learning:
-            - ❌ Biggest mistake/blocker:
-            - 📌 Notes for tomorrow:
+            - ✅ What I worked on today: fix frontend paths after character details view and sidebar, sections with data for project detail view (overview, characters, worldbuilding, story segments, analytics), implemented character detail view with sidebar navigation; CRUD for projects and characters; Crud for settings and story segments; reading character relationships from backend and displaying them in character detail view; 
+            - 💡 Biggest learning: to properly read through my code and the variables before sending ti to chatgpt 5 times, most times i just misspelled a variable or didn't use the right one
+            - ❌ Biggest mistake/blocker: unmatched parameters for apiservice file functions; weird errors for story segemtns (that just disappeared??), headache
+            - 📌 Notes for tomorrow: character rleations crud, WORRY ABOUT PROTECTIVE ROUTES!!!! WHY CANT UNLOGGED USERS SEE THE PUBLIC PROJECTS?!!??!?!!??!?!?!

@@ -126,11 +126,8 @@ exports.getRelationsByCharacter = (req, res) => {
             return res.status(500).json({ error: 'Failed to fetch character relations' });
         }
 
-        if (result.length === 0) {
-            return res.json({ message: 'No relations defined for this character.' });
-        }
+        res.json({ relations: result || [] });
 
-        res.json({ relations: result });
     });
 };
 

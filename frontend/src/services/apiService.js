@@ -355,6 +355,13 @@ export async function deleteCharacter(projectId, characterId, token) {
     return await response.json(); // returns deleted character object
 }
 
+export async function getCharacterRelationsById(projectId, characterId, token) {
+    const res = await fetch(`${API}/projects/${projectId}/characters/${characterId}/relations`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return res.json();
+}
+
 // SETTINGS API CALLS
 export async function getStorySettingsByProjectId(projectId, token) {
     const headers = {};

@@ -85,7 +85,11 @@ CRUD worldbuilding✅
 
 CRUD story segments✅
 
-relation READ
+relation READ✅
+
+## June 17th:
+
+get name of target character in relationship view
 
 character relationships CRUD
 

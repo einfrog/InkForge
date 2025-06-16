@@ -8,6 +8,7 @@ function CharacterDetailPage() {
     const { project_id: routeProjectId, characterId } = useParams();
     const [character, setCharacter] = useState(null);
     const [project, setProject] = useState(null);
+    const [relations, setRelations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const token = localStorage.getItem("token");
     const location = useLocation();
@@ -24,6 +25,9 @@ function CharacterDetailPage() {
                 const projectIdToFetch = fetchedCharacter?.project_id || routeProjectId;
                 const projectResponse = await apiService.getProjectById(projectIdToFetch, token);
                 setProject(projectResponse.project);
+                const relationsResponse = await apiService.getCharacterRelationsById(routeProjectId, characterId, token);
+                setRelations(relationsResponse.relations || []);
+                console.log("Fetched character relations:", relationsResponse.relations);
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             } finally {
@@ -52,6 +56,21 @@ function CharacterDetailPage() {
                     <p><strong>Personality:</strong> {character.personality || 'No personality available'}</p>
                     <p><strong>Biography:</strong> {character.biography || 'No description available'}</p>
                     <p><strong>Description:</strong> {character.description || 'No description available'}</p>
+                    <h2>Relations</h2>
+                    {relations.length === 0 ? (
+                        <p>No relations defined.</p>
+                    ) : (
+                        <ul>
+                            {relations.map(rel => (
+                                <li key={rel.target_character_id}>
+                                    <strong>Type:</strong> {rel.relationship_type} <br />
+                                    <strong>Target-character-id:</strong> {rel.target_character_id} <br />
+                                    <strong>Notes:</strong> {rel.notes}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
                 </div>
             </div>
         </div>
