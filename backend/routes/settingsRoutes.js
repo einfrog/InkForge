@@ -4,7 +4,7 @@ const settingsController = require('../controllers/settingsController');
 const { authenticateJWT } = require('../services/authentication');
 
 // ✅ GET full settings for the project
-router.get('/', authenticateJWT, settingsController.getSettingsByProject);
+router.get('/', settingsController.getSettingsByProject);
 
 // Modular POSTs – create individual fields
 router.post('/geography', authenticateJWT, settingsController.createGeography);

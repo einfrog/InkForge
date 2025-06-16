@@ -12,7 +12,10 @@ function CharacterDetailPage() {
     const [isLoading, setIsLoading] = useState(true);
     const token = localStorage.getItem("token");
     const location = useLocation();
-
+    const [editMode, setEditMode] = useState(null); // current editing segmentId or 'new'
+    const [editFields, setEditFields] = useState({ target_character_id: "", relationship_type: "" });
+    const [error, setError] = useState(null);
+    const [allCharacters, setAllCharacters] = useState([]);
     const isPublicView = location.pathname.startsWith('/explore/');
 
     useEffect(() => {
@@ -25,6 +28,11 @@ function CharacterDetailPage() {
                 const projectIdToFetch = fetchedCharacter?.project_id || routeProjectId;
                 const projectResponse = await apiService.getProjectById(projectIdToFetch, token);
                 setProject(projectResponse.project);
+
+                const allCharactersResponse = await apiService.getCharactersByProjectId(projectIdToFetch, token);
+                setAllCharacters(allCharactersResponse.characters || []);
+                console.log("Fetched all characters:", allCharactersResponse.characters);
+
                 const relationsResponse = await apiService.getCharacterRelationsById(routeProjectId, characterId, token);
                 setRelations(relationsResponse.relations || []);
                 console.log("Fetched character relations:", relationsResponse.relations);
@@ -37,6 +45,50 @@ function CharacterDetailPage() {
 
         void fetchCharacterAndProject();
     }, [routeProjectId, characterId, token]);
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+        try {
+            if (editMode === 'new') {
+                await apiService.addCharacterRelation(
+                    routeProjectId,
+                    characterId,
+                    editFields,
+                    token
+                );
+            } else {
+                const projectId = project?.project_id || routeProjectId;
+
+                await apiService.updateCharacterRelation(
+                    projectId,
+                    characterId,
+                    editMode, // target_character_id
+                    editFields,
+                    token
+                );
+            }
+            // Refresh relations
+            const updated = await apiService.getCharacterRelationsById(routeProjectId, characterId, token);
+            setRelations(updated.relations || []);
+            setEditMode(null);
+            setEditFields({ target_character_id: "", relationship_type: "" });
+        } catch (err) {
+            console.error("Failed to save relationship:", err);
+            setError("Failed to save relationship.");
+        }
+    };
+
+    const handleDelete = async (targetId) => {
+        if (!window.confirm("Are you sure you want to delete this character?")) return;
+        try {
+            await apiService.deleteCharacterRelation(routeProjectId, characterId, targetId, token);
+            const updated = await apiService.getCharacterRelationsById(routeProjectId, characterId, token);
+            setRelations(updated.relations || []);
+        } catch (err) {
+            console.error("Failed to delete relationship:", err);
+            setError("Failed to delete relationship.");
+        }
+    };
 
     if (isLoading || !character || !project) return <div>Loading...</div>;
 
@@ -63,12 +115,56 @@ function CharacterDetailPage() {
                         <ul>
                             {relations.map(rel => (
                                 <li key={rel.target_character_id}>
-                                    <strong>Type:</strong> {rel.relationship_type} <br />
-                                    <strong>Target-character-id:</strong> {rel.target_character_id} <br />
+                                    <strong>Type:</strong> {rel.relationship_type} <br/>
+                                    <strong>Target-character-id:</strong> {rel.target_character_name} <br/>
                                     <strong>Notes:</strong> {rel.notes}
+                                    <button onClick={() => {
+                                        setEditMode(rel.target_character_id);
+                                        setEditFields({
+                                            target_character_id: rel.target_character_id,
+                                            relationship_type: rel.relationship_type
+                                        });
+                                    }}>Edit
+                                    </button>
+                                    <button onClick={() => handleDelete(rel.target_character_id)}>Delete</button>
                                 </li>
                             ))}
                         </ul>
+                    )}
+                    {!editMode && (
+                        <button onClick={() => setEditMode('new')}>Add Relationship</button>
+                    )}
+                    {editMode && (
+
+                        <form onSubmit={handleSave}>
+                            <input
+                                type="text"
+                                value={editFields.relationship_type}
+                                onChange={e => setEditFields(f => ({...f, relationship_type: e.target.value}))}
+                                placeholder="Relationship Type"
+                            />
+                            <select
+                                value={editFields.target_character_id}
+                                onChange={e => setEditFields(f => ({...f, target_character_id: e.target.value}))}
+                            >
+                                <option value="">Select character</option>
+                                {allCharacters
+                                    .filter(c => c.character_id !== character.character_id)
+                                    .map(c => (
+                                        <option key={c.character_id} value={c.character_id}>
+                                            {c.name}
+                                        </option>
+                                    ))}
+                            </select>
+                            <input
+                                type="text"
+                                value={editFields.notes || ''}
+                                onChange={e => setEditFields(f => ({...f, notes: e.target.value}))}
+                                placeholder="Notes"
+                            />
+                            <button type="submit">Save</button>
+                            <button type="button" onClick={() => setEditMode(null)}>Cancel</button>
+                        </form>
                     )}
 
                 </div>

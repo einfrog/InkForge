@@ -26,7 +26,7 @@ update user when you're logged in with that user or as admin✅
 
 delete user✅
 
-figure out userroutes to backup userform logic🔁
+figure out userroutes to backup userform logic✅
 
 db: set up projects✅
 crud for projects✅
@@ -87,21 +87,21 @@ CRUD story segments✅
 
 relation READ✅
 
+get name of target character in relationship view✅
+
+character relationships CRUD✅
+
+show public projects details when not logged in✅
+
+implement CRUD for projects, characters, worldbuilding, story segments✅
+
 ## June 17th:
 
-get name of target character in relationship view
+feedback when trying to create another relationship with the same character
 
-character relationships CRUD
+remove cud buttons from explore page
 
 get rid of unique keys warning in console
-
-dont let private projects be openend with explore path
-
-show public projects details when not logged in
-
-implement CRUD for projects, characters, worldbuilding, story segments
-
-project detail view for own projects with editing modes
 
 project detail view for public projects with read only mode
 

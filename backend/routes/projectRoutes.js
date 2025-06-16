@@ -20,7 +20,7 @@ router.get('/', projectController.getAllProjects); //get projects even when not 
 router.get('/own', authenticateJWT, projectController.getMyProjects);
 
 // Get one project by ID
-router.get('/:id', authenticateJWT, checkProjectAccess, projectController.getProjectById);
+router.get('/:id', checkProjectAccess, projectController.getProjectById);
 
 // Update project
 router.put('/:id', authenticateJWT, projectController.updateProject);

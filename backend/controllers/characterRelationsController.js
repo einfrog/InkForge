@@ -118,7 +118,10 @@ exports.getRelationsByCharacter = (req, res) => {
         return res.status(400).json({ error: 'Invalid character ID.' });
     }
 
-    const sql = `SELECT * FROM character_relations WHERE source_character_id = ?`;
+    const sql = `SELECT cr.*, c.name AS target_character_name
+    FROM character_relations cr
+    JOIN characters c ON cr.target_character_id = c.character_id
+    WHERE cr.source_character_id = ?`;
 
     config.query(sql, [charId], (err, result) => {
         if (err) {

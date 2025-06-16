@@ -361,6 +361,43 @@ export async function getCharacterRelationsById(projectId, characterId, token) {
     });
     return res.json();
 }
+export async function addCharacterRelation(projectId, characterId, data, token) {
+    const response = await fetch(`${API}/projects/${projectId}/characters/${characterId}/relations`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Failed to add character relationship.");
+    return response.json();
+}
+
+export async function updateCharacterRelation(projectId, characterId, targetCharacterId, data, token) {
+    const response = await fetch(`${API}/projects/${projectId}/characters/${characterId}/relations/${targetCharacterId}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Failed to update character relationship.");
+    return response.json();
+}
+
+export async function deleteCharacterRelation(projectId, characterId, targetCharacterId, token) {
+    const response = await fetch(`${API}/projects/${projectId}/characters/${characterId}/relations/${targetCharacterId}`, {
+        method: "DELETE",
+        headers:  { Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok) throw new Error("Failed to delete character relationship.");
+    return response.json();
+}
 
 // SETTINGS API CALLS
 export async function getStorySettingsByProjectId(projectId, token) {

@@ -5,8 +5,8 @@ const characterRelationsRouter = require('./characterRelationsRoutes');
 const {authenticateJWT} = require('../services/authentication')
 
 router.post('/', authenticateJWT, characterController.createCharacter); // POST /projects/:project_id/characters
-router.get('/', authenticateJWT, characterController.getCharactersByProject); // GET /projects/:project_id/characters
-router.get('/:id', authenticateJWT, characterController.getCharacterById);
+router.get('/', characterController.getCharactersByProject); // GET /projects/:project_id/characters
+router.get('/:id', characterController.getCharacterById);
 router.put('/:id', authenticateJWT, characterController.updateCharacter);
 router.delete('/:id', authenticateJWT, characterController.deleteCharacter);
 
