@@ -71,6 +71,8 @@ rewrite components to use one ProjectDetail component for owned and public proje
 
 ## June 16th:
 
+fix frontend paths after character details view (and sidebar)✅
+
 sections for projectdetail view
 
 implement CRUD for projects, characters, worldbuilding, story segments

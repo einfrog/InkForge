@@ -42,6 +42,6 @@
 
 ## Day Nr. 7 - [June 15th]
             - ✅ What I worked on today: fixed updateUser logic, so users can't update their email to an already registered email, optimized error handling for updateUser; started working of Doc for easier testing; adjusted getAllProjects to not require authentication, added filtering to getAllProject, so you can filter for public projects; ProjectDetail view for own projects and public projects, sidebar for navigation of project sections; reworked header; removed bootstrap classes and replaced them with custom CSS; pages/components for project sections, ended up rewriting code to use one modular ProjectDetail component for both owned and public projects; added character detail view
-            - 💡 Biggest learning: idk man
+            - 💡 Biggest learning: idk man 
             - ❌ Biggest mistake/blocker: tired and headache
             - 📌 Notes for tomorrow: continue working on project detail view, implement CRUD for projects, characters, worldbuilding, story segments

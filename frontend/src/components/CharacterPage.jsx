@@ -66,6 +66,7 @@ function CharacterPage() {
                 <Sidebar
                     projectName={project.project_name}
                     projectId={project.project_id}
+                    isPublicView={isPublicView}
                 />
                 <div className="flex-grow-1 p-4">
                     <h1>Characters</h1>

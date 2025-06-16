@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import * as apiService from "../services/apiService.js";
@@ -10,6 +10,9 @@ function CharacterDetailPage() {
     const [project, setProject] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const token = localStorage.getItem("token");
+    const location = useLocation();
+
+    const isPublicView = location.pathname.startsWith('/explore/');
 
     useEffect(() => {
         const fetchCharacterAndProject = async () => {
@@ -40,6 +43,7 @@ function CharacterDetailPage() {
                 <Sidebar
                     projectName={project.project_name}
                     projectId={project.project_id}
+                    isPublicView={isPublicView}
                 />
                 <div className="flex-grow-1 p-4">
                     <h1>{character.name}</h1>

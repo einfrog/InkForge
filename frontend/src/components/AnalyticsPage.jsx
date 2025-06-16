@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import * as apiService from '../services/apiService';
 import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
@@ -9,6 +9,9 @@ function AnalyticsPage() {
     const [isLoading, setIsLoading] = useState(true);
     const { id: projectId } = useParams();
     const token = localStorage.getItem('token');
+    const location = useLocation();
+
+    const isPublicView = location.pathname.startsWith('/explore/');
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -34,6 +37,7 @@ function AnalyticsPage() {
                 <Sidebar
                     projectName={project.project_name}
                     projectId={project.project_id}
+                    isPublicView={isPublicView}
                 />
                 <div className="flex-grow-1 p-4">
                     <h1>Analytics Page</h1>
