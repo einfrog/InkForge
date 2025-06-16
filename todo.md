@@ -77,6 +77,10 @@ sections for projectdetail view READ✅
 
 restrictions when trying to access project detail view of a private project when not logged in as that user, works for /projects/id but not for /explore/id✅
 
+Create, update and delete Projects✅
+
+Create, update and delete Characters
+
 dont let private projects be openend with explore path
 
 implement CRUD for projects, characters, worldbuilding, story segments

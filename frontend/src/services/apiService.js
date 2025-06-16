@@ -219,22 +219,26 @@ export async function getPublicProjects() {
 }
 
 //TODO: test
-export async function createProject(projectData, token) {
-    const response = await fetch(`${API}/projects`, {
-        method: 'POST',
+export async function createProject(data, token) {
+    const response = await fetch("http://localhost:5000/api/projects", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(projectData),
+        body: JSON.stringify(data)
     });
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create project');
+    const contentType = response.headers.get("Content-Type");
+
+    let responseBody;
+    if (contentType && contentType.includes("application/json")) {
+        responseBody = await response.json();
+    } else {
+        responseBody = await response.text();
     }
 
-    return await response.json();
+    return { ok: response.ok, status: response.status, body: responseBody };
 }
 
 //TODO: test
