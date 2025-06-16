@@ -83,7 +83,13 @@ Create, update and delete Characters✅
 
 CRUD worldbuilding✅
 
-CRUD story segments
+CRUD story segments✅
+
+relation READ
+
+character relationships CRUD
+
+get rid of unique keys warning in console
 
 dont let private projects be openend with explore path
 

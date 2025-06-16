@@ -218,7 +218,6 @@ export async function getPublicProjects() {
     return data;
 }
 
-//TODO: test
 export async function createProject(data, token) {
     const response = await fetch("http://localhost:5000/api/projects", {
         method: "POST",
@@ -241,7 +240,6 @@ export async function createProject(data, token) {
     return { ok: response.ok, status: response.status, body: responseBody };
 }
 
-//TODO: test
 export async function updateProject(projectId, updatedData, token) {
     const response = await fetch(`${API}/projects/${projectId}`, {
         method: 'PUT',
@@ -260,7 +258,6 @@ export async function updateProject(projectId, updatedData, token) {
     return await response.json();
 }
 
-//TODO: test
 export async function deleteProject(projectId, token) {
     const response = await fetch(`${API}/projects/${projectId}`, {
         method: 'DELETE',
@@ -308,7 +305,6 @@ export async function getCharacterById(project_id, characterId, token) {
     return await response.json(); // returns character object
 }
 
-//TODO: test
 export const createCharacter = async (projectId, character, token) => {
     const response = await fetch(`${API}/projects/${projectId}/characters`, {
         method: 'POST',
@@ -327,8 +323,6 @@ export const createCharacter = async (projectId, character, token) => {
     return await response.json();
 };
 
-
-//TODO: test
 export async function updateCharacter(projectId, characterId, updatedData, token) {
     const response = await fetch(`${API}/projects/${projectId}/characters/${characterId}`, {
         method: 'PUT',
@@ -345,7 +339,6 @@ export async function updateCharacter(projectId, characterId, updatedData, token
     }
 }
 
-//TODO: test
 export async function deleteCharacter(projectId, characterId, token) {
     const response = await fetch(`${API}/projects/${projectId}/characters/${characterId}`, {
         method: 'DELETE',
@@ -418,3 +411,54 @@ export async function getStorySegmentsByProjectId(projectId, token) {
     return await response.json();
 }
 
+export async function createStorySegment(projectId, data, token) {
+    const response = await fetch(`/api/projects/${projectId}/segments`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to create story segment");
+    }
+
+    return await response.json();
+}
+
+export async function updateStorySegment(projectId, segmentId, data, token) {
+    console.log("updateStorySegment params:", { projectId, segmentId, data, token });
+
+    const response = await fetch(`/api/projects/${projectId}/segments/${segmentId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to update story segment");
+    }
+
+    return await response.json();
+}
+
+export async function deleteStorySegment(projectId, segmentId, token) {
+    const response = await fetch(`${API}/projects/${projectId}/segments/${segmentId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete segment');
+    }
+
+    return await response.json(); // returns deleted segment object
+}

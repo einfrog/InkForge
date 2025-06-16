@@ -42,7 +42,8 @@ exports.createSegment = (req, res) => {
             res.status(201).json({
                 message: 'Segment created successfully',
                 segmentId: result.insertId,
-                title: title
+                title: title,
+                content: content
             });
         });
     });
