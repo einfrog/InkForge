@@ -161,7 +161,7 @@ export async function testAdminAccess(token) {
 export function isAdmin() {
     const token = localStorage.getItem('token');
     if (!token) return false;
-    
+
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         return payload.role === 'admin';
@@ -187,20 +187,19 @@ export async function getOwnProjects(token) {
     return await response.json(); // returns list of projects
 }
 
-export async function getProjectById(id, token) {
-    //fetch user by id
-    const response = await fetch(`${API}/projects/${id}`, {
+export async function getProjectById(projectId, token) {
+    const headers = {};
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    const response = await fetch(`${API}/projects/${projectId}`, {
         method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
+        headers
     });
-
     if (!response.ok) {
         throw new Error('Failed to fetch project by ID');
     }
-
-    return await response.json(); // returns user object
+    return await response.json(); // returns { project: {...} }
 }
 
 export async function getPublicProjects() {
@@ -303,4 +302,171 @@ export async function getCharacterById(project_id, characterId, token) {
     }
 
     return await response.json(); // returns character object
+}
+
+//TODO: test
+export async function createCharacter(projectId, characterData, token) {
+    const response = await fetch(`${API}/projects/${projectId}/characters`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(characterData),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create character');
+    }
+
+    return await response.json(); // returns created character object
+}
+
+//TODO: test
+export async function updateCharacter(projectId, characterId, updatedData, token) {
+    const response = await fetch(`${API}/projects/${projectId}/characters/${characterId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update character');
+    }
+}
+
+//TODO: test
+export async function deleteCharacter(projectId, characterId, token) {
+    const response = await fetch(`${API}/projects/${projectId}/characters/${characterId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete character');
+    }
+
+    return await response.json(); // returns deleted character object
+}
+
+// STORY SETTINGS API CALLS
+export async function getStorySettingsByProjectId(projectId, token) {
+    const response = await fetch(`${API}/projects/${projectId}/settings`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch story settings');
+    }
+
+    return await response.json();
+}
+
+//TODO: test
+export async function createStorySettings(projectId, settingsData, token) {
+    const response = await fetch(`${API}/projects/${projectId}/settings`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(settingsData),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create story settings');
+    }
+
+    return await response.json();
+}
+
+//TODO: implement & test
+export async function updateStorySetting(projectId, settingsData, token) {
+}
+
+//TODO: implement & test
+export async function deleteStorySetting(projectId, token) {
+}
+
+// STORY SEGMENTS API CALLS
+export async function getStorySegmentsByProjectId(projectId, token) {
+    const response = await fetch(`${API}/projects/${projectId}/segments`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch story segments');
+    }
+
+    return await response.json();
+}
+
+//TODO: test
+export async function createStorySegment(projectId, segmentData, token) {
+    const response = await fetch(`${API}/projects/${projectId}/segments`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(segmentData),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create story segment');
+    }
+
+    return await response.json();
+}
+
+//TODO: test
+export async function updateStorySegment(projectId, segmentId, updatedData, token) {
+    const response = await fetch(`${API}/projects/${projectId}/segments/${segmentId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update story segment');
+    }
+
+    return await response.json();
+}
+
+//TODO: test
+export async function deleteStorySegment(projectId, segmentId, token) {
+    const response = await fetch(`${API}/projects/${projectId}/segments/${segmentId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete story segment');
+    }
+
+    return await response.json(); // returns deleted segment object
 }

@@ -30,7 +30,6 @@ function CharacterPage() {
                 const projectResponse = await apiService.getProjectById(projectId, token);
                 setProject(projectResponse.project);
 
-
                 const charactersResponse = await apiService.getCharactersByProjectId(projectId, token);
                 console.log("Characters response:", charactersResponse);
                 setCharacters(charactersResponse.characters);

@@ -1,15 +1,73 @@
-import {Navigate} from 'react-router-dom';
+import {Navigate, useLocation, useParams} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {getProjectById} from '../services/apiService';
+import {jwtDecode} from 'jwt-decode';
 
-function ProtectedRoute ( {children}) {
-    //save token from localstorage in const token
+function ProtectedRoute({children}) {
     const token = localStorage.getItem('token');
+    const location = useLocation();
+    const params = useParams();
+    const [accessAllowed, setAccessAllowed] = useState(true);
+    const [checked, setChecked] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
-    //checked if you're logged in (if you have a token), if not, redirected to login
-    if(!token){
-        return <Navigate to='/login' replace/>  //automatic redirection of user to /login
+    const isProjectRoute = location.pathname.startsWith('/projects/') || location.pathname.startsWith('/explore/');
+    const projectId = location.pathname.split('/')[2];
+
+    useEffect(() => {
+        const checkAccess = async () => {
+            if (!isProjectRoute) {
+                setChecked(true);
+                setAccessAllowed(true);
+                return;
+            }
+            try {
+                const response = await getProjectById(projectId, token);
+                const project = response.project;
+                if (project.visibility === 'public') {
+                    setAccessAllowed(true);
+                } else if (location.pathname.startsWith('/explore/')) {
+                    setAccessAllowed(false);
+                    setErrorMsg('You have no access to this private project.');
+                } else {
+                    let userId;
+                    try {
+                        const decoded = jwtDecode(token);
+                        userId = decoded.user_id || decoded.id || decoded.sub;
+                    } catch (e) {
+                        userId = null;
+                    }
+                    if (userId && project.user_id === userId) {
+                        setAccessAllowed(true);
+                    } else {
+                        setAccessAllowed(false);
+                        setErrorMsg('You have no access to this private project.');
+                    }
+                }
+            } catch (e) {
+                setAccessAllowed(false);
+                setErrorMsg('Project not found or no access..');
+            } finally {
+                setChecked(true);
+            }
+        };
+        if (token) {
+            checkAccess();
+        }
+    }, [token, isProjectRoute, projectId, location.pathname]);
+
+    if (!token) {
+        return <Navigate to='/login' replace/>;
     }
 
-    //if logged in, return child of component (see app.jsx for that)
+    if (!checked) {
+        return <div>Checking access ...</div>;
+    }
+
+    if (!accessAllowed) {
+        return <div style={{color: 'red', padding: 20}}>{errorMsg}</div>;
+    }
+
     return children;
 }
 

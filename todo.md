@@ -73,7 +73,11 @@ rewrite components to use one ProjectDetail component for owned and public proje
 
 fix frontend paths after character details view (and sidebar)✅
 
-sections for projectdetail view
+sections for projectdetail view READ✅
+
+restrictions when trying to access project detail view of a private project when not logged in as that user, works for /projects/id but not for /explore/id✅
+
+dont let private projects be openend with explore path
 
 implement CRUD for projects, characters, worldbuilding, story segments
 

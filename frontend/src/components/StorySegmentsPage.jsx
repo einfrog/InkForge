@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar.jsx";
 
 function SegmentsPage() {
     const [project, setProject] = useState({});
+    const [segments, setSegments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { id: projectId } = useParams();
     const token = localStorage.getItem('token');
@@ -14,10 +15,14 @@ function SegmentsPage() {
     const isPublicView = location.pathname.startsWith('/explore/');
 
     useEffect(() => {
-        const fetchProject = async () => {
+        const fetchProjectAndSegements = async () => {
             try {
                 const response = await apiService.getProjectById(projectId, token);
                 setProject(response.project);
+
+                const segmentsResponse = await apiService.getStorySegmentsByProjectId(projectId, token);
+                console.log("Segments response:", segmentsResponse);
+                setSegments(segmentsResponse.segments);
             } catch (error) {
                 console.error('Failed to fetch project:', error);
             } finally {
@@ -25,7 +30,7 @@ function SegmentsPage() {
             }
         };
 
-        void fetchProject();
+        void fetchProjectAndSegements();
     }, [projectId, token]);
 
     if (isLoading) return <div>Loading...</div>;
@@ -42,6 +47,18 @@ function SegmentsPage() {
                 <div className="flex-grow-1 p-4">
                     <h1>Story Segments Page</h1>
                     <p>This is the story segments page.</p>
+                    { segments.length > 0 ? (
+                        <ul>
+                            {segments.map(segment => (
+                                <li key={segment.segment_id}>
+                                    <h2>{segment.title}</h2>
+                                    <p><strong>Content:</strong> {segment.content || 'No content available'}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No story segments available for this project.</p>
+                    )}
                 </div>
             </div>
         </div>

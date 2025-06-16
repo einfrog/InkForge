@@ -5,6 +5,7 @@ const { authenticateJWT } = require('../services/authentication');
 const characterRoutes = require('./characterRoutes');
 const segmentRoutes = require("./segmentRoutes");
 const settingsRoutes = require('./settingsRoutes');
+const {checkProjectAccess} = require("../services/authorization");
 
 router.use('/:project_id/characters', characterRoutes);
 router.use('/:project_id/segments', segmentRoutes);
@@ -19,7 +20,7 @@ router.get('/', projectController.getAllProjects); //get projects even when not 
 router.get('/own', authenticateJWT, projectController.getMyProjects);
 
 // Get one project by ID
-router.get('/:id', authenticateJWT, projectController.getProjectById);
+router.get('/:id', authenticateJWT, checkProjectAccess, projectController.getProjectById);
 
 // Update project
 router.put('/:id', authenticateJWT, projectController.updateProject);
