@@ -14,6 +14,18 @@ function WorldbuildingPage() {
 
     const isPublicView = location.pathname.startsWith('/explore/');
 
+    const [editFields, setEditFields] = useState({
+        geography: '',
+        climate: '',
+        time_period: '',
+        political_system: '',
+        culture: '',
+        note: ''
+    });
+    const [editMode, setEditMode] = useState({});
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+
     useEffect(() => {
         const fetchProjectAndSettings = async () => {
             try {
@@ -23,6 +35,14 @@ function WorldbuildingPage() {
                 const settingsResponse = await apiService.getStorySettingsByProjectId(projectId, token);
                 console.log("Settings response:", settingsResponse);
                 setSettings(settingsResponse.settings);
+                setEditFields({
+                    geography: settingsResponse.settings.geography || '',
+                    climate: settingsResponse.settings.climate || '',
+                    time_period: settingsResponse.settings.time_period || '',
+                    political_system: settingsResponse.settings.political_system || '',
+                    culture: settingsResponse.settings.culture || '',
+                    note: settingsResponse.settings.note || ''
+                });
             } catch (error) {
                 console.error('Failed to fetch project:', error);
             } finally {
@@ -32,6 +52,45 @@ function WorldbuildingPage() {
 
         void fetchProjectAndSettings();
     }, [projectId, token]);
+
+    const handleEdit = (field) => {
+        setEditMode((prev) => ({ ...prev, [field]: true }));
+        setSuccess(null);
+        setError(null);
+    };
+
+    const handleCancel = (field) => {
+        setEditMode((prev) => ({ ...prev, [field]: false }));
+        setEditFields((prev) => ({ ...prev, [field]: settings[field] || '' }));
+        setSuccess(null);
+        setError(null);
+    };
+
+    const handleChange = (field, value) => {
+        setEditFields((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const handleSave = async (field) => {
+        try {
+            await apiService.createOrUpdateSetting(projectId, field, editFields[field], token, !!settings[field]);
+            setSettings((prev) => ({ ...prev, [field]: editFields[field] }));
+            setEditMode((prev) => ({ ...prev, [field]: false }));
+            setSuccess(`${field} saved!`);
+        } catch (e) {
+            setError(e.message);
+        }
+    };
+
+    const handleDelete = async (field) => {
+        try {
+            await apiService.deleteSetting(projectId, field, token);
+            setSettings((prev) => ({ ...prev, [field]: '' }));
+            setEditFields((prev) => ({ ...prev, [field]: '' }));
+            setSuccess(`${field} deleted!`);
+        } catch (e) {
+            setError(e.message);
+        }
+    };
 
     if (isLoading) return <div>Loading...</div>;
 
@@ -50,11 +109,38 @@ function WorldbuildingPage() {
 
                     <h2>Project Settings</h2>
                     <p><strong>Project Name:</strong> {project.project_name}</p>
-                    <p><strong>Geography:</strong> {project.geography || 'No geography available'}</p>
-                    <p><strong>Climate:</strong> {settings.climate || 'No climate specified'}</p>
-                    <p><strong>Time period:</strong> {settings.time_period || 'No time-period specified'}</p>
-                    <p><strong>Culture:</strong> {settings.culture || 'No culture description available'}</p>
-                    <p><strong>Notes:</strong> {settings.notes || 'No notes available'}</p>
+
+                    {error && <div style={{color: 'red'}}>{error}</div>}
+                    {success && <div style={{color: 'green'}}>{success}</div>}
+
+                    {/* Settings Felder */}
+                    {['geography', 'climate', 'time_period', 'political_system', 'culture', 'note'].map((field) => (
+                        <div key={field} style={{marginBottom: '1rem'}}>
+                            <strong>{field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}:</strong>{' '}
+                            {editMode[field] ? (
+                                <>
+                                    <input
+                                        type="text"
+                                        value={editFields[field]}
+                                        onChange={e => handleChange(field, e.target.value)}
+                                        style={{width: '60%'}}
+                                    />
+                                    <button onClick={() => handleSave(field)} style={{marginLeft: 8}}>Save</button>
+                                    <button onClick={() => handleCancel(field)} style={{marginLeft: 4}}>Cancel</button>
+                                </>
+                            ) : (
+                                <>
+                                    <span>{settings[field] || <em>No setting set</em>}</span>
+                                    {!isPublicView && (
+                                        <>
+                                            <button onClick={() => handleEdit(field)} style={{marginLeft: 8}}>Edit</button>
+                                            <button onClick={() => handleDelete(field)} style={{marginLeft: 4, color: 'red'}}>Delete</button>
+                                        </>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    ))}
 
                 </div>
             </div>

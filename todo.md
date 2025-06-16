@@ -81,7 +81,13 @@ Create, update and delete Projects✅
 
 Create, update and delete Characters✅
 
+CRUD worldbuilding✅
+
+CRUD story segments
+
 dont let private projects be openend with explore path
+
+show public projects details when not logged in
 
 implement CRUD for projects, characters, worldbuilding, story segments
 

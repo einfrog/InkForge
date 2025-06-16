@@ -9,24 +9,24 @@ router.get('/', authenticateJWT, settingsController.getSettingsByProject);
 // Modular POSTs – create individual fields
 router.post('/geography', authenticateJWT, settingsController.createGeography);
 router.post('/climate', authenticateJWT, settingsController.createClimate);
-router.post('/time-period', authenticateJWT, settingsController.createTimePeriod);
-router.post('/political-system', authenticateJWT, settingsController.createPoliticalSystem);
+router.post('/time_period', authenticateJWT, settingsController.createTimePeriod);
+router.post('/political_system', authenticateJWT, settingsController.createPoliticalSystem);
 router.post('/culture', authenticateJWT, settingsController.createCulture);
 router.post('/note', authenticateJWT, settingsController.createNote);
 
 // Modular PUTs – update individual fields
 router.put('/geography', authenticateJWT, settingsController.updateGeography);
 router.put('/climate', authenticateJWT, settingsController.updateClimate);
-router.put('/time-period', authenticateJWT, settingsController.updateTimePeriod);
-router.put('/political-system', authenticateJWT, settingsController.updatePoliticalSystem);
+router.put('/time_period', authenticateJWT, settingsController.updateTimePeriod);
+router.put('/political_system', authenticateJWT, settingsController.updatePoliticalSystem);
 router.put('/culture', authenticateJWT, settingsController.updateCulture);
 router.put('/note', authenticateJWT, settingsController.updateNote);
 
 // Modular DELETEs – clear out a field (e.g., set to NULL or empty string)
 router.delete('/geography', authenticateJWT, settingsController.deleteGeography);
 router.delete('/climate', authenticateJWT, settingsController.deleteClimate);
-router.delete('/time-period', authenticateJWT, settingsController.deleteTimePeriod);
-router.delete('/political-system', authenticateJWT, settingsController.deletePoliticalSystem);
+router.delete('/time_period', authenticateJWT, settingsController.deleteTimePeriod);
+router.delete('/political_system', authenticateJWT, settingsController.deletePoliticalSystem);
 router.delete('/culture', authenticateJWT, settingsController.deleteCulture);
 router.delete('/note', authenticateJWT, settingsController.deleteNote);
 
