@@ -456,7 +456,7 @@ export async function getStorySegmentsByProjectId(projectId, token) {
 }
 
 export async function createStorySegment(projectId, data, token) {
-    const response = await fetch(`/api/projects/${projectId}/segments`, {
+    const response = await fetch(`${API}/projects/${projectId}/segments`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -475,7 +475,7 @@ export async function createStorySegment(projectId, data, token) {
 export async function updateStorySegment(projectId, segmentId, data, token) {
     console.log("updateStorySegment params:", { projectId, segmentId, data, token });
 
-    const response = await fetch(`/api/projects/${projectId}/segments/${segmentId}`, {
+    const response = await fetch(`${API}/projects/${projectId}/segments/${segmentId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

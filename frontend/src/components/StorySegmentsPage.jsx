@@ -26,6 +26,7 @@ function SegmentsPage() {
                 setProject(fetchedProject);
 
                 const { segments: fetchedSegments } = await apiService.getStorySegmentsByProjectId(projectId, token);
+                console.log("Fetched segments:", fetchedSegments);
                 setSegments(fetchedSegments);
             } catch (err) {
                 setError("Failed to load project data.");
@@ -46,6 +47,7 @@ function SegmentsPage() {
 
     // Start editing existing segment
     const startEditSegment = (segment) => {
+        console.log("Starting edit for segment:", segment);
         setEditMode(segment.segment_id);
         setEditFields({ title: segment.title, content: segment.content });
         setError(null);
@@ -60,32 +62,29 @@ function SegmentsPage() {
         if (editMode === "new") {
             try {
                 const newSegment = await apiService.createStorySegment(projectId, editFields, token);
+                console.log("Created new segment:", newSegment);
 
-                setSegments((prevSegments) => [...prevSegments, newSegment]);
+                // Fetch fresh data to ensure we have the latest state
+                const { segments: updatedSegments } = await apiService.getStorySegmentsByProjectId(projectId, token);
+                setSegments(updatedSegments);
 
                 // reset editing state and show success
                 setEditMode(null);
                 setEditFields({title: "", content: ""});
                 setSuccess("New segment created!");
                 setError(null);
-                console.log("New segment added:", newSegment, newSegment.id);
-                console.log("Segments now:", [...segments, newSegment]);
             } catch (err) {
                 setError("Failed to create new segment.");
                 setSuccess(null);
             }
         } else {
             try {
-                console.log("editMode at saveSegment:", editMode);
-
+                console.log("Updating segment with ID:", editMode);
                 await apiService.updateStorySegment(projectId, editMode, editFields, token);
-                setSegments(prevSegments =>
-                    prevSegments.map(seg =>
-                        seg.segment_id === editMode
-                            ? {...seg, ...editFields}
-                            : seg
-                    )
-                );
+
+                // Fetch fresh data to ensure we have the latest state
+                const { segments: updatedSegments } = await apiService.getStorySegmentsByProjectId(projectId, token);
+                setSegments(updatedSegments);
 
                 setEditMode(null);
                 setEditFields({title: "", content: ""});
@@ -98,12 +97,15 @@ function SegmentsPage() {
         }
     };
 
-
     // Delete segment
     const deleteSegment = async (segmentId) => {
         try {
             await apiService.deleteStorySegment(projectId, segmentId, token);
-            setSegments((prev) => prev.filter((seg) => seg.segment_id !== segmentId));
+            
+            // Fetch fresh data to ensure we have the latest state
+            const { segments: updatedSegments } = await apiService.getStorySegmentsByProjectId(projectId, token);
+            setSegments(updatedSegments);
+            
             setSuccess("Segment deleted!");
             setError(null);
             if (editMode === segmentId) setEditMode(null);
@@ -129,11 +131,12 @@ function SegmentsPage() {
                         <p>No story segments available for this project.</p>
                     ) : (
                         <ul>
-                            {segments.map(({ segment_id, title, content }) => (
-                                <li key={segment_id}>
-                                    {editMode === segment_id ? (
-                                        <div>
+                            {segments.filter(segment => segment && segment.segment_id).map((segment) => (
+                                <li key={`segment-${segment.segment_id}`}>
+                                    {editMode === segment.segment_id ? (
+                                        <div key={`edit-${segment.segment_id}`}>
                                             <input
+                                                key={`title-input-${segment.segment_id}`}
                                                 type="text"
                                                 value={editFields.title}
                                                 onChange={(e) => handleEditChange("title", e.target.value)}
@@ -141,25 +144,26 @@ function SegmentsPage() {
                                             />
                                             <br />
                                             <textarea
+                                                key={`content-textarea-${segment.segment_id}`}
                                                 value={editFields.content}
                                                 onChange={(e) => handleEditChange("content", e.target.value)}
                                                 style={{ width: "60%", minHeight: 60 }}
                                             />
                                             <br />
-                                            <button onClick={saveSegment} style={{ marginRight: 8 }}>
+                                            <button key={`save-${segment.segment_id}`} onClick={saveSegment} style={{ marginRight: 8 }}>
                                                 Save
                                             </button>
-                                            <button onClick={() => setEditMode(null)}>Cancel</button>
-                                            <button onClick={() => deleteSegment(segment_id)} style={{ marginLeft: 8, color: "red" }}>
+                                            <button key={`cancel-${segment.segment_id}`} onClick={() => setEditMode(null)}>Cancel</button>
+                                            <button key={`delete-${segment.segment_id}`} onClick={() => deleteSegment(segment.segment_id)} style={{ marginLeft: 8, color: "red" }}>
                                                 Delete
                                             </button>
                                         </div>
                                     ) : (
-                                        <div>
-                                            <h2>{title}</h2>
-                                            <p><strong>Content:</strong> {content || "No content available"}</p>
+                                        <div key={`view-${segment.segment_id}`}>
+                                            <h2>{segment.title}</h2>
+                                            <p><strong>Content:</strong> {segment.content || "No content available"}</p>
                                             {!isPublicView && (
-                                                <button onClick={() => startEditSegment({ segment_id, title, content })}>
+                                                <button key={`edit-btn-${segment.segment_id}`} onClick={() => startEditSegment(segment)}>
                                                     Edit
                                                 </button>
                                             )}
@@ -170,8 +174,9 @@ function SegmentsPage() {
 
                             {/* Render new segment editor inline */}
                             {editMode === "new" && (
-                                <li key="new-segment" style={{ backgroundColor: "#eef", padding: 10 }}>
+                                <li key="segment-new" style={{ backgroundColor: "#eef", padding: 10 }}>
                                     <input
+                                        key="new-title-input"
                                         type="text"
                                         placeholder="Title"
                                         value={editFields.title}
@@ -180,16 +185,17 @@ function SegmentsPage() {
                                     />
                                     <br />
                                     <textarea
+                                        key="new-content-textarea"
                                         placeholder="Content"
                                         value={editFields.content}
                                         onChange={(e) => handleEditChange("content", e.target.value)}
                                         style={{ width: "60%", minHeight: 60 }}
                                     />
                                     <br />
-                                    <button onClick={saveSegment} style={{ marginRight: 8 }}>
+                                    <button key="new-save-btn" onClick={saveSegment} style={{ marginRight: 8 }}>
                                         Save New Segment
                                     </button>
-                                    <button onClick={() => setEditMode(null)}>Cancel</button>
+                                    <button key="new-cancel-btn" onClick={() => setEditMode(null)}>Cancel</button>
                                 </li>
                             )}
                         </ul>
