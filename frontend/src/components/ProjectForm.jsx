@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
 import {useNavigate, useParams, Link} from 'react-router-dom';
-import {createProject, getProjectById, updateProject} from '../services/apiService';
+import {createProject, getProjectById, updateProject, uploadProjectImage} from '../services/apiService';
 import Header from "./Header.jsx";
+import ImageUpload from './ImageUpload';
 
 function ProjectFormPage() {
     const {id} = useParams();
@@ -13,11 +14,14 @@ function ProjectFormPage() {
         category: '',
         genre: '',
         description: '',
-        visibility: 'private'
+        visibility: 'private',
+        cover: null
     });
 
     const [createError, setCreateError] = useState('');
     const [createSuccess, setCreateSuccess] = useState('');
+
+    const [pendingCover, setPendingCover] = useState(null);
 
     useEffect(() => {
         if (id) {
@@ -32,7 +36,8 @@ function ProjectFormPage() {
                         category: projectData.project.category || '',
                         genre: projectData.project.genre || '',
                         description: projectData.project.description || '',
-                        visibility: projectData.project.visibility || 'private'
+                        visibility: projectData.project.visibility || 'private',
+                        cover: projectData.project.cover || null
                     });
                 } catch (error) {
                     setCreateError(error.message || 'Failed to fetch project');
@@ -42,109 +47,156 @@ function ProjectFormPage() {
         }
     }, [id]);
 
+    const handleImageUploaded = (path) => {
+        console.log('Image uploaded, path:', path);
+        setPendingCover(path);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setCreateError('');
         setCreateSuccess('');
         setIsSubmitting(true);
 
-        const projectToSend = {
-            ...newProject,
-            description: newProject.description.trim() === '' ? null : newProject.description
-        };
-
         try {
             if (id) {
-                await updateProject(id, projectToSend, localStorage.getItem('token'));
+                // Edit mode
+                const updatedProject = {
+                    ...newProject,
+                    cover: pendingCover || newProject.cover,
+                    description: newProject.description.trim() === '' ? null : newProject.description
+                };
+                console.log('Updating project with:', updatedProject);
+                await updateProject(id, updatedProject, localStorage.getItem('token'));
                 setCreateSuccess(`Project "${newProject.project_name}" updated successfully.`);
             } else {
-                await createProject(projectToSend, localStorage.getItem('token'));
+                // Create mode
+                const projectData = {
+                    ...newProject,
+                    cover: null, // no cover yet
+                    description: newProject.description.trim() === '' ? null : newProject.description
+                };
+
+                console.log('Creating project with:', projectData);
+                const createdProject = await createProject(projectData, localStorage.getItem('token'));
+                console.log('Project created:', createdProject);
+
+                // Now upload the image if there's a pending one
+                if (pendingCover) {
+                    console.log('Uploading image for new project');
+                    await uploadProjectImage(createdProject.project.project_id, pendingCover, localStorage.getItem('token'));
+                    await updateProject(createdProject.project.project_id, {
+                        ...projectData,
+                        cover: pendingCover
+                    }, localStorage.getItem('token'));
+                }
+
                 setCreateSuccess(`Project "${newProject.project_name}" created successfully.`);
                 setNewProject({
                     project_name: '',
                     category: '',
                     genre: '',
                     description: '',
-                    visibility: 'private'
+                    visibility: 'private',
+                    cover: null
                 });
+                setPendingCover(null);
             }
 
             setTimeout(() => {
                 navigate('/projects');
             }, 500);
         } catch (error) {
+            console.error('Error in handleSubmit:', error);
             setCreateError(error.message || 'Oops! Something went wrong.');
         } finally {
             setIsSubmitting(false);
         }
     };
 
+
     return (
         <>
             <Header />
 
-            <div className="container mt-5 mb-5 w-25">
+            <div className="container mt-5 mb-5">
                 <div className="card shadow p-4 transparent-item border-white">
                     <h1 className="mb-4 display-5">{id ? 'Edit Project' : 'Create New Project'}</h1>
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="project_name" className="form-label">Project Name</label>
-                            <input
-                                type="text"
-                                id="project_name"
-                                className="form-control"
-                                value={newProject.project_name}
-                                onChange={(e) => setNewProject({...newProject, project_name: e.target.value})}
-                                required
-                            />
-                        </div>
+                        <div className="row">
+                            <div className="col-md-8">
+                                <div className="mb-3">
+                                    <label htmlFor="project_name" className="form-label">Project Name</label>
+                                    <input
+                                        type="text"
+                                        id="project_name"
+                                        className="form-control"
+                                        value={newProject.project_name}
+                                        onChange={(e) => setNewProject({...newProject, project_name: e.target.value})}
+                                        required
+                                    />
+                                </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="category" className="form-label">Category</label>
-                            <input
-                                type="text"
-                                id="category"
-                                className="form-control"
-                                value={newProject.category}
-                                onChange={(e) => setNewProject({...newProject, category: e.target.value})}
-                                required
-                            />
-                        </div>
+                                <div className="mb-3">
+                                    <label htmlFor="category" className="form-label">Category</label>
+                                    <input
+                                        type="text"
+                                        id="category"
+                                        className="form-control"
+                                        value={newProject.category}
+                                        onChange={(e) => setNewProject({...newProject, category: e.target.value})}
+                                        required
+                                    />
+                                </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="genre" className="form-label">Genre</label>
-                            <input
-                                type="text"
-                                id="genre"
-                                className="form-control"
-                                value={newProject.genre}
-                                onChange={(e) => setNewProject({...newProject, genre: e.target.value})}
-                                required
-                            />
-                        </div>
+                                <div className="mb-3">
+                                    <label htmlFor="genre" className="form-label">Genre</label>
+                                    <input
+                                        type="text"
+                                        id="genre"
+                                        className="form-control"
+                                        value={newProject.genre}
+                                        onChange={(e) => setNewProject({...newProject, genre: e.target.value})}
+                                        required
+                                    />
+                                </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="description" className="form-label">Description</label>
-                            <textarea
-                                id="description"
-                                className="form-control"
-                                placeholder="Optional"
-                                value={newProject.description}
-                                onChange={(e) => setNewProject({...newProject, description: e.target.value})}
-                            />
-                        </div>
+                                <div className="mb-3">
+                                    <label htmlFor="description" className="form-label">Description</label>
+                                    <textarea
+                                        id="description"
+                                        className="form-control"
+                                        value={newProject.description}
+                                        onChange={(e) => setNewProject({...newProject, description: e.target.value})}
+                                        rows="4"
+                                    />
+                                </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="visibility" className="form-label">Visibility</label>
-                            <select
-                                id="visibility"
-                                className="form-select"
-                                value={newProject.visibility}
-                                onChange={(e) => setNewProject({...newProject, visibility: e.target.value})}
-                            >
-                                <option value="private">Private</option>
-                                <option value="public">Public</option>
-                            </select>
+                                <div className="mb-3">
+                                    <label htmlFor="visibility" className="form-label">Visibility</label>
+                                    <select
+                                        id="visibility"
+                                        className="form-select"
+                                        value={newProject.visibility}
+                                        onChange={(e) => setNewProject({...newProject, visibility: e.target.value})}
+                                    >
+                                        <option value="private">Private</option>
+                                        <option value="public">Public</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="col-md-4">
+                                <ImageUpload
+                                    type="project"
+                                    id={id}
+                                    currentImage={pendingCover !== null ? pendingCover : newProject.cover}
+                                    onImageUploaded={handleImageUploaded}
+                                    shape="square"
+                                    size="large"
+                                    disabled={!id}
+                                />
+                            </div>
                         </div>
 
                         <div className="d-flex">

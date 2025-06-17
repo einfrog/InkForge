@@ -86,8 +86,17 @@ function CharacterPage() {
                         <ul className="list-group">
                             {characters.map((char) => (
                                 <li key={char.character_id} className="list-group-item">
-                                    <strong>{char.name}</strong> - {char.role || 'No role'}
-                                    {/*TODO: later change this to description and add descs in database*/}
+                                    <div className="d-flex align-items-center mb-2">
+                                        <img
+                                            src={char.image ? `http://localhost:5000${char.image}` : '/default-character.png'}
+                                            alt={char.name}
+                                            className="rounded me-3"
+                                            style={{ width: '60px', height: '60px', objectFit: 'cover' }}
+                                        />
+                                        <div>
+                                            <strong>{char.name}</strong> - {char.role || 'No role'}
+                                        </div>
+                                    </div>
                                     <p>{char.biography}</p>
                                     <div>
                                         <Link
@@ -101,11 +110,7 @@ function CharacterPage() {
                                                     to={`/projects/${projectId}/characters/${char.character_id}/edit`}>Edit</Link>
 
 
-                                                <Link
-                                                    to={getCharacterDetailPath(char.character_id)}
-                                                >
-                                                    View Profile
-                                                </Link>
+                                                
                                                 <button
                                                     onClick={() => handleDelete(char.character_id)}
                                                     className="userform-btn"

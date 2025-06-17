@@ -87,10 +87,17 @@ function ProjectDetailPage() {
                     canEdit={isOwner && !isPublicView}
                 />
                 <div className="project-detail-content">
+                    <div className="project-detail-header">
+                        <img
+                            src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
+                            alt={project.project_name}
+                            className="project-detail-cover mb-4"
+                            style={{ width: '100%', maxHeight: '300px', objectFit: 'cover' }}
+                        />
+                        <h1>{project.project_name}</h1>
+                    </div>
                     <div className="project-detail-card">
                         <div className="project-detail-card-body">
-                            <h1 className="project-detail-title">{project.project_name}</h1>
-
                             {isPublicView && (
                                 <div className="project-owner">
                                     <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>

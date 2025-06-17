@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { createCharacter, getCharacterById, updateCharacter } from '../services/apiService';
 import Header from "./Header.jsx";
+import ImageUpload from './ImageUpload';
 
 function CharacterForm() {
     const { id, characterId } = useParams();
@@ -13,7 +14,8 @@ function CharacterForm() {
         role: '',
         personality: '',
         biography: '',
-        description: ''
+        description: '',
+        image: null
     });
 
     const [error, setError] = useState('');
@@ -32,7 +34,8 @@ function CharacterForm() {
                         role: characterData.character.role || '',
                         personality: characterData.character.personality || '',
                         biography: characterData.character.biography || '',
-                        description: characterData.character.description || ''
+                        description: characterData.character.description || '',
+                        image: characterData.character.image || null
                     });
                 } catch (error) {
                     setError(error.message || 'Failed to fetch character');
@@ -41,6 +44,23 @@ function CharacterForm() {
             void fetchCharacter();
         }
     }, [characterId]);
+
+    const handleImageUploaded = async (path) => {
+        try {
+            if (characterId) {
+                // If editing an existing character, update the character with the new image
+                const updatedCharacter = await updateCharacter(id, characterId, { ...character, image: path }, localStorage.getItem('token'));
+                setCharacter(prev => ({ ...prev, image: path }));
+                console.log("Character image updated:", updatedCharacter);
+            } else {
+                // If creating a new character, just update the local state
+                setCharacter(prev => ({ ...prev, image: path }));
+            }
+        } catch (error) {
+            console.error("Failed to update character image:", error);
+            setError("Failed to update character image. Please try again.");
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -70,7 +90,8 @@ function CharacterForm() {
                     role: '',
                     personality: '',
                     biography: '',
-                    description: ''
+                    description: '',
+                    image: null
                 });
             }
 
@@ -88,65 +109,80 @@ function CharacterForm() {
         <>
             <Header />
 
-            <div className="container mt-5 mb-5 w-25">
+            <div className="container mt-5 mb-5">
                 <div className="card shadow p-4 transparent-item border-white">
                     <h1 className="mb-4 display-5">{characterId ? 'Edit Character' : 'Create New Character'}</h1>
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="name" className="form-label">Name</label>
-                            <input
-                                type="text"
-                                id="name"
-                                className="form-control"
-                                value={character.name}
-                                onChange={(e) => setCharacter({ ...character, name: e.target.value })}
-                                required
-                            />
-                        </div>
+                        <div className="row">
+                            <div className="col-md-8">
+                                <div className="mb-3">
+                                    <label htmlFor="name" className="form-label">Name</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        className="form-control"
+                                        value={character.name}
+                                        onChange={(e) => setCharacter({ ...character, name: e.target.value })}
+                                        required
+                                    />
+                                </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="role" className="form-label">Role</label>
-                            <input
-                                type="text"
-                                id="role"
-                                className="form-control"
-                                value={character.role}
-                                onChange={(e) => setCharacter({ ...character, role: e.target.value })}
-                                required
-                            />
-                        </div>
+                                <div className="mb-3">
+                                    <label htmlFor="role" className="form-label">Role</label>
+                                    <input
+                                        type="text"
+                                        id="role"
+                                        className="form-control"
+                                        value={character.role}
+                                        onChange={(e) => setCharacter({ ...character, role: e.target.value })}
+                                        required
+                                    />
+                                </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="personality" className="form-label">Personality</label>
-                            <textarea
-                                id="personality"
-                                className="form-control"
-                                value={character.personality}
-                                onChange={(e) => setCharacter({ ...character, personality: e.target.value })}
-                                placeholder="Describe the character's personality"
-                            />
-                        </div>
+                                <div className="mb-3">
+                                    <label htmlFor="personality" className="form-label">Personality</label>
+                                    <textarea
+                                        id="personality"
+                                        className="form-control"
+                                        value={character.personality}
+                                        onChange={(e) => setCharacter({ ...character, personality: e.target.value })}
+                                        placeholder="Describe the character's personality"
+                                    />
+                                </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="biography" className="form-label">Biography</label>
-                            <textarea
-                                id="biography"
-                                className="form-control"
-                                value={character.biography}
-                                onChange={(e) => setCharacter({ ...character, biography: e.target.value })}
-                                placeholder="Character biography (optional)"
-                            />
-                        </div>
+                                <div className="mb-3">
+                                    <label htmlFor="biography" className="form-label">Biography</label>
+                                    <textarea
+                                        id="biography"
+                                        className="form-control"
+                                        value={character.biography}
+                                        onChange={(e) => setCharacter({ ...character, biography: e.target.value })}
+                                        placeholder="Character biography (optional)"
+                                    />
+                                </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="description" className="form-label">Description</label>
-                            <textarea
-                                id="description"
-                                className="form-control"
-                                value={character.description}
-                                onChange={(e) => setCharacter({ ...character, description: e.target.value })}
-                                placeholder="Additional description (optional)"
-                            />
+                                <div className="mb-3">
+                                    <label htmlFor="description" className="form-label">Description</label>
+                                    <textarea
+                                        id="description"
+                                        className="form-control"
+                                        value={character.description}
+                                        onChange={(e) => setCharacter({ ...character, description: e.target.value })}
+                                        placeholder="Additional description (optional)"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="col-md-4">
+                                <ImageUpload
+                                    type="character"
+                                    id={characterId}
+                                    currentImage={character.image}
+                                    onImageUploaded={handleImageUploaded}
+                                    shape="square"
+                                    size="medium"
+                                />
+                            </div>
                         </div>
 
                         <div className="d-flex">

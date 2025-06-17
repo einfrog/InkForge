@@ -59,6 +59,12 @@ const ProjectPage = () => {
                                 key={project.project_id}
                                 className="p-3 rounded shadow bg-white"
                             >
+                                <img
+                                    src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
+                                    alt={project.project_name}
+                                    className="rounded me-3"
+                                    style={{width: '100px', height: '100px', objectFit: 'cover'}}
+                                />
                                 <p className="font-bold">{project.project_name}</p>
                                 <p className="text-sm text-gray-600">{project.category}</p>
                                 <p className="text-sm text-gray-600">{project.genre}</p>

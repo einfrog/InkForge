@@ -3,6 +3,7 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
 import './UserPages.css';
+import ImageUpload from "./ImageUpload.jsx";
 
 function UserDetailPage() {
     const [user, setUser] = useState({});
@@ -54,6 +55,11 @@ function UserDetailPage() {
         }
     };
 
+    const handleImageUploaded = (path) => {
+        setUser(prev => ({ ...prev, profile_picture: path }));
+    };
+
+
     if (isLoading) return <div>Loading ... </div>
 
     return (
@@ -61,6 +67,15 @@ function UserDetailPage() {
             <Header/>
             <div className="userdetail-main">
                 <div className="userdetail-card">
+                    <ImageUpload
+                        type="profile"
+                        id={userId}
+                        currentImage={user.profile_picture}
+                        onImageUploaded={handleImageUploaded}
+                        shape="circle"
+                        size="medium"
+                        className="mb-4"
+                    />
                     <h1 className="userdetail-title">{user.username}</h1>
                     <ul className="userdetail-list">
                         <li><strong>ID:</strong> {user.user_id}</li>

@@ -116,7 +116,7 @@ exports.getProjectById = (req, res) => {
 exports.updateProject = (req, res) => {
     const userId = req.user.user_id;
     const projectId = req.params.id;
-    const { project_name, category, genre, description, visibility } = req.body;
+    const { project_name, category, genre, description, visibility, cover } = req.body;
 
     checkProjectOwnership(projectId, userId, (isOwner) => {
         if (!isOwner) {
@@ -125,11 +125,11 @@ exports.updateProject = (req, res) => {
 
         const sql = `
             UPDATE projects
-            SET project_name = ?, category = ?, genre = ?, description = ?, visibility = ?
+            SET project_name = ?, category = ?, genre = ?, description = ?, visibility = ?, cover = ?
             WHERE project_id = ?
         `;
 
-        config.query(sql, [project_name, category, genre, description, visibility, projectId], (err, result) => {
+        config.query(sql, [project_name, category, genre, description, visibility, cover, projectId], (err, result) => {
             if (err) {
                 console.error('Error updating project:', err);
                 return res.status(500).json({ error: 'Failed to update project' });

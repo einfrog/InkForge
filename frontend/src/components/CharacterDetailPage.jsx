@@ -117,9 +117,19 @@ function CharacterDetailPage() {
                     isPublicView={isPublicView}
                 />
                 <div className="flex-grow-1 p-4">
-                    <h1>{character.name}</h1>
-                    <p><strong>Role:</strong> {character.role || 'None specified'}</p>
-                    <p><strong>Affiliated Project:</strong> {project.project_name}</p>
+                    <div className="d-flex align-items-start mb-4">
+                        <img
+                            src={character.image ? `http://localhost:5000${character.image}` : '/default-character.png'}
+                            alt={character.name}
+                            className="rounded me-4"
+                            style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+                        />
+                        <div>
+                            <h1>{character.name}</h1>
+                            <p><strong>Role:</strong> {character.role || 'None specified'}</p>
+                            <p><strong>Affiliated Project:</strong> {project.project_name}</p>
+                        </div>
+                    </div>
                     <p><strong>Personality:</strong> {character.personality || 'No personality available'}</p>
                     <p><strong>Biography:</strong> {character.biography || 'No description available'}</p>
                     <p><strong>Description:</strong> {character.description || 'No description available'}</p>

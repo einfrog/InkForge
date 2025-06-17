@@ -86,7 +86,7 @@ exports.updateUser = async (req, res) => {
         return res.status(403).json({error: 'Not authorized to update this user'});
     }
 
-    const {username, email, password, biography} = req.body;
+    const {username, email, password, biography, profile_picture} = req.body;
     let updateFields = [];
     let queryParams = [];
 
@@ -122,6 +122,10 @@ exports.updateUser = async (req, res) => {
         updateFields.push('biography = ?');
         queryParams.push(biography);
     }
+    if (profile_picture !== undefined) {
+        updateFields.push('profile_picture = ?');
+        queryParams.push(profile_picture);
+    }
 
     if (updateFields.length === 0) {
         return res.status(400).json({error: 'No fields to update'});
@@ -140,7 +144,7 @@ exports.updateUser = async (req, res) => {
             return res.status(404).json({error: 'User not found'});
         }
 
-        config.query('SELECT user_id, username, email, biography, role FROM inkforge_users WHERE user_id = ?',
+        config.query('SELECT user_id, username, email, biography, profile_picture, role FROM inkforge_users WHERE user_id = ?',
             [userId],
             (err, users) => {
                 if (err) {

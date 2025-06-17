@@ -111,6 +111,8 @@ get usernames for projects (explore page)✅
 
 upload/display pictures for projects, characters and users
 
+do not do sql query when upload, but return path, and when updating project, update cover field;
+
 different pages/props for overview, characters, worldbuilding, story segments, analytics
 
 continue working on docs

@@ -99,9 +99,16 @@ exports.updateCharacter = (req, res) => {
                 return res.status(500).json({ error: 'Failed to update character' });
             }
 
-            res.json({
-                message: 'Character updated successfully',
-                affectedRows: result.affectedRows
+            // Fetch the updated character to return the complete data
+            config.query('SELECT * FROM characters WHERE character_id = ?', [id], (err, characters) => {
+                if (err) {
+                    console.error('Error fetching updated character:', err);
+                    return res.status(500).json({ error: 'Failed to fetch updated character data' });
+                }
+                res.json({
+                    message: 'Character updated successfully',
+                    character: characters[0]
+                });
             });
         });
     });

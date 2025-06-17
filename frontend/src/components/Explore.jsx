@@ -33,12 +33,22 @@ const Explore = () => {
                                 key={project.project_id}
                                 className="p-3 rounded shadow bg-white"
                             >
-                                <p className="font-bold">{project.project_name}</p>
-                                <p>By: {project.username || 'Unknown Author'}</p>
-                                <p className="text-sm text-gray-600">{project.category}</p>
-                                <p className="text-sm text-gray-600">{project.genre}</p>
-                                <div>
-                                    <Link to={`explore/${project.project_id}`}>View Project</Link>
+                                <div className="d-flex align-items-start">
+                                    <img
+                                        src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
+                                        alt={project.project_name}
+                                        className="rounded me-3"
+                                        style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                    />
+                                    <div>
+                                        <p className="font-bold">{project.project_name}</p>
+                                        <p>By: {project.username || 'Unknown Author'}</p>
+                                        <p className="text-sm text-gray-600">{project.category}</p>
+                                        <p className="text-sm text-gray-600">{project.genre}</p>
+                                        <div>
+                                            <Link to={`explore/${project.project_id}`}>View Project</Link>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         ))}

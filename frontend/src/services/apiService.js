@@ -526,3 +526,43 @@ export async function uploadUserImage(userId, imageFile, token) {
 
     return await response.json();
 }
+
+export async function uploadProjectImage(projectId, imageFile, token) {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    const response = await fetch(`${API}/upload/projects/${projectId}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to upload project image');
+    }
+
+    return await response.json();
+}
+
+export async function uploadCharacterImage(characterId, imageFile, token) {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    const response = await fetch(`${API}/upload/characters/${characterId}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to upload character image');
+    }
+
+    return await response.json();
+}

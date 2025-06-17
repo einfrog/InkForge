@@ -9,7 +9,6 @@ function Profile() {
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    const [isUploading, setIsUploading] = useState(false);
     const navigate = useNavigate();
 
     const token = localStorage.getItem('token');
@@ -24,12 +23,6 @@ function Profile() {
             console.error("Failed to decode token", e);
         }
     }
-
-    const getImageUrl = (path) => {
-        if (!path) return '/default-profile.png';
-        if (path.startsWith('http')) return path;
-        return `http://localhost:5000${path}`;
-    };
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -48,18 +41,14 @@ function Profile() {
         void fetchUser();
     }, [userId, token]);
 
-    const handleImageSelect = async (file) => {
-        if (!file || !userId) return;
-        
-        setIsUploading(true);
+    const handleImageUploaded = async (path) => {
         try {
-            const result = await apiService.uploadUserImage(userId, file, token);
-            setUser(prev => ({ ...prev, profile_picture: result.profile_picture }));
+            // Update the user's profile picture in the database
+            const updatedUser = await apiService.updateUser(userId, { profile_picture: path }, token);
+            setUser(updatedUser);
+            console.log("Profile picture updated:", updatedUser);
         } catch (error) {
-            console.error("Failed to upload image:", error);
-            alert("Failed to upload image. Please try again.");
-        } finally {
-            setIsUploading(false);
+            console.error("Failed to update profile picture:", error);
         }
     };
 
@@ -88,8 +77,12 @@ function Profile() {
                     {user && (
                         <div>
                             <ImageUpload
-                                onImageSelect={handleImageSelect}
-                                currentImage={getImageUrl(user.profile_picture)}
+                                type="profile"
+                                id={userId}
+                                currentImage={user.profile_picture}
+                                onImageUploaded={handleImageUploaded}
+                                shape="circle"
+                                size="medium"
                                 className="mb-4"
                             />
                             <p><strong>Username:</strong> {user.username}</p>

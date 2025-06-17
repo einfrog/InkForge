@@ -15,16 +15,12 @@ function checkProjectOwnership(projectId, userId, callback) {
 
 function checkCharacterOwnership(characterId, userId, callback) {
     const sql = `
-      SELECT c.character_id 
-      FROM characters c
-      JOIN projects p ON c.project_id = p.project_id
-      WHERE c.character_id = ? AND p.user_id = ?
+        SELECT c.* FROM characters c
+        JOIN projects p ON c.project_id = p.project_id
+        WHERE c.character_id = ? AND p.user_id = ?
     `;
-
-    config.query(sql, [characterId, userId], (err, results) => {
-        if (err || results.length === 0) {
-            return callback(false);
-        }
+    config.query(sql, [characterId, userId], (err, result) => {
+        if (err || result.length === 0) return callback(false);
         callback(true);
     });
 }
@@ -39,14 +35,7 @@ exports.uploadUserImage = (req, res) => {
         }
 
         const filePath = `/uploads/users/${req.file.filename}`;
-        const sql = `UPDATE inkforge_users SET profile_picture = ? WHERE user_id = ?`;
-
-        config.query(sql, [filePath, userIdToUpdate], (err) => {
-            if (err) {
-                return res.status(500).json({ message: 'Upload failed', error: err.message });
-            }
-            res.status(200).json({ message: 'User image uploaded successfully', path: filePath });
-        });
+        res.status(200).json({ message: 'User image uploaded successfully', path: filePath });
     });
 };
 
@@ -60,14 +49,7 @@ exports.uploadProjectImage = (req, res) => {
         }
 
         const filePath = `/uploads/projects/${req.file.filename}`;
-        const sql = `UPDATE projects SET cover = ? WHERE project_id = ?`;
-
-        config.query(sql, [filePath, projectId], (err) => {
-            if (err) {
-                return res.status(500).json({ message: 'Upload failed', error: err.message });
-            }
-            res.status(200).json({ message: 'Project cover uploaded successfully', path: filePath });
-        });
+        res.status(200).json({ message: 'Project cover uploaded successfully', path: filePath });
     });
 };
 
@@ -81,13 +63,6 @@ exports.uploadCharacterImage = (req, res) => {
         }
 
         const filePath = `/uploads/characters/${req.file.filename}`;
-        const sql = `UPDATE characters SET image = ? WHERE character_id = ?`;
-
-        config.query(sql, [filePath, characterId], (err) => {
-            if (err) {
-                return res.status(500).json({ message: 'Upload failed', error: err.message });
-            }
-            res.status(200).json({ message: 'Character image uploaded successfully', path: filePath });
-        });
+        res.status(200).json({ message: 'Character image uploaded successfully', path: filePath });
     });
 };
