@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Header from './Header';
 import * as apiService from '../services/apiService';
 import {Link} from "react-router-dom";
+import './components.css';
 
 const Explore = () => {
     const [publicProjects, setPublicProjects] = useState([]);
@@ -23,38 +24,32 @@ const Explore = () => {
     return (
         <>
             <Header/>
-
-            <div >
-                <h2 >Explore Projects</h2>
+            <div className="segment">
+                <h2 className="segment__title">Explore Projects</h2>
                 {publicProjects.length > 0 ? (
-                    <ul className="space-y-2">
+                    <div className="grid-container">
                         {publicProjects.map(project => (
-                            <li
-                                key={project.project_id}
-                                className="p-3 rounded shadow bg-white"
-                            >
-                                <div className="d-flex align-items-start">
-                                    <img
-                                        src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
-                                        alt={project.project_name}
-                                        className="rounded me-3"
-                                        style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                    />
-                                    <div>
-                                        <p className="font-bold">{project.project_name}</p>
-                                        <p>By: {project.username || 'Unknown Author'}</p>
-                                        <p className="text-sm text-gray-600">{project.category}</p>
-                                        <p className="text-sm text-gray-600">{project.genre}</p>
-                                        <div>
-                                            <Link to={`explore/${project.project_id}`}>View Project</Link>
-                                        </div>
+                            <div key={project.project_id} className="card project-card">
+                                <img
+                                    src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
+                                    alt={project.project_name}
+                                    className="project-card__image"
+                                />
+                                <div className="project-card__content">
+                                    <h3 className="project-card__title">{project.project_name}</h3>
+                                    <p className="project-card__description">By: {project.username || 'Unknown Author'}</p>
+                                    <p className="project-card__description">{project.category} • {project.genre}</p>
+                                    <div className="flex gap-4 mt-4">
+                                        <Link to={`explore/${project.project_id}`} className="btn btn-primary">
+                                            View Project
+                                        </Link>
                                     </div>
                                 </div>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 ) : (
-                    <p className="text-gray-500">No projects found.</p>
+                    <p>No projects found.</p>
                 )}
             </div>
         </>

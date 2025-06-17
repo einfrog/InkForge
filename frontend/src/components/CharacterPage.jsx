@@ -4,6 +4,7 @@ import * as apiService from "../services/apiService.js";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import {jwtDecode} from "jwt-decode";
+import './components.css';
 
 function CharacterPage() {
     const [project, setProject] = useState({});
@@ -69,7 +70,7 @@ function CharacterPage() {
         }
     };
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <div className="form-container"><p>Loading...</p></div>;
 
     return (
         <div className="project-detail-root">
@@ -80,63 +81,69 @@ function CharacterPage() {
                     projectId={project.project_id}
                     isPublicView={isPublicView}
                 />
-                <div className="flex-grow-1 p-4">
-                    <h1>Characters</h1>
+                <div className="segment flex-grow-1">
+                    <h2 className="segment__title">Characters</h2>
                     {characters.length > 0 ? (
-                        <ul className="list-group">
+                        <div className="grid-container">
                             {characters.map((char) => (
-                                <li key={char.character_id} className="list-group-item">
-                                    <div className="d-flex align-items-center mb-2">
-                                        <img
-                                            src={char.image ? `http://localhost:5000${char.image}` : '/default-character.png'}
-                                            alt={char.name}
-                                            className="rounded me-3"
-                                            style={{ width: '60px', height: '60px', objectFit: 'cover' }}
-                                        />
-                                        <div>
-                                            <strong>{char.name}</strong> - {char.role || 'No role'}
+                                <div key={char.character_id} className="card character-card">
+                                    <div className="character-card__header">
+                                        <div className="character-card__image-container">
+                                            <img
+                                                src={char.image ? `http://localhost:5000${char.image}` : '/default-character.png'}
+                                                alt={char.name}
+                                                className="character-card__image"
+                                            />
+                                        </div>
+                                        <div className="character-card__title-group">
+                                            <h3 className="character-card__name">{char.name}</h3>
+                                            <p className="character-card__role">{char.role || 'No role'}</p>
                                         </div>
                                     </div>
-                                    <p>{char.biography}</p>
-                                    <div>
-                                        <Link
-                                            to={getCharacterDetailPath(char.character_id)}
-                                        >
-                                            View Profile
-                                        </Link>
-                                        {isOwner && (
-                                            <>
-                                                <Link
-                                                    to={`/projects/${projectId}/characters/${char.character_id}/edit`}>Edit</Link>
-
-
-                                                
-                                                <button
-                                                    onClick={() => handleDelete(char.character_id)}
-                                                    className="userform-btn"
-                                                    disabled={deletingCharacter[char.character_id]}
-                                                >
-                                                    {deletingCharacter[char.character_id] ? 'Deleting...' : 'Delete'}
-                                                </button>
-                                            </>
-                                        )}
+                                    <div className="character-card__content">
+                                        <p className="character-card__description">{char.biography}</p>
+                                        <div className="flex gap-4 mt-4">
+                                            <Link
+                                                to={getCharacterDetailPath(char.character_id)}
+                                                className="btn btn-primary"
+                                            >
+                                                View Profile
+                                            </Link>
+                                            {isOwner && (
+                                                <>
+                                                    <Link
+                                                        to={`/projects/${projectId}/characters/${char.character_id}/edit`}
+                                                        className="btn btn-secondary"
+                                                    >
+                                                        Edit
+                                                    </Link>
+                                                    <button
+                                                        onClick={() => handleDelete(char.character_id)}
+                                                        className="btn btn-secondary"
+                                                        disabled={deletingCharacter[char.character_id]}
+                                                    >
+                                                        {deletingCharacter[char.character_id] ? 'Deleting...' : 'Delete'}
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     ) : (
                         <p>No characters found for this project.</p>
                     )}
                     {isOwner && (
-                        <Link to={`/projects/${project.project_id}/characters/new`}
-                              className="block mt-4 text-blue-600 underline">New Character</Link>
+                        <Link 
+                            to={`/projects/${project.project_id}/characters/new`}
+                            className="btn btn-primary mt-6"
+                        >
+                            Create New Character
+                        </Link>
                     )}
-
-
                 </div>
-
             </div>
-
         </div>
     );
 }

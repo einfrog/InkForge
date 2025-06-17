@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import * as apiService from '../services/apiService';
 import { Link } from "react-router-dom";
+import './components.css';
 
 const ProjectPage = () => {
     const [projects, setProjects] = useState([]);
@@ -44,48 +45,45 @@ const ProjectPage = () => {
         }
     };
 
-    if (loading) return <p className="text-gray-500">Loading projects...</p>;
-    if (error) return <p className="text-red-500">{error}</p>;
+    if (loading) return <div className="form-container"><p>Loading projects...</p></div>;
+    if (error) return <div className="form-container"><p className="text-red-500">{error}</p></div>;
 
     return (
         <>
             <Header />
-            <div className="p-4">
-                <h2 className="text-xl font-semibold mb-4">Your projects</h2>
+            <div className="segment">
+                <h2 className="segment__title">Your Projects</h2>
                 {projects.length > 0 ? (
-                    <ul className="space-y-2">
+                    <div className="grid-container">
                         {projects.map(project => (
-                            <li
-                                key={project.project_id}
-                                className="p-3 rounded shadow bg-white"
-                            >
+                            <div key={project.project_id} className="card project-card">
                                 <img
                                     src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
                                     alt={project.project_name}
-                                    className="rounded me-3"
-                                    style={{width: '100px', height: '100px', objectFit: 'cover'}}
+                                    className="project-card__image"
                                 />
-                                <p className="font-bold">{project.project_name}</p>
-                                <p className="text-sm text-gray-600">{project.category}</p>
-                                <p className="text-sm text-gray-600">{project.genre}</p>
-                                <div className="space-x-4 mt-2">
-                                    <Link to={`${project.project_id}`}>View Project</Link>
-                                    <Link to={`${project.project_id}/edit`}>Edit Project</Link>
-                                    <button
-                                        onClick={() => handleDelete(project.project_id)}
-                                        className="userform-btn"
-                                        disabled={deletingProjects[project.project_id]}
-                                    >
-                                        {deletingProjects[project.project_id] ? 'Deleting...' : 'Delete'}
-                                    </button>
+                                <div className="project-card__content">
+                                    <h3 className="project-card__title">{project.project_name}</h3>
+                                    <p className="project-card__description">{project.category} • {project.genre}</p>
+                                    <div className="flex gap-4 mt-4">
+                                        <Link to={`${project.project_id}`} className="btn btn-primary">View Project</Link>
+                                        <Link to={`${project.project_id}/edit`} className="btn btn-secondary">Edit</Link>
+                                        <button
+                                            onClick={() => handleDelete(project.project_id)}
+                                            className="btn btn-secondary"
+                                            disabled={deletingProjects[project.project_id]}
+                                        >
+                                            {deletingProjects[project.project_id] ? 'Deleting...' : 'Delete'}
+                                        </button>
+                                    </div>
                                 </div>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 ) : (
-                    <p className="text-gray-500">No projects found.</p>
+                    <p>No projects found.</p>
                 )}
-                <Link to="/projects-new" className="block mt-4 text-blue-600 underline">New Project</Link>
+                <Link to="/projects-new" className="btn btn-primary mt-6">Create New Project</Link>
             </div>
         </>
     );

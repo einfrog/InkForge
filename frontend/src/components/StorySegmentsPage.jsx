@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import * as apiService from "../services/apiService.js";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
+import './components.css';
 
 function SegmentsPage() {
     const { id: projectId } = useParams();
@@ -115,98 +116,102 @@ function SegmentsPage() {
         }
     };
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <div className="form-container"><p>Loading...</p></div>;
 
     return (
         <div className="project-detail-root">
             <Header />
-            <div className="project-detail-main d-flex flex-row">
-                <Sidebar projectName={project.project_name} projectId={project.project_id} isPublicView={isPublicView} />
-                <main className="flex-grow-1 p-4">
-                    <h1>Story Segments</h1>
-                    {error && <div style={{ color: "red" }}>{error}</div>}
-                    {success && <div style={{ color: "green" }}>{success}</div>}
-
-                    {segments.length === 0 && editMode !== "new" ? (
-                        <p>No story segments available for this project.</p>
-                    ) : (
-                        <ul>
-                            {segments.filter(segment => segment && segment.segment_id).map((segment) => (
-                                <li key={`segment-${segment.segment_id}`}>
-                                    {editMode === segment.segment_id ? (
-                                        <div key={`edit-${segment.segment_id}`}>
-                                            <input
-                                                key={`title-input-${segment.segment_id}`}
-                                                type="text"
-                                                value={editFields.title}
-                                                onChange={(e) => handleEditChange("title", e.target.value)}
-                                                style={{ width: "60%" }}
-                                            />
-                                            <br />
-                                            <textarea
-                                                key={`content-textarea-${segment.segment_id}`}
-                                                value={editFields.content}
-                                                onChange={(e) => handleEditChange("content", e.target.value)}
-                                                style={{ width: "60%", minHeight: 60 }}
-                                            />
-                                            <br />
-                                            <button key={`save-${segment.segment_id}`} onClick={saveSegment} style={{ marginRight: 8 }}>
-                                                Save
-                                            </button>
-                                            <button key={`cancel-${segment.segment_id}`} onClick={() => setEditMode(null)}>Cancel</button>
-                                            <button key={`delete-${segment.segment_id}`} onClick={() => deleteSegment(segment.segment_id)} style={{ marginLeft: 8, color: "red" }}>
-                                                Delete
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <div key={`view-${segment.segment_id}`}>
-                                            <h2>{segment.title}</h2>
-                                            <p><strong>Content:</strong> {segment.content || "No content available"}</p>
-                                            {!isPublicView && (
-                                                <button key={`edit-btn-${segment.segment_id}`} onClick={() => startEditSegment(segment)}>
-                                                    Edit
-                                                </button>
-                                            )}
-                                        </div>
-                                    )}
-                                </li>
-                            ))}
-
-                            {/* Render new segment editor inline */}
-                            {editMode === "new" && (
-                                <li key="segment-new" style={{ backgroundColor: "#eef", padding: 10 }}>
-                                    <input
-                                        key="new-title-input"
-                                        type="text"
-                                        placeholder="Title"
-                                        value={editFields.title}
-                                        onChange={(e) => handleEditChange("title", e.target.value)}
-                                        style={{ width: "60%" }}
-                                    />
-                                    <br />
-                                    <textarea
-                                        key="new-content-textarea"
-                                        placeholder="Content"
-                                        value={editFields.content}
-                                        onChange={(e) => handleEditChange("content", e.target.value)}
-                                        style={{ width: "60%", minHeight: 60 }}
-                                    />
-                                    <br />
-                                    <button key="new-save-btn" onClick={saveSegment} style={{ marginRight: 8 }}>
-                                        Save New Segment
-                                    </button>
-                                    <button key="new-cancel-btn" onClick={() => setEditMode(null)}>Cancel</button>
-                                </li>
+            <div className="project-detail-main">
+                <Sidebar 
+                    projectName={project.project_name} 
+                    projectId={project.project_id} 
+                    isPublicView={isPublicView} 
+                />
+                <div className="project-detail-content">
+                    <div className="content-section">
+                        <div className="content-section__header">
+                            <h2 className="content-section__title">Story Segments</h2>
+                            {!isPublicView && editMode !== "new" && (
+                                <button onClick={startNewSegment} className="btn btn-primary">
+                                    Create Segment
+                                </button>
                             )}
-                        </ul>
-                    )}
+                        </div>
 
-                    {!isPublicView && editMode !== "new" && (
-                        <button onClick={startNewSegment} style={{ marginTop: 20 }}>
-                            Create Segment
-                        </button>
-                    )}
-                </main>
+                        {error && <div className="text-red-500 mb-4">{error}</div>}
+                        {success && <div className="text-green-500 mb-4">{success}</div>}
+
+                        <div className="content-grid">
+                            {segments.length === 0 && editMode !== "new" ? (
+                                <p>No story segments available for this project.</p>
+                            ) : (
+                                segments.filter(segment => segment && segment.segment_id).map((segment) => (
+                                    <div key={segment.segment_id} className="content-item">
+                                        {editMode === segment.segment_id ? (
+                                            <div className="flex flex-col gap-4">
+                                                <input
+                                                    type="text"
+                                                    value={editFields.title}
+                                                    onChange={(e) => handleEditChange("title", e.target.value)}
+                                                    className="form-input"
+                                                    placeholder="Title"
+                                                />
+                                                <textarea
+                                                    value={editFields.content}
+                                                    onChange={(e) => handleEditChange("content", e.target.value)}
+                                                    className="form-input form-textarea"
+                                                    placeholder="Content"
+                                                />
+                                                <div className="flex gap-2">
+                                                    <button onClick={saveSegment} className="btn btn-primary">Save</button>
+                                                    <button onClick={() => setEditMode(null)} className="btn btn-secondary">Cancel</button>
+                                                    <button onClick={() => deleteSegment(segment.segment_id)} className="btn btn-secondary">Delete</button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <h3 className="content-item__title">{segment.title}</h3>
+                                                <div className="content-item__content">
+                                                    <p>{segment.content || "No content available"}</p>
+                                                    {!isPublicView && (
+                                                        <div className="flex gap-2 mt-4">
+                                                            <button onClick={() => startEditSegment(segment)} className="btn btn-secondary">Edit</button>
+                                                            <button onClick={() => deleteSegment(segment.segment_id)} className="btn btn-secondary">Delete</button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                ))
+                            )}
+
+                            {editMode === "new" && (
+                                <div className="content-item">
+                                    <div className="flex flex-col gap-4">
+                                        <input
+                                            type="text"
+                                            placeholder="Title"
+                                            value={editFields.title}
+                                            onChange={(e) => handleEditChange("title", e.target.value)}
+                                            className="form-input"
+                                        />
+                                        <textarea
+                                            placeholder="Content"
+                                            value={editFields.content}
+                                            onChange={(e) => handleEditChange("content", e.target.value)}
+                                            className="form-input form-textarea"
+                                        />
+                                        <div className="flex gap-2">
+                                            <button onClick={saveSegment} className="btn btn-primary">Save New Segment</button>
+                                            <button onClick={() => setEditMode(null)} className="btn btn-secondary">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

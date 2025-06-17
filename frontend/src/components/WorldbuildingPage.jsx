@@ -3,6 +3,7 @@ import {useParams, useLocation} from "react-router-dom";
 import * as apiService from "../services/apiService.js";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
+import './components.css';
 
 function WorldbuildingPage() {
     const [project, setProject] = useState({});
@@ -92,7 +93,7 @@ function WorldbuildingPage() {
         }
     };
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <div className="form-container"><p>Loading...</p></div>;
 
     return (
         <div className="project-detail-root">
@@ -103,45 +104,49 @@ function WorldbuildingPage() {
                     projectId={project.project_id}
                     isPublicView={isPublicView}
                 />
-                <div className="flex-grow-1 p-4">
-                    <h1>Worldbuilding Page</h1>
-                    <p>This is the worldbidling page.</p>
-
-                    <h2>Project Settings</h2>
-                    <p><strong>Project Name:</strong> {project.project_name}</p>
-
-                    {error && <div style={{color: 'red'}}>{error}</div>}
-                    {success && <div style={{color: 'green'}}>{success}</div>}
-
-                    {/* Settings Felder */}
-                    {['geography', 'climate', 'time_period', 'political_system', 'culture', 'note'].map((field) => (
-                        <div key={field} style={{marginBottom: '1rem'}}>
-                            <strong>{field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}:</strong>{' '}
-                            {editMode[field] ? (
-                                <>
-                                    <input
-                                        type="text"
-                                        value={editFields[field]}
-                                        onChange={e => handleChange(field, e.target.value)}
-                                        style={{width: '60%'}}
-                                    />
-                                    <button onClick={() => handleSave(field)} style={{marginLeft: 8}}>Save</button>
-                                    <button onClick={() => handleCancel(field)} style={{marginLeft: 4}}>Cancel</button>
-                                </>
-                            ) : (
-                                <>
-                                    <span>{settings[field] || <em>No setting set</em>}</span>
-                                    {!isPublicView && (
-                                        <>
-                                            <button onClick={() => handleEdit(field)} style={{marginLeft: 8}}>Edit</button>
-                                            <button onClick={() => handleDelete(field)} style={{marginLeft: 4, color: 'red'}}>Delete</button>
-                                        </>
-                                    )}
-                                </>
-                            )}
+                <div className="project-detail-content">
+                    <div className="content-section">
+                        <div className="content-section__header">
+                            <h2 className="content-section__title">Worldbuilding Settings</h2>
                         </div>
-                    ))}
 
+                        {error && <div className="text-red-500 mb-4">{error}</div>}
+                        {success && <div className="text-green-500 mb-4">{success}</div>}
+
+                        <div className="content-grid">
+                            {['geography', 'climate', 'time_period', 'political_system', 'culture', 'note'].map((field) => (
+                                <div key={field} className="content-item">
+                                    <h3 className="content-item__title">
+                                        {field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                    </h3>
+                                    {editMode[field] ? (
+                                        <div className="flex flex-col gap-4">
+                                            <input
+                                                type="text"
+                                                value={editFields[field]}
+                                                onChange={e => handleChange(field, e.target.value)}
+                                                className="form-input"
+                                            />
+                                            <div className="flex gap-2">
+                                                <button onClick={() => handleSave(field)} className="btn btn-primary">Save</button>
+                                                <button onClick={() => handleCancel(field)} className="btn btn-secondary">Cancel</button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="content-item__content">
+                                            <p>{settings[field] || <em>No setting set</em>}</p>
+                                            {!isPublicView && (
+                                                <div className="flex gap-2 mt-4">
+                                                    <button onClick={() => handleEdit(field)} className="btn btn-secondary">Edit</button>
+                                                    <button onClick={() => handleDelete(field)} className="btn btn-secondary">Delete</button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
