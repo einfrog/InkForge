@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
@@ -15,6 +15,12 @@ function UserDetailPage() {
     //for loading states
     const [isLoading, setIsLoading] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+
+    const getImageUrl = (path) => {
+        if (!path) return '/default-profile.png';
+        if (path.startsWith('http')) return path;
+        return `http://localhost:5000${path}`;
+    };
 
     const token = localStorage.getItem('token');
 
@@ -67,14 +73,10 @@ function UserDetailPage() {
             <Header/>
             <div className="userdetail-main">
                 <div className="userdetail-card">
-                    <ImageUpload
-                        type="profile"
-                        id={userId}
-                        currentImage={user.profile_picture}
-                        onImageUploaded={handleImageUploaded}
-                        shape="circle"
-                        size="medium"
-                        className="mb-4"
+                    <img
+                        src={getImageUrl(user.profile_picture)}
+                        alt={`${user.username}'s profile`}
+                        className="user-profile-picture"
                     />
                     <h1 className="userdetail-title">{user.username}</h1>
                     <ul className="userdetail-list">
