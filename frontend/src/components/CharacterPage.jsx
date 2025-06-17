@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import {useLocation, useParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation, useParams} from "react-router-dom";
 import * as apiService from "../services/apiService.js";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
-import { Link } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 
 function CharacterPage() {
     const [project, setProject] = useState({});
     const [characters, setCharacters] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const { id: projectId } = useParams();
+    const {id: projectId} = useParams();
     const location = useLocation();
     const [deletingCharacter, setDeletingCharacter] = useState({});
     const token = localStorage.getItem('token');
@@ -74,7 +73,7 @@ function CharacterPage() {
 
     return (
         <div className="project-detail-root">
-            <Header />
+            <Header/>
             <div className="project-detail-main d-flex flex-row">
                 <Sidebar
                     projectName={project.project_name}
@@ -92,21 +91,30 @@ function CharacterPage() {
                                     <p>{char.biography}</p>
                                     <div>
                                         <Link
-                                            to={`/projects/${projectId}/characters/${char.character_id}/edit`}>Edit</Link>
-
-
-                                        <Link
                                             to={getCharacterDetailPath(char.character_id)}
                                         >
                                             View Profile
                                         </Link>
-                                        <button
-                                            onClick={() => handleDelete(char.character_id)}
-                                            className="userform-btn"
-                                            disabled={deletingCharacter[char.character_id]}
-                                        >
-                                            {deletingCharacter[char.character_id] ? 'Deleting...' : 'Delete'}
-                                        </button>
+                                        {isOwner && (
+                                            <>
+                                                <Link
+                                                    to={`/projects/${projectId}/characters/${char.character_id}/edit`}>Edit</Link>
+
+
+                                                <Link
+                                                    to={getCharacterDetailPath(char.character_id)}
+                                                >
+                                                    View Profile
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDelete(char.character_id)}
+                                                    className="userform-btn"
+                                                    disabled={deletingCharacter[char.character_id]}
+                                                >
+                                                    {deletingCharacter[char.character_id] ? 'Deleting...' : 'Delete'}
+                                                </button>
+                                            </>
+                                        )}
                                     </div>
                                 </li>
                             ))}
@@ -114,8 +122,11 @@ function CharacterPage() {
                     ) : (
                         <p>No characters found for this project.</p>
                     )}
-                    <Link to={`/projects/${project.project_id}/characters/new`}
-                          className="block mt-4 text-blue-600 underline">New Character</Link>
+                    {isOwner && (
+                        <Link to={`/projects/${project.project_id}/characters/new`}
+                              className="block mt-4 text-blue-600 underline">New Character</Link>
+                    )}
+
 
                 </div>
 

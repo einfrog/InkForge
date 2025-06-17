@@ -95,15 +95,19 @@ show public projects details when not logged in✅
 
 implement CRUD for projects, characters, worldbuilding, story segments✅
 
+get rid of unique keys warning in console❓
+
 ## June 17th:
 
 feedback when trying to create another relationship with the same character
 
-remove cud buttons from explore page
+generally display error messages in the UI instead of console
 
-get rid of unique keys warning in console
+remove cud buttons from explore page✅
 
-project detail view for public projects with read only mode
+project detail view for public projects with read only mode✅
+
+get usernames for projects (explore page)✅
 
 upload/display pictures for projects, characters and users
 

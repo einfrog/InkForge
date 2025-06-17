@@ -506,3 +506,23 @@ export async function deleteStorySegment(projectId, segmentId, token) {
 
     return await response.json(); // returns deleted segment object
 }
+
+export async function uploadUserImage(userId, imageFile, token) {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    const response = await fetch(`${API}/upload/users/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to upload image');
+    }
+
+    return await response.json();
+}

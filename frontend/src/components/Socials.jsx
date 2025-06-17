@@ -12,6 +12,12 @@ const Socials = () => {
     const [deletingUsers, setDeletingUsers] = useState({}); // Track which users are being deleted
     const navigate = useNavigate();
 
+    const getImageUrl = (path) => {
+        if (!path) return '/default-profile.png';
+        if (path.startsWith('http')) return path;
+        return `http://localhost:5000${path}`;
+    };
+
     useEffect(() => {
         // Check if user is admin
         setIsAdmin(apiService.isAdmin());
@@ -62,9 +68,18 @@ const Socials = () => {
                 <ul className="socials-list">
                     {users.map(user => (
                         <li key={user.user_id} className="socials-list-item">
-                            <p className="font-bold">{user.username}</p>
-                            <p style={{fontSize: '0.95rem', color: '#555'}}>{user.email}</p>
-                            <p style={{fontSize: '0.95rem', color: '#555'}}>{user.biography}</p>
+                            <div className="user-profile-header">
+                                <img
+                                    src={getImageUrl(user.profile_picture)}
+                                    alt={`${user.username}'s profile`}
+                                    className="user-profile-picture"
+                                />
+                                <div className="user-info">
+                                    <p className="font-bold">{user.username}</p>
+                                    <p style={{fontSize: '0.95rem', color: '#555'}}>{user.email}</p>
+                                </div>
+                            </div>
+                            <p style={{fontSize: '0.95rem', color: '#555', marginTop: '1rem'}}>{user.biography}</p>
                             <div className="socials-actions">
                                 <Link to={`/socials/${user.user_id}/`} className='userform-btn'>View</Link>
                                 {isAdmin && (

@@ -13,7 +13,9 @@ function checkProjectOwnership(projectId, userId, callback) {
 exports.getAllProjects = (req, res) => {
     const { visibility } = req.query;
 
-    let query = 'SELECT * FROM projects';
+    let query = `SELECT p.*, u.username AS username
+                 FROM projects p
+                 JOIN inkforge_users u ON p.user_id = u.user_id`;
     let params = [];
 
     if (visibility) {
@@ -72,8 +74,10 @@ exports.createProject = (req, res) => {
 exports.getMyProjects = (req, res) => {
     const userId = req.user.user_id; // from JWT middleware
 
-    const sql = `
-        SELECT * FROM projects WHERE user_id = ?
+    const sql = `SELECT p.*, u.username AS username
+                 FROM projects p
+                 JOIN inkforge_users u ON p.user_id = u.user_id
+                   WHERE p.user_id = ?
     `;
 
     config.query(sql, [userId], (err, results) => {
@@ -92,7 +96,10 @@ exports.getMyProjects = (req, res) => {
 exports.getProjectById = (req, res) => {
     const projectId = req.params.id;
 
-    const sql = `SELECT * FROM projects WHERE project_id = ?`;
+    const sql = `SELECT p.*, u.username AS username
+                 FROM projects p
+                 JOIN inkforge_users u ON p.user_id = u.user_id
+                  WHERE project_id = ?`;
 
     config.query(sql, [projectId], (err, result) => {
         if (err) {

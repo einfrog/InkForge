@@ -93,12 +93,12 @@ function ProjectDetailPage() {
 
                             {isPublicView && (
                                 <div className="project-owner">
-                                    <p><strong>By:</strong> {project.user_id || 'Unknown Author'}</p>
+                                    <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>
                                 </div>
                             )}
 
                             <ul className="project-detail-list">
-                                <li><strong>ID:</strong> {project.project_id}</li>
+                                {/*<li><strong>ID:</strong> {project.project_id}</li>*/}
                                 <li><strong>Category:</strong> {project.category}</li>
                                 <li><strong>Genre:</strong> {project.genre}</li>
                                 <li><strong>Description:</strong> {project.description || 'No description provided.'}

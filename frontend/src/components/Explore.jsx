@@ -34,6 +34,7 @@ const Explore = () => {
                                 className="p-3 rounded shadow bg-white"
                             >
                                 <p className="font-bold">{project.project_name}</p>
+                                <p>By: {project.username || 'Unknown Author'}</p>
                                 <p className="text-sm text-gray-600">{project.category}</p>
                                 <p className="text-sm text-gray-600">{project.genre}</p>
                                 <div>

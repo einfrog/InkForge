@@ -15,6 +15,7 @@ const ProjectPage = () => {
             const token = localStorage.getItem('token');
             const response = await apiService.getOwnProjects(token);
             setProjects(response.projects || []);
+            console.log('Fetched projects:', response.projects);
         } catch (err) {
             console.error('Error fetching projects:', err);
             setError(err.message || 'Could not load projects');

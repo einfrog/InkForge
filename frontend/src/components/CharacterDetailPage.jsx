@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useLocation, useParams} from "react-router-dom";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import * as apiService from "../services/apiService.js";
+import {jwtDecode} from "jwt-decode";
 
 function CharacterDetailPage() {
-    const { project_id: routeProjectId, characterId } = useParams();
+    const {project_id: routeProjectId, characterId} = useParams();
     const [character, setCharacter] = useState(null);
     const [project, setProject] = useState(null);
     const [relations, setRelations] = useState([]);
@@ -13,10 +14,11 @@ function CharacterDetailPage() {
     const token = localStorage.getItem("token");
     const location = useLocation();
     const [editMode, setEditMode] = useState(null); // current editing segmentId or 'new'
-    const [editFields, setEditFields] = useState({ target_character_id: "", relationship_type: "" });
+    const [editFields, setEditFields] = useState({target_character_id: "", relationship_type: ""});
     const [error, setError] = useState(null);
     const [allCharacters, setAllCharacters] = useState([]);
     const isPublicView = location.pathname.startsWith('/explore/');
+    const isOwner = project?.user_id === getCurrentUserId();
 
     useEffect(() => {
         const fetchCharacterAndProject = async () => {
@@ -46,6 +48,19 @@ function CharacterDetailPage() {
         void fetchCharacterAndProject();
     }, [routeProjectId, characterId, token]);
 
+    function getCurrentUserId() {
+        let token = localStorage.getItem('token');
+        let userId;
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                return decoded.user_id || decoded.id || decoded.sub;
+            } catch (e) {
+                console.error("Failed to decode token", e);
+            }
+        }
+    }
+
     const handleSave = async (e) => {
         e.preventDefault();
         try {
@@ -71,7 +86,7 @@ function CharacterDetailPage() {
             const updated = await apiService.getCharacterRelationsById(routeProjectId, characterId, token);
             setRelations(updated.relations || []);
             setEditMode(null);
-            setEditFields({ target_character_id: "", relationship_type: "" });
+            setEditFields({target_character_id: "", relationship_type: ""});
         } catch (err) {
             console.error("Failed to save relationship:", err);
             setError("Failed to save relationship.");
@@ -94,7 +109,7 @@ function CharacterDetailPage() {
 
     return (
         <div className="project-detail-root">
-            <Header />
+            <Header/>
             <div className="project-detail-main d-flex flex-row">
                 <Sidebar
                     projectName={project.project_name}
@@ -118,19 +133,27 @@ function CharacterDetailPage() {
                                     <strong>Type:</strong> {rel.relationship_type} <br/>
                                     <strong>Target-character-id:</strong> {rel.target_character_name} <br/>
                                     <strong>Notes:</strong> {rel.notes}
-                                    <button onClick={() => {
-                                        setEditMode(rel.target_character_id);
-                                        setEditFields({
-                                            target_character_id: rel.target_character_id,
-                                            relationship_type: rel.relationship_type
-                                        });
-                                    }}>Edit
-                                    </button>
-                                    <button onClick={() => handleDelete(rel.target_character_id)}>Delete</button>
+
+                                    {isOwner && (
+                                        <>
+                                            <button onClick={() => {
+                                                setEditMode(rel.target_character_id);
+                                                setEditFields({
+                                                    target_character_id: rel.target_character_id,
+                                                    relationship_type: rel.relationship_type
+                                                });
+                                            }}>Edit
+                                            </button>
+                                            <button onClick={() => handleDelete(rel.target_character_id)}>Delete
+                                            </button>
+                                        </>
+                                    )}
                                 </li>
                             ))}
                         </ul>
                     )}
+                    {isOwner && (
+                        <>
                     {!editMode && (
                         <button onClick={() => setEditMode('new')}>Add Relationship</button>
                     )}
@@ -165,6 +188,8 @@ function CharacterDetailPage() {
                             <button type="submit">Save</button>
                             <button type="button" onClick={() => setEditMode(null)}>Cancel</button>
                         </form>
+                    )}
+                        </>
                     )}
 
                 </div>

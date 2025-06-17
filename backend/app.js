@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const app = express();
 const PORT = 5000;
@@ -18,7 +19,9 @@ app.use(cors({
 
 app.use(cookieParser());
 app.use(express.json());
-app.use('/api/uploads', express.static('uploadRoutes'));
+
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API routes
 console.log('Registering routes...');

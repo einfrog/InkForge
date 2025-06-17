@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 // GET all users (public)
 exports.getAllUsers = (req, res) => {
-    config.query('SELECT user_id, username, email, biography FROM inkforge_users', (err, results) => {
+    config.query('SELECT user_id, username, email, biography, profile_picture FROM inkforge_users', (err, results) => {
         if (err) {
             console.error('Error fetching users:', err);
             return res.status(500).json({error: 'Database error'});
@@ -15,7 +15,7 @@ exports.getAllUsers = (req, res) => {
 
 // GET one user by ID
 exports.getUserById = (req, res) => {
-    config.query('SELECT user_id, username, email, biography FROM inkforge_users WHERE user_id = ?', [req.params.id], (err, results) => {
+    config.query('SELECT user_id, username, email, biography, profile_picture FROM inkforge_users WHERE user_id = ?', [req.params.id], (err, results) => {
         if (err) {
             console.error('Error fetching user:', err);
             return res.status(500).json({error: 'Database error'});
