@@ -21,6 +21,8 @@ function CharacterForm() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
+    const [pendingImage, setPendingImage] = useState(null);
+
     useEffect(() => {
         if (characterId) {
             console.log(`Editing character with ID: ${characterId}`);
@@ -46,20 +48,8 @@ function CharacterForm() {
     }, [characterId]);
 
     const handleImageUploaded = async (path) => {
-        try {
-            if (characterId) {
-                // If editing an existing character, update the character with the new image
-                const updatedCharacter = await updateCharacter(id, characterId, { ...character, image: path }, localStorage.getItem('token'));
-                setCharacter(prev => ({ ...prev, image: path }));
-                console.log("Character image updated:", updatedCharacter);
-            } else {
-                // If creating a new character, just update the local state
-                setCharacter(prev => ({ ...prev, image: path }));
-            }
-        } catch (error) {
-            console.error("Failed to update character image:", error);
-            setError("Failed to update character image. Please try again.");
-        }
+        console.log('Image uploaded, path:', path);
+        setPendingImage(path);
     };
 
     const handleSubmit = async (e) => {
@@ -71,6 +61,7 @@ function CharacterForm() {
         const characterToSend = {
             ...character,
             // Optional: trim empty strings to null if needed
+            image: pendingImage || character.image,
             biography: character.biography.trim() === '' ? null : character.biography,
             description: character.description.trim() === '' ? null : character.description
         };
@@ -91,7 +82,7 @@ function CharacterForm() {
                     personality: '',
                     biography: '',
                     description: '',
-                    image: null
+                    image: pendingImage || null
                 });
             }
 
@@ -177,7 +168,7 @@ function CharacterForm() {
                                 <ImageUpload
                                     type="character"
                                     id={characterId}
-                                    currentImage={character.image}
+                                    currentImage={pendingImage !== null ? pendingImage : character.image}
                                     onImageUploaded={handleImageUploaded}
                                     shape="square"
                                     size="medium"
