@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { createCharacter, getCharacterById, updateCharacter } from '../services/apiService';
+import { createCharacter, getCharacterById, updateCharacter, uploadCharacterImage } from '../services/apiService';
 import Header from "./Header.jsx";
 import ImageUpload from './ImageUpload';
 
@@ -18,10 +18,11 @@ function CharacterForm() {
         image: null
     });
 
+    const [pendingImage, setPendingImage] = useState(null);
+    const [pendingImageFile, setPendingImageFile] = useState(null);
+
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-
-    const [pendingImage, setPendingImage] = useState(null);
 
     useEffect(() => {
         if (characterId) {
@@ -47,9 +48,10 @@ function CharacterForm() {
         }
     }, [characterId]);
 
-    const handleImageUploaded = async (path) => {
+    const handleImageUploaded = (path, file) => {
         console.log('Image uploaded, path:', path);
         setPendingImage(path);
+        setPendingImageFile(file);
     };
 
     const handleSubmit = async (e) => {
@@ -60,7 +62,6 @@ function CharacterForm() {
 
         const characterToSend = {
             ...character,
-            // Optional: trim empty strings to null if needed
             image: pendingImage || character.image,
             biography: character.biography.trim() === '' ? null : character.biography,
             description: character.description.trim() === '' ? null : character.description
@@ -69,12 +70,21 @@ function CharacterForm() {
         try {
             if (characterId) {
                 console.log('Project ID:', id);
-
                 await updateCharacter(id, characterId, characterToSend, localStorage.getItem('token'));
-
                 setSuccess(`Character "${character.name}" updated successfully.`);
             } else {
-                await createCharacter(id, characterToSend, localStorage.getItem('token'));
+                const createdCharacter = await createCharacter(id, characterToSend, localStorage.getItem('token'));
+                
+                // Now upload the image if there's a pending one
+                if (pendingImageFile) {
+                    console.log('Uploading image for new character');
+                    await uploadCharacterImage(createdCharacter.characterId, pendingImageFile, localStorage.getItem('token'));
+                    await updateCharacter(id, createdCharacter.characterId, {
+                        ...characterToSend,
+                        image: pendingImage
+                    }, localStorage.getItem('token'));
+                }
+
                 setSuccess(`Character "${character.name}" created successfully.`);
                 setCharacter({
                     name: '',
@@ -82,8 +92,10 @@ function CharacterForm() {
                     personality: '',
                     biography: '',
                     description: '',
-                    image: pendingImage || null
+                    image: null
                 });
+                setPendingImage(null);
+                setPendingImageFile(null);
             }
 
             setTimeout(() => {

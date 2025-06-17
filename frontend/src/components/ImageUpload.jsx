@@ -84,7 +84,7 @@ function ImageUpload({
 
             if (result && result.path) {
                 console.log('Upload successful, path:', result.path);
-                onImageUploaded(result.path);
+                onImageUploaded(result.path, file);
                 setUploadedImage(result);
                 setPreview(null); // Clear preview after successful upload
             } else {

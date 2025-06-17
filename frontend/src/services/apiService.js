@@ -530,6 +530,9 @@ export async function uploadUserImage(userId, imageFile, token) {
 export async function uploadProjectImage(projectId, imageFile, token) {
     const formData = new FormData();
     formData.append('image', imageFile);
+    for (var key of formData.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+    }
 
     const response = await fetch(`${API}/upload/projects/${projectId}`, {
         method: 'POST',
@@ -538,6 +541,7 @@ export async function uploadProjectImage(projectId, imageFile, token) {
         },
         body: formData,
     });
+
 
     if (!response.ok) {
         const errorData = await response.json();

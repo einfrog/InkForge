@@ -6,6 +6,11 @@ function checkUserOwnership(userIdToUpdate, userIdLoggedIn, callback) {
 }
 
 function checkProjectOwnership(projectId, userId, callback) {
+    console.log(projectId);
+    console.log(typeof projectId);
+    if (isNaN(projectId)) {
+        return callback(true);
+    }
     const sql = `SELECT * FROM projects WHERE project_id = ? AND user_id = ?`;
     config.query(sql, [projectId, userId], (err, result) => {
         if (err || result.length === 0) return callback(false);
@@ -14,6 +19,9 @@ function checkProjectOwnership(projectId, userId, callback) {
 }
 
 function checkCharacterOwnership(characterId, userId, callback) {
+    if (isNaN(characterId)) {
+        return callback(true);
+    }
     const sql = `
         SELECT c.* FROM characters c
         JOIN projects p ON c.project_id = p.project_id
@@ -61,8 +69,8 @@ exports.uploadCharacterImage = (req, res) => {
         if (!isOwner) {
             return res.status(403).json({ message: 'You can only update images for your own characters.' });
         }
-
         const filePath = `/uploads/characters/${req.file.filename}`;
+        console.log("filename", req.file.filename);
         res.status(200).json({ message: 'Character image uploaded successfully', path: filePath });
     });
 };

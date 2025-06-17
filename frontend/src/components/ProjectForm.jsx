@@ -22,6 +22,7 @@ function ProjectFormPage() {
     const [createSuccess, setCreateSuccess] = useState('');
 
     const [pendingCover, setPendingCover] = useState(null);
+    const [pendingCoverFile, setPendingCoverFile] = useState(null);
 
     useEffect(() => {
         if (id) {
@@ -47,9 +48,15 @@ function ProjectFormPage() {
         }
     }, [id]);
 
-    const handleImageUploaded = (path) => {
+    const handleFileSelected = (file) => {
+        setPendingCover(null);
+        setPendingCoverFile(file);
+    }
+
+    const handleImageUploaded = (path, file) => {
         console.log('Image uploaded, path:', path);
         setPendingCover(path);
+        setPendingCoverFile(file);
     };
 
     const handleSubmit = async (e) => {
@@ -82,10 +89,10 @@ function ProjectFormPage() {
                 console.log('Project created:', createdProject);
 
                 // Now upload the image if there's a pending one
-                if (pendingCover) {
+                if (pendingCoverFile) {
                     console.log('Uploading image for new project');
-                    await uploadProjectImage(createdProject.project.project_id, pendingCover, localStorage.getItem('token'));
-                    await updateProject(createdProject.project.project_id, {
+                    await uploadProjectImage(createdProject.body.project.id, pendingCoverFile, localStorage.getItem('token'));
+                    await updateProject(createdProject.body.project.id, {
                         ...projectData,
                         cover: pendingCover
                     }, localStorage.getItem('token'));
@@ -101,6 +108,7 @@ function ProjectFormPage() {
                     cover: null
                 });
                 setPendingCover(null);
+                setPendingCoverFile(null);
             }
 
             setTimeout(() => {
@@ -192,9 +200,10 @@ function ProjectFormPage() {
                                     id={id}
                                     currentImage={pendingCover !== null ? pendingCover : newProject.cover}
                                     onImageUploaded={handleImageUploaded}
+                                    onFileSelected={handleFileSelected}
                                     shape="square"
                                     size="large"
-                                    disabled={!id}
+                                    // disabled={!id}
                                 />
                             </div>
                         </div>
