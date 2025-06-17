@@ -99,19 +99,17 @@ get rid of unique keys warning in console❓
 
 ## June 17th:
 
-feedback when trying to create another relationship with the same character
-
-generally display error messages in the UI instead of console
-
 remove cud buttons from explore page✅
 
 project detail view for public projects with read only mode✅
 
 get usernames for projects (explore page)✅
 
-upload/display pictures for projects, characters and users
+upload/display pictures for projects, characters and users✅
 
-do not do sql query when upload, but return path, and when updating project, update cover field;
+feedback when trying to create another relationship with the same character
+
+generally display error messages in the UI instead of console
 
 different pages/props for overview, characters, worldbuilding, story segments, analytics
 

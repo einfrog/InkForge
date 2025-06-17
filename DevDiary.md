@@ -51,3 +51,9 @@
             - 💡 Biggest learning: to properly read through my code and the variables before sending ti to chatgpt 5 times, most times i just misspelled a variable or didn't use the right one
             - ❌ Biggest mistake/blocker: unmatched parameters for apiservice file functions; weird errors for story segemtns (that just disappeared??), headache
             - 📌 Notes for tomorrow: remove editing buttons on explore projects, optimize error handling, no more errors in console but feedback for uers (when reasonable), get started on styling, statistics on overview page; PICTURE UPLOAD?!
+
+## Day Nr. X - [Date]
+            - ✅ What I worked on today: just the picture upload. goddamn. that was such a pain.
+            - 💡 Biggest learning: to not give up hope. something about files but tbh im not sure anymore my brain is fried.
+            - ❌ Biggest mistake/blocker: everything. the picture upload was such a complicated thing for some reason. i've debugged so much and reverted so many things that i dont even know how it's working, but i'm not touching it anymore, otherwise it will all break again.
+            - 📌 Notes for tomorrow: styling🥀
