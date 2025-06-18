@@ -57,3 +57,9 @@
             - 💡 Biggest learning: to not give up hope. something about files but tbh im not sure anymore my brain is fried.
             - ❌ Biggest mistake/blocker: everything. the picture upload was such a complicated thing for some reason. i've debugged so much and reverted so many things that i dont even know how it's working, but i'm not touching it anymore, otherwise it will all break again.
             - 📌 Notes for tomorrow: styling🥀
+
+## Day Nr. X - [Date]
+            - ✅ What I worked on today: selections for project creation (category and genre), campus cloud (took all day)
+            - 💡 Biggest learning: that campus cloud is a bitch
+            - ❌ Biggest mistake/blocker: campus cloud
+            - 📌 Notes for tomorrow: do the styling

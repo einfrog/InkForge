@@ -113,7 +113,7 @@ styling
 
 hardcoded genres and categories for projects✅
 
-relationship graphs
+relationship graphs✅
 
 charactersPage should not have biography but description!!!!!!! (figure out)
 
