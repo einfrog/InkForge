@@ -570,3 +570,32 @@ export async function uploadCharacterImage(characterId, imageFile, token) {
 
     return await response.json();
 }
+
+export async function getCharacterGraphs(projectId) {
+    console.log('Fetching character graphs for project:', projectId);
+
+    try {
+        const response = await fetch(`${API}/projects/${projectId}/graphs`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Response error:', errorText);
+            throw new Error('Failed to fetch character graphs');
+        }
+
+        const data = await response.json();
+        console.log('Graph data received:', data);
+        return data;
+    } catch (error) {
+        console.error('Error in getCharacterGraphs:', error);
+        throw error;
+    }
+}

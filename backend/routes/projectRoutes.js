@@ -28,4 +28,6 @@ router.put('/:id', authenticateJWT, projectController.updateProject);
 // Delete project
 router.delete('/:id', authenticateJWT, projectController.deleteProject);
 
+router.get('/:id/graphs', projectController.getCharacterGraphs);
+
 module.exports = router;

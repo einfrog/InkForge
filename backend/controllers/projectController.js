@@ -170,3 +170,38 @@ exports.deleteProject = (req, res) => {
         });
     });
 };
+
+exports.getCharacterGraphs = (req, res) => {
+    const projectId = req.params.id;
+
+    // First, get characters
+    config.query('SELECT character_id AS id, name FROM characters WHERE project_id = ?', [projectId], (err, characters) => {
+        if (err) {
+            console.error('Error fetching characters:', err);
+            return res.status(500).json({ error: 'Failed to load characters' });
+        }
+
+        // Then, get relationships
+        config.query(`
+            SELECT source_character_id AS source, target_character_id AS target, relationship_type AS type, notes 
+            FROM character_relations 
+            WHERE project_id = ?`, [projectId], (relationErr, relations) => {
+
+            if (relationErr) {
+                console.error('Error fetching relationships:', relationErr);
+                return res.status(500).json({ error: 'Failed to load relationships' });
+            }
+
+            // Send the response with both datasets
+            console.log('Sending graph data:', {
+                nodes: characters.length,
+                links: relations.length
+            });
+
+            res.json({
+                nodes: characters,
+                links: relations
+            });
+        });
+    });
+};
