@@ -73,7 +73,7 @@ function ProjectDetailPage() {
         }
     }
 
-    if (isLoading) return <div className="project-detail-content"><p>Loading...</p></div>
+    if (isLoading) return <div>Loading ... </div>
 
     return (
         <div className="project-detail-root">
@@ -87,44 +87,54 @@ function ProjectDetailPage() {
                     canEdit={isOwner && !isPublicView}
                 />
                 <div className="project-detail-content">
-                    <div className="project-detail-layout">
-                        <div className="project-detail-info">
-                            <div className="project-detail-card">
-                                <div className="project-detail-card-body">
-                                    <h1 className="project-detail-title">{project.project_name}</h1>
-                                    
-                                    {isPublicView && (
-                                        <div className="project-detail-list">
-                                            <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>
-                                        </div>
-                                    )}
-
-                                    <ul className="project-detail-list">
-                                        <li><strong>Category:</strong> {project.category}</li>
-                                        <li><strong>Genre:</strong> {project.genre}</li>
-                                        <li><strong>Description:</strong> {project.description || 'No description provided.'}</li>
-                                        <li><strong>Visibility:</strong> {project.visibility}</li>
-                                    </ul>
-
-                                    <div className="project-detail-actions">
-                                        <Link to={getBackPath()} className="project-detail-back-btn">
-                                            {getBackLabel()}
-                                        </Link>
-                                        {isOwner && !isPublicView && (
-                                            <Link to={`/projects/${projectId}/edit`} className="project-detail-back-btn">
-                                                Edit Project
-                                            </Link>
-                                        )}
-                                    </div>
+                    <div className="project-detail-header">
+                        <img
+                            src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
+                            alt={project.project_name}
+                            className="project-detail-cover mb-4"
+                            style={{ width: '100%', maxHeight: '300px', objectFit: 'cover' }}
+                        />
+                        <h1>{project.project_name}</h1>
+                    </div>
+                    <div className="project-detail-card">
+                        <div className="project-detail-card-body">
+                            {isPublicView && (
+                                <div className="project-owner">
+                                    <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>
                                 </div>
+                            )}
+
+                            <ul className="project-detail-list">
+                                {/*<li><strong>ID:</strong> {project.project_id}</li>*/}
+                                <li><strong>Category:</strong> {project.category}</li>
+                                <li><strong>Genre:</strong> {project.genre}</li>
+                                <li><strong>Description:</strong> {project.description || 'No description provided.'}
+                                </li>
+                                <li><strong>Visibility:</strong> {project.visibility}</li>
+                            </ul>
+
+                            <div className="project-detail-actions">
+                                <Link to={getBackPath()} className="project-detail-back-btn">
+                                    {getBackLabel()}
+                                </Link>
+
+                                {/*{isOwner && !isPublicView && (*/}
+                                {/*    <>*/}
+                                {/*        <Link*/}
+                                {/*            to={`/projects/${projectId}/edit`}*/}
+                                {/*            className="project-detail-edit-btn"*/}
+                                {/*        >*/}
+                                {/*            Edit Project*/}
+                                {/*        </Link>*/}
+                                {/*        <button*/}
+                                {/*            onClick={handleDelete}*/}
+                                {/*            className="project-detail-delete-btn"*/}
+                                {/*        >*/}
+                                {/*            Delete Project*/}
+                                {/*        </button>*/}
+                                {/*    </>*/}
+                                {/*)}*/}
                             </div>
-                        </div>
-                        <div className="project-detail-cover-container">
-                            <img
-                                src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
-                                alt={project.project_name}
-                                className="project-detail-cover"
-                            />
                         </div>
                     </div>
                 </div>
