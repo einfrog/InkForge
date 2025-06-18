@@ -13,7 +13,7 @@ const PORT = 5000;
 
 // CORS configuration
 app.use(cors({
-    origin: 'http://localhost:5173', // Your frontend URL
+    origin: 'http://localhost:5173',
     credentials: true
 }));
 

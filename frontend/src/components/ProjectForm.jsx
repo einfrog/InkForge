@@ -147,26 +147,53 @@ function ProjectFormPage() {
 
                                 <div className="mb-3">
                                     <label htmlFor="category" className="form-label">Category</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         id="category"
-                                        className="form-control"
+                                        className="form-select"
                                         value={newProject.category}
                                         onChange={(e) => setNewProject({...newProject, category: e.target.value})}
                                         required
-                                    />
+                                    >
+                                        <option value="">Select a category</option>
+                                        <option value="Novel">Novel</option>
+                                        <option value="Novelle">Novelle</option>
+                                        <option value="Manga">Manga</option>
+                                        <option value="Video Game">Video Game</option>
+                                        <option value="Movie Script">Movie Script</option>
+                                        <option value="Journal">Journal</option>
+                                        <option value="Biography">Biography</option>
+                                        <option value="Auto-Biography">Auto-Biography</option>
+                                        <option value="DnD Campaign">DnD Campaign</option>
+                                        <option value="Misc">Misc</option>
+
+                                    </select>
                                 </div>
+
 
                                 <div className="mb-3">
                                     <label htmlFor="genre" className="form-label">Genre</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         id="genre"
-                                        className="form-control"
+                                        className="form-select"
                                         value={newProject.genre}
                                         onChange={(e) => setNewProject({...newProject, genre: e.target.value})}
                                         required
-                                    />
+                                    >
+                                        <option value="">Select a genre</option>
+                                        <option value="Fantasy">Fantasy</option>
+                                        <option value="Sci-Fi">Sci-Fi</option>
+                                        <option value="Non-Fiction">Non-Fiction</option>
+                                        <option value="Young Adult Fiction">Young Adult Fiction</option>
+                                        <option value="Horror">Horror</option>
+                                        <option value="Dystopia">Dystopia</option>
+                                        <option value="Romance">Romance</option>
+                                        <option value="Mystery">Mystery</option>
+                                        <option value="Thriller">Thriller</option>
+                                        <option value="Comedy">Comedy</option>
+                                        <option value="Drama">Drama</option>
+                                        <option value="Adventure">Adventure</option>
+                                        <option value="Historical">Historical</option>
+                                    </select>
                                 </div>
 
                                 <div className="mb-3">

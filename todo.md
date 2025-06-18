@@ -107,11 +107,19 @@ get usernames for projects (explore page)✅
 
 upload/display pictures for projects, characters and users✅
 
+## June 18th
+
+styling
+
+hardcoded genres and categories for projects✅
+
+relationship graphs
+
+charactersPage should not have biography but description!!!!!!! (figure out)
+
 feedback when trying to create another relationship with the same character
 
 generally display error messages in the UI instead of console
-
-different pages/props for overview, characters, worldbuilding, story segments, analytics
 
 continue working on docs
 
