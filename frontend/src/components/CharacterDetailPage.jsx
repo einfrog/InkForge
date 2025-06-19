@@ -147,18 +147,27 @@ function CharacterDetailPage() {
                     isPublicView={isPublicView}
                 />
                 <main className="character-detail-container">
-                    <section className="character-header card">
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        gap: '20px',
+                        alignItems: 'center',
+                        flexDirection: 'row'
+                    }}>
                         <img
                             src={character.image ? `http://localhost:5000${character.image}` : '/default-character.png'}
                             alt={character.name}
                             className="character-image"
                         />
-                        <div className="character-info">
-                            <h1 className="character-name">{character.name}</h1>
-                            <p><strong>Role:</strong> {character.role || 'None specified'}</p>
-                            <p><strong>Affiliated Project:</strong> {project.project_name}</p>
-                        </div>
-                    </section>
+                        <section className="character-header card">
+
+                            <div className="character-info">
+                                <h1 className="character-name">{character.name}</h1>
+                                <p><strong>Role:</strong> {character.role || 'None specified'}</p>
+                                <p><strong>Affiliated Project:</strong> {project.project_name}</p>
+                            </div>
+                        </section>
+                    </div>
 
                     <section className="character-description segment">
                         <p><strong>Personality:</strong> {character.personality || 'No personality available'}</p>
@@ -199,17 +208,17 @@ function CharacterDetailPage() {
                                             <span className="relation-label">Notes:</span> {rel.notes || 'None'}
                                         </div>
                                         {isOwner && (
-                                            <div className="relation-actions">
+                                            <div className="form-buttons">
                                                 <button
                                                     type="button"
-                                                    className="btn btn-secondary btn-small"
+                                                    className="action-btn"
                                                     onClick={() => handleStartEdit(rel.target_character_id)}
                                                 >
                                                     Edit
                                                 </button>
                                                 <button
                                                     type="button"
-                                                    className="btn btn-danger btn-small"
+                                                    className="alarm-btn"
                                                     onClick={() => handleDelete(rel.target_character_id)}
                                                 >
                                                     Delete
@@ -225,7 +234,7 @@ function CharacterDetailPage() {
                             <>
                                 {!editMode && (
                                     <button
-                                        className="btn btn-primary mt-3"
+                                        className="action-btn"
                                         onClick={() => handleStartEdit('new')}
                                     >
                                         Add Relationship
@@ -279,8 +288,8 @@ function CharacterDetailPage() {
                                         </div>
 
                                         <div className="form-actions">
-                                            <button type="submit" className="btn btn-primary me-2">Save</button>
-                                            <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
+                                            <button type="submit" className="action-btn">Save</button>
+                                            <button type="button" className="cancel-btn" onClick={handleCancel}>Cancel</button>
                                         </div>
                                     </form>
                                 )}
