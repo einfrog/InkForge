@@ -78,7 +78,7 @@ function UserDetailPage() {
                         <img
                             src={getImageUrl(user.profile_picture)}
                             alt={`${user.username}'s profile`}
-                            className="user-profile-picture"
+                            className="profile-image-container"
                         />
                         <div className="user-basic-info">
                             <h1 className="userdetail-title">{user.username}</h1>
@@ -87,9 +87,9 @@ function UserDetailPage() {
                     </div>
 
                     <ul className="userdetail-list">
-                        <li><strong>ID:</strong> {user.user_id}</li>
+                        {/*<li><strong>ID:</strong> {user.user_id}</li>*/}
                         <li>
-                            <strong>Biography:</strong>{' '}
+                            {/*<strong>Biography:</strong>{' '}*/}
                             {user.biography || <em>No biography provided.</em>}
                         </li>
                     </ul>

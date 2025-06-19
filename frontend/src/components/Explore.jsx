@@ -40,7 +40,7 @@ const Explore = () => {
                                     <p className="project-card__description">By: {project.username || 'Unknown Author'}</p>
                                     <p className="project-card__description">{project.category} • {project.genre}</p>
                                     <div className="flex gap-4 mt-4">
-                                        <Link to={`explore/${project.project_id}`} className="btn btn-primary">
+                                        <Link to={`explore/${project.project_id}`} className="action-btn">
                                             View Project
                                         </Link>
                                     </div>

@@ -63,3 +63,9 @@
             - 💡 Biggest learning: that campus cloud is a bitch
             - ❌ Biggest mistake/blocker: campus cloud
             - 📌 Notes for tomorrow: do the styling
+
+## Day Nr. X - [Date]
+            - ✅ What I worked on today: styling, minor bug fixes and improvements
+            - 💡 Biggest learning:
+            - ❌ Biggest mistake/blocker:
+            - 📌 Notes for tomorrow:

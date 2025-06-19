@@ -84,7 +84,7 @@ function CharacterPage() {
                 <div className="segment flex-grow-1">
                     <h2 className="segment__title">Characters</h2>
                     {characters.length > 0 ? (
-                        <div className="grid-container">
+                        <div className="grid-container character-container">
                             {characters.map((char) => (
                                 <div key={char.character_id} className="card character-card">
                                     <div className="character-card__header">
@@ -105,7 +105,7 @@ function CharacterPage() {
                                         <div className="flex gap-4 mt-4">
                                             <Link
                                                 to={getCharacterDetailPath(char.character_id)}
-                                                className="btn btn-primary"
+                                                className="action-btn"
                                             >
                                                 View Profile
                                             </Link>
@@ -113,13 +113,13 @@ function CharacterPage() {
                                                 <>
                                                     <Link
                                                         to={`/projects/${projectId}/characters/${char.character_id}/edit`}
-                                                        className="btn btn-secondary"
+                                                        className="action-btn"
                                                     >
                                                         Edit
                                                     </Link>
                                                     <button
                                                         onClick={() => handleDelete(char.character_id)}
-                                                        className="btn btn-secondary"
+                                                        className="alarm-btn"
                                                         disabled={deletingCharacter[char.character_id]}
                                                     >
                                                         {deletingCharacter[char.character_id] ? 'Deleting...' : 'Delete'}
@@ -135,9 +135,9 @@ function CharacterPage() {
                         <p>No characters found for this project.</p>
                     )}
                     {isOwner && (
-                        <Link 
+                        <Link
                             to={`/projects/${project.project_id}/characters/new`}
-                            className="btn btn-primary mt-6"
+                            className="action-btn"
                         >
                             Create New Character
                         </Link>

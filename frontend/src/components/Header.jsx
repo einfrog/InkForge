@@ -48,28 +48,33 @@ function Header() {
                 <h1 className="header-title">InkForge</h1>
 
                 <div className="header-nav">
-                    <Link to="/">Explore</Link>
-                    <Link to="/socials">Socials</Link>
-                    <Link to="/projects">Projects</Link>
+                    <Link to="/" className={location.pathname === '/' ? 'nav-link active' : 'nav-link'}>Explore</Link>
+                    <Link to="/socials" className={location.pathname === '/socials' ? 'nav-link active' : 'nav-link'}>Socials</Link>
+                    <Link to="/projects" className={location.pathname === '/projects' ? 'nav-link active' : 'nav-link'}>Projects</Link>
+
 
                     <div className="profile-dropdown-wrapper">
-                        <button onClick={toggleDropdown} className="btn btn-dark">
+                        <button
+                            onClick={toggleDropdown}
+                            className={`header-btn ${location.pathname === '/profile' ? 'active' : ''}`}
+                        >
                             Profile
                         </button>
 
+
                         {showDropdown && (
                             <div className="profile-dropdown">
-                                {isLoggedIn ? (
+                            {isLoggedIn ? (
                                     <>
-                                        <Link to={`/profile`} onClick={() => setShowDropdown(false)} className="dropdown-item">View Profile</Link>
-                                        <button onClick={() => { handleLogout(); setShowDropdown(false); }} className="dropdown-item btn btn-link">
+                                        <Link to={`/profile`} onClick={() => setShowDropdown(false)} className="dropdown-item dropdown-btn">View Profile</Link>
+                                        <button onClick={() => { handleLogout(); setShowDropdown(false); }} className="dropdown-item dropdown-btn">
                                             Logout
                                         </button>
                                     </>
                                 ) : (
                                     <>
-                                        <Link to="/login" onClick={() => setShowDropdown(false)} className="dropdown-item">Login</Link>
-                                        <Link to="/register" onClick={() => setShowDropdown(false)} className="dropdown-item">Register</Link>
+                                        <Link to="/login" onClick={() => setShowDropdown(false)} className="dropdown-item dropdown-btn">Login</Link>
+                                        <Link to="/register" onClick={() => setShowDropdown(false)} className="dropdown-item dropdown-btn">Register</Link>
                                     </>
                                 )}
                             </div>

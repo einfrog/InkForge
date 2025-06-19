@@ -73,8 +73,8 @@ function Profile() {
             <Header />
             <div className="userdetail-main">
                 <div className="userdetail-card">
-                    <div className="userdetail-header d-flex align-items-center gap-4">
-                        <div style={{ flexShrink: 0 }}>
+                    <div className="userdetail-header">
+                        <div className="profile-image-container">
                             <ImageUpload
                                 type="profile"
                                 id={userId}
@@ -82,6 +82,7 @@ function Profile() {
                                 onImageUploaded={handleImageUploaded}
                                 shape="circle"
                                 size="medium"
+                                variant="overlay"
                                 className="user-profile-picture"
                             />
                         </div>
@@ -92,17 +93,17 @@ function Profile() {
                     </div>
 
                     <ul className="userdetail-list mt-4">
-                        <li><strong>ID:</strong> {user.user_id}</li>
-                        <li><strong>Biography:</strong> {user.biography || <em>No biography yet</em>}</li>
+                        {/*<li><strong>ID:</strong> {user.user_id}</li>*/}
+                        <li>{user.biography || <em>No biography yet</em>}</li>
                     </ul>
 
-                    <div className="userdetail-actions mt-4">
+                    <div className="form-buttons">
                         <Link to={`/socials/${userId}/edit`} className="userdetail-btn me-2">
                             Edit Profile
                         </Link>
                         <button
                             onClick={handleDelete}
-                            className="userdetail-btn btn-danger"
+                            className="alarm-btn"
                             disabled={isDeleting}
                         >
                             {isDeleting ? 'Deleting...' : 'Delete Account'}

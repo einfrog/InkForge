@@ -20,7 +20,7 @@ function LoginPage() {
             const data = await apiService.login(email, password);
             console.log('Login successful, received data:', data)
             localStorage.setItem('token', data.token)
-            navigate('/socials');
+            navigate('/projects');
         } catch (error) {
             console.error('Login error:', error)
             setError(error.message)
@@ -28,41 +28,46 @@ function LoginPage() {
     }
 
     return (
-            <div className="login-root">
-                <h1 className="login-title">Login</h1>
-                {error && <p className="login-error">{error}</p>}
-                <form onSubmit={handleLogin} className="login-main">
-                    <div style={{width: '100%'}}>
-                        <label htmlFor="email" className="login-label">Email:</label>
+        <div className="form-page">
+            <div className="form-container card" style={{ maxWidth: '400px' }}>
+                <h1 className="segment__title mb-4">Login</h1>
+
+                {error && <p className="text-red-500 mb-4">{error}</p>}
+
+                <form onSubmit={handleLogin}>
+                    <div className="form-group">
+                        <label htmlFor="email" className="form-label">Email</label>
                         <input
                             type="email"
                             id="email"
-                            className="login-input"
+                            className="form-input"
                             value={email}
-                            placeholder={"E-Mail"}
+                            placeholder="E-Mail"
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                     </div>
-                    <div style={{width: '100%'}}>
-                        <label htmlFor="password" className="login-label">Password:</label>
+
+                    <div className="form-group">
+                        <label htmlFor="password" className="form-label">Password</label>
                         <input
                             type="password"
                             id="password"
-                            className="login-input"
+                            className="form-input"
                             value={password}
-                            placeholder={'Password'}
+                            placeholder="Password"
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
                     </div>
-                    <div className="login-actions">
-                        <button type='submit' className="login-btn">Login</button>
+
+                    <div className="mt-6">
+                        <button type="submit" className="btn btn-primary w-full">Login</button>
                     </div>
                 </form>
             </div>
-
-    )
+        </div>
+    );
 }
 
 export default LoginPage;

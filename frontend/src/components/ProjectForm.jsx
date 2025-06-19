@@ -152,7 +152,7 @@ function ProjectFormPage() {
                                         id="category"
                                         className="form-input"
                                         value={newProject.category}
-                                        onChange={(e) => setNewProject({ ...newProject, category: e.target.value })}
+                                        onChange={(e) => setNewProject({...newProject, category: e.target.value})}
                                         required
                                     >
                                         <option value="">Select a category</option>
@@ -164,6 +164,8 @@ function ProjectFormPage() {
                                         <option value="Journal">Journal</option>
                                         <option value="Biography">Biography</option>
                                         <option value="Auto-Biography">Auto-Biography</option>
+                                        <option value="Documentary">Documentary</option>
+                                        <option value="Tutorial">Tutorial</option>
                                         <option value="DnD Campaign">DnD Campaign</option>
                                         <option value="Misc">Misc</option>
                                     </select>
@@ -233,13 +235,13 @@ function ProjectFormPage() {
                             </div>
                         </div>
 
-                        <div className="d-flex mt-3">
-                            <button type="submit" className="btn btn-primary me-2" disabled={isSubmitting}>
+                        <div className="form-buttons">
+                            <button type="submit" className="action-btn" disabled={isSubmitting}>
                                 {isSubmitting
                                     ? (id ? 'Updating...' : 'Creating...')
                                     : (id ? 'Update' : 'Create Project')}
                             </button>
-                            <Link to="/projects" className="btn btn-secondary">
+                            <Link to="/projects" className="cancel-btn">
                                 Cancel
                             </Link>
                         </div>

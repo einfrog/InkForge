@@ -66,11 +66,11 @@ const ProjectPage = () => {
                                     <h3 className="project-card__title">{project.project_name}</h3>
                                     <p className="project-card__description">{project.category} • {project.genre}</p>
                                     <div className="flex gap-4 mt-4">
-                                        <Link to={`${project.project_id}`} className="btn btn-primary">View Project</Link>
-                                        <Link to={`${project.project_id}/edit`} className="btn btn-secondary">Edit</Link>
+                                        <Link to={`${project.project_id}`} className="action-btn">View Project</Link>
+                                        <Link to={`${project.project_id}/edit`} className="action-btn">Edit</Link>
                                         <button
                                             onClick={() => handleDelete(project.project_id)}
-                                            className="btn btn-secondary"
+                                            className="alarm-btn"
                                             disabled={deletingProjects[project.project_id]}
                                         >
                                             {deletingProjects[project.project_id] ? 'Deleting...' : 'Delete'}
@@ -83,7 +83,7 @@ const ProjectPage = () => {
                 ) : (
                     <p>No projects found.</p>
                 )}
-                <Link to="/projects-new" className="btn btn-primary mt-6">Create New Project</Link>
+                <Link to="/projects-new" className="action-btn">Create New Project</Link>
             </div>
         </>
     );

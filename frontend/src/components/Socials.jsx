@@ -64,7 +64,7 @@ const Socials = () => {
         <>
             <Header/>
             <div className="socials-root">
-                <h2 style={{textAlign: 'center', margin: '2rem 0 1rem 0'}}>Find Users</h2>
+                <h2 className="segment__title">Find Users</h2>
                 <ul className="socials-list">
                     {users.map(user => (
                         <li key={user.user_id} className="socials-list-item">
@@ -79,7 +79,7 @@ const Socials = () => {
                                     <p style={{fontSize: '0.95rem', color: '#555'}}>{user.email}</p>
                                 </div>
                             </div>
-                            <p style={{fontSize: '0.95rem', color: '#555', marginTop: '1rem'}}>{user.biography}</p>
+                            {/*<p style={{fontSize: '0.95rem', color: '#555', marginTop: '1rem'}}>{user.biography}</p>*/}
                             <div className="socials-actions">
                                 <Link to={`/socials/${user.user_id}/`} className='userform-btn'>View</Link>
                                 {isAdmin && (

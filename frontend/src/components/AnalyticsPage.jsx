@@ -73,7 +73,7 @@ function AnalyticsPage() {
                         {graphData && graphData.nodes && graphData.links ? (
                             <section className="content-item graph-section">
                                 <p>
-                                    Graph loaded with {graphData.nodes.length} nodes and {graphData.links.length} links
+                                    {/*Graph loaded with {graphData.nodes.length} nodes and {graphData.links.length} links*/}
                                 </p>
                                 <CharacterGraph data={graphData} />
                             </section>

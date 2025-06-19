@@ -119,13 +119,23 @@ relationship graphs✅
 
 charactersPage should not have biography but description!!!!!!! (figure out)✅
 
-feedback when trying to create another relationship with the same character
+feedback when trying to create another relationship with the same character✅
+
+user form and login page styling✅
+
+dropdown for profile and header cleaned up✅
+
+sidebar cleanup✅
+
+remove displayed ids everywhere, not necessary✅
+
+adjust styling to fit visual prototype✅
+
+clean up database, set up attack on titan project
 
 generally display error messages in the UI instead of console
 
 continue working on docs
-
-for projects, if no picture is uploaded, choose color
 
 ## Optional:
 

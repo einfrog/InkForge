@@ -132,7 +132,7 @@ function SegmentsPage() {
                         <div className="content-section__header">
                             <h2 className="content-section__title">Story Segments</h2>
                             {!isPublicView && editMode !== "new" && (
-                                <button onClick={startNewSegment} className="btn btn-primary">
+                                <button onClick={startNewSegment} className="action-btn">
                                     Create Segment
                                 </button>
                             )}
@@ -163,9 +163,9 @@ function SegmentsPage() {
                                                     placeholder="Content"
                                                 />
                                                 <div className="flex gap-2">
-                                                    <button onClick={saveSegment} className="btn btn-primary">Save</button>
-                                                    <button onClick={() => setEditMode(null)} className="btn btn-secondary">Cancel</button>
-                                                    <button onClick={() => deleteSegment(segment.segment_id)} className="btn btn-secondary">Delete</button>
+                                                    <button onClick={saveSegment} className="action-btn">Save</button>
+                                                    <button onClick={() => setEditMode(null)} className="cancel-btn">Cancel</button>
+                                                    <button onClick={() => deleteSegment(segment.segment_id)} className="alarm-btn">Delete</button>
                                                 </div>
                                             </div>
                                         ) : (
@@ -175,8 +175,8 @@ function SegmentsPage() {
                                                     <p>{segment.content || "No content available"}</p>
                                                     {!isPublicView && (
                                                         <div className="flex gap-2 mt-4">
-                                                            <button onClick={() => startEditSegment(segment)} className="btn btn-secondary">Edit</button>
-                                                            <button onClick={() => deleteSegment(segment.segment_id)} className="btn btn-secondary">Delete</button>
+                                                            <button onClick={() => startEditSegment(segment)} className="action-btn">Edit</button>
+                                                            <button onClick={() => deleteSegment(segment.segment_id)} className="alarm-btn">Delete</button>
                                                         </div>
                                                     )}
                                                 </div>

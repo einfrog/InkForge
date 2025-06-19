@@ -10,11 +10,15 @@
 }
 
 .socials-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     background: white;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
 }
 
 .user-profile-header {
@@ -24,16 +28,16 @@
 }
 
 .user-profile-picture {
-    width: 60px;
-    height: 60px;
+    width: 60px   !important;
+    height: 60px !important;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #e5e7eb;
 }
 
 .default-profile-icon {
-    width: 60px;
-    height: 60px;
+    width: 60px   !important;
+    height: 60px !important;
     border-radius: 50%;
     background-color: #e5e7eb;
     display: flex;
@@ -71,9 +75,11 @@
     cursor: pointer;
     font-size: 0.9rem;
     transition: background-color 0.2s;
+    height: fit-content;
 }
 
 .userform-btn:hover {
+    color: white;
     background: #374151;
 }
 
@@ -87,3 +93,4 @@
     text-align: center;
     margin: 20px 0;
 }
+

@@ -97,66 +97,61 @@ function ProjectDetailPage() {
                     canEdit={isOwner && !isPublicView}
                 />
                 <div className="project-detail-content">
-                    <div className="project-detail-header">
-                        <img
-                            src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
-                            alt={project.project_name}
-                            className="project-detail-cover mb-4"
-                            style={{ width: '100%', maxHeight: '300px', objectFit: 'cover' }}
-                        />
-                        <h1>{project.project_name}</h1>
-                        {/* Project Stats */}
-                        <div className="project-detail-stats" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
-                            <ul>
-                                <li><strong>Characters:</strong> {stats.characters}</li>
-                                <li><strong>Story Segments:</strong> {stats.segments}</li>
-                                <li><strong>Total Words:</strong> {stats.words}</li>
-                                <li><strong>Worldbuilding Settings:</strong> {stats.settings}</li>
-                            </ul>
+                    <h1>{project.project_name}</h1>
+                    {isPublicView && (
+                        <div className="project-owner">
+                            <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>
                         </div>
-                    </div>
-                    <div className="project-detail-card">
-                        <div className="project-detail-card-body">
-                            {isPublicView && (
-                                <div className="project-owner">
-                                    <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>
-                                </div>
-                            )}
+                    )}
 
-                            <ul className="project-detail-list">
-                                {/*<li><strong>ID:</strong> {project.project_id}</li>*/}
-                                <li><strong>Category:</strong> {project.category}</li>
-                                <li><strong>Genre:</strong> {project.genre}</li>
-                                <li><strong>Description:</strong> {project.description || 'No description provided.'}
-                                </li>
-                                <li><strong>Visibility:</strong> {project.visibility}</li>
-                            </ul>
+                    <div className="project-detail-top-row">
+                        <div className="project-detail-info-stats">
+                            <div className="project-detail-info">
 
-                            <div className="project-detail-actions">
-                                <Link to={getBackPath()} className="project-detail-back-btn">
-                                    {getBackLabel()}
-                                </Link>
+                                <ul>
+                                    <li><strong>Category:</strong> {project.category}</li>
+                                    <li><strong>Genre:</strong> {project.genre}</li>
+                                    <li><strong>Visibility:</strong> {project.visibility}</li>
+                                    <li><strong>Created at:</strong> {new Date(project.created_at).toLocaleDateString()}
+                                    </li>
+                                </ul>
+                            </div>
 
-                                {/*{isOwner && !isPublicView && (*/}
-                                {/*    <>*/}
-                                {/*        <Link*/}
-                                {/*            to={`/projects/${projectId}/edit`}*/}
-                                {/*            className="project-detail-edit-btn"*/}
-                                {/*        >*/}
-                                {/*            Edit Project*/}
-                                {/*        </Link>*/}
-                                {/*        <button*/}
-                                {/*            onClick={handleDelete}*/}
-                                {/*            className="project-detail-delete-btn"*/}
-                                {/*        >*/}
-                                {/*            Delete Project*/}
-                                {/*        </button>*/}
-                                {/*    </>*/}
-                                {/*)}*/}
+                            <div className="project-detail-stats">
+                                {/* Optional: owner info, actions */}
+
+                                <ul>
+                                    <li><strong>Characters:</strong> {stats.characters}</li>
+                                    <li><strong>Story Segments:</strong> {stats.segments}</li>
+                                    <li><strong>Total Words:</strong> {stats.words}</li>
+                                    <li><strong>Worldbuilding Settings:</strong> {stats.settings}</li>
+                                </ul>
                             </div>
                         </div>
+
+                        <div className="project-detail-cover-container">
+                            <img
+                                src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
+                                alt={project.project_name}
+                                className="project-detail-cover"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="project-detail-description">
+                    <h2>Description</h2>
+                        <p>{project.description || 'No description provided.'}</p>
+                    </div>
+
+
+
+                    <div className="project-detail-actions">
+                        <Link to={getBackPath()} className="project-detail-back-btn">
+                            {getBackLabel()}
+                        </Link>
                     </div>
                 </div>
+
             </div>
         </div>
     );

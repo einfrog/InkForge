@@ -4,6 +4,7 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import Header from "./Header.jsx";
 import * as apiService from '../services/apiService';
 import './UserPages.css';
+import './components.css';
 
 function UserForm() {
     useEffect(() => {
@@ -94,7 +95,9 @@ function UserForm() {
                     navigate(`/socials/${id}`);
                 } else {
                     // If creating new user or editing own profile, go to profile page
-                    navigate(id ? `/profile` : '/socials');
+                    // navigate(id ? `/profile` : '/socials');
+                    navigate(`/profile`);
+
                 }
             }, 500);
         } catch (error) {
@@ -106,70 +109,80 @@ function UserForm() {
 
     return (
         <>
-            <Header/>
-            <div className="userform-root">
-                <div className="userform-main">
-                    <div className="userform-card">
-                        <h1 className="userform-title">{id ? 'Edit User' : 'Create New User'}</h1>
-                        <form onSubmit={handleSubmit}>
-                            <label htmlFor="name" className="userform-label">Username</label>
+            <Header />
+
+            <div className="container mt-5 mb-5 character-form-container">
+                <div className="card">
+                    <h1 className="segment__title">{id ? 'Edit User' : 'Create New Profile'}</h1>
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label htmlFor="username" className="form-label">Username</label>
                             <input
                                 type="text"
-                                id="name"
-                                className="userform-input"
+                                id="username"
+                                className="form-input"
                                 value={newUser.username}
-                                onChange={(e) => setNewUser({...newUser, username: e.target.value})}
+                                onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
                                 required
                             />
-                            <label htmlFor="email" className="userform-label">Email</label>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="email" className="form-label">Email</label>
                             <input
                                 type="email"
                                 id="email"
-                                className="userform-input"
+                                className="form-input"
                                 value={newUser.email}
-                                onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+                                onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
                                 required
                             />
-                            <label htmlFor="password" className="userform-label">Password</label>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="password" className="form-label">Password</label>
                             <input
                                 type="password"
                                 id="password"
-                                className="userform-input"
+                                className="form-input"
                                 value={newUser.password}
                                 onFocus={() => {
                                     if (newUser.password === '********') {
-                                        setNewUser({...newUser, password: ''});
+                                        setNewUser({ ...newUser, password: '' });
                                     }
                                 }}
-                                onChange={(e) => setNewUser({
-                                    ...newUser,
-                                    password: e.target.value
-                                })}
+                                onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
                                 required={!id}
                             />
-                            <label htmlFor="biography" className="userform-label">Biography</label>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="biography" className="form-label">Biography</label>
                             <textarea
                                 id="biography"
-                                className="userform-input"
+                                className="form-input form-textarea"
                                 value={newUser.biography}
-                                onChange={(e) => setNewUser({...newUser, biography: e.target.value})}
+                                onChange={(e) => setNewUser({ ...newUser, biography: e.target.value })}
+                                placeholder="Write something about yourself"
                             />
-                            <div className="userform-actions">
-                                <button type="submit" className="userform-btn" disabled={isSubmitting}>
-                                    {isSubmitting ? (id ? 'Updating...' : 'Creating...') : (id ? 'Update' : 'Create User')}
-                                </button>
-                                <Link to={id ? `/socials/${id}` : '/socials'} className="userform-btn">
-                                    Cancel
-                                </Link>
-                            </div>
-                        </form>
-                        {createError && <p className="userform-error">{createError}</p>}
-                        {createSuccess && <p className="userform-success">{createSuccess}</p>}
-                    </div>
+                        </div>
+
+                        <div className="form-buttons">
+                            <button type="submit" className="action-btn" disabled={isSubmitting}>
+                                {isSubmitting ? (id ? 'Updating...' : 'Creating...') : (id ? 'Update' : 'Create Profile')}
+                            </button>
+                            <Link to={id ? `/profile` : '/socials'} className="cancel-btn">
+                                Cancel
+                            </Link>
+                        </div>
+
+                        {createError && <p className="form-error">{createError}</p>}
+                        {createSuccess && <p className="form-success">{createSuccess}</p>}
+                    </form>
                 </div>
             </div>
         </>
-    )
+    );
 }
 
 export default UserForm;

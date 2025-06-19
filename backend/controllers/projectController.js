@@ -1,4 +1,4 @@
-const { config } = require('../services/database');
+const {config} = require('../services/database');
 
 function checkProjectOwnership(projectId, userId, callback) {
     const sql = `SELECT * FROM projects WHERE project_id = ? AND user_id = ?`;
@@ -11,7 +11,7 @@ function checkProjectOwnership(projectId, userId, callback) {
 }
 
 exports.getAllProjects = (req, res) => {
-    const { visibility } = req.query;
+    const {visibility} = req.query;
 
     let query = `SELECT p.*, u.username AS username
                  FROM projects p
@@ -26,16 +26,16 @@ exports.getAllProjects = (req, res) => {
     config.query(query, params, (err, results) => {
         if (err) {
             console.error('Failed to fetch projects:', err);
-            return res.status(500).json({ error: 'Failed to fetch projects' });
+            return res.status(500).json({error: 'Failed to fetch projects'});
         }
 
-        res.json({ projects: results });
+        res.json({projects: results});
     });
 };
 
 exports.createProject = (req, res) => {
     const userId = req.user.user_id; // from JWT middleware
-    const { project_name, category, genre, description, visibility } = req.body;
+    const {project_name, category, genre, description, visibility} = req.body;
 
     const sql = `
         INSERT INTO projects (user_id, project_name, category, genre, description, visibility)
@@ -45,7 +45,7 @@ exports.createProject = (req, res) => {
     config.query(sql, [userId, project_name, category, genre, description, visibility], (err, result) => {
         if (err) {
             console.error('Error creating project:', err);
-            return res.status(500).json({ error: 'Failed to create project' });
+            return res.status(500).json({error: 'Failed to create project'});
         }
 
         const newProjectId = result.insertId;
@@ -55,7 +55,7 @@ exports.createProject = (req, res) => {
         config.query(settingsSql, [newProjectId], (settingsErr, settingsResult) => {
             if (settingsErr) {
                 console.error('Error creating settings row:', settingsErr);
-                return res.status(500).json({ error: 'Project created, but failed to initialize settings' });
+                return res.status(500).json({error: 'Project created, but failed to initialize settings'});
             }
 
             res.status(201).json({
@@ -83,7 +83,7 @@ exports.getMyProjects = (req, res) => {
     config.query(sql, [userId], (err, results) => {
         if (err) {
             console.error('Error fetching projects:', err);
-            return res.status(500).json({ error: 'Failed to fetch projects' });
+            return res.status(500).json({error: 'Failed to fetch projects'});
         }
 
         res.json({
@@ -104,7 +104,7 @@ exports.getProjectById = (req, res) => {
     config.query(sql, [projectId], (err, result) => {
         if (err) {
             console.error('Error fetching project:', err);
-            return res.status(500).json({ error: 'Failed to fetch project' });
+            return res.status(500).json({error: 'Failed to fetch project'});
         }
 
         res.json({
@@ -116,11 +116,11 @@ exports.getProjectById = (req, res) => {
 exports.updateProject = (req, res) => {
     const userId = req.user.user_id;
     const projectId = req.params.id;
-    const { project_name, category, genre, description, visibility, cover } = req.body;
+    const {project_name, category, genre, description, visibility, cover} = req.body;
 
     checkProjectOwnership(projectId, userId, (isOwner) => {
         if (!isOwner) {
-            return res.status(403).json({ error: 'You do not have permission to update this project.' });
+            return res.status(403).json({error: 'You do not have permission to update this project.'});
         }
 
         const sql = `
@@ -132,7 +132,7 @@ exports.updateProject = (req, res) => {
         config.query(sql, [project_name, category, genre, description, visibility, cover, projectId], (err, result) => {
             if (err) {
                 console.error('Error updating project:', err);
-                return res.status(500).json({ error: 'Failed to update project' });
+                return res.status(500).json({error: 'Failed to update project'});
             }
 
             res.json({
@@ -149,18 +149,18 @@ exports.deleteProject = (req, res) => {
 
     checkProjectOwnership(projectId, userId, (isOwner) => {
         if (!isOwner) {
-            return res.status(403).json({ error: 'You do not have permission to delete this project.' });
+            return res.status(403).json({error: 'You do not have permission to delete this project.'});
         }
 
         const sql = `DELETE FROM projects WHERE project_id = ?`;
         config.query(sql, [projectId], (err, result) => {
             if (err) {
                 console.error('Error deleting project:', err);
-                return res.status(500).json({ error: 'Failed to delete project' });
+                return res.status(500).json({error: 'Failed to delete project'});
             }
 
             if (result.affectedRows === 0) {
-                return res.status(404).json({ error: 'Project not found' });
+                return res.status(404).json({error: 'Project not found'});
             }
 
             res.json({
@@ -178,7 +178,7 @@ exports.getCharacterGraphs = (req, res) => {
     config.query('SELECT character_id AS id, name FROM characters WHERE project_id = ?', [projectId], (err, characters) => {
         if (err) {
             console.error('Error fetching characters:', err);
-            return res.status(500).json({ error: 'Failed to load characters' });
+            return res.status(500).json({error: 'Failed to load characters'});
         }
 
         // Then, get relationships
@@ -189,7 +189,7 @@ exports.getCharacterGraphs = (req, res) => {
 
             if (relationErr) {
                 console.error('Error fetching relationships:', relationErr);
-                return res.status(500).json({ error: 'Failed to load relationships' });
+                return res.status(500).json({error: 'Failed to load relationships'});
             }
 
             // Send the response with both datasets
@@ -212,20 +212,28 @@ exports.getProjectStats = (req, res) => {
     // Query for all stats in parallel (nested for now)
     const charQuery = `SELECT COUNT(*) AS count FROM characters WHERE project_id = ?`;
     const segQuery = `SELECT COUNT(*) AS count, COALESCE(SUM(LENGTH(content) - LENGTH(REPLACE(content, ' ', '')) + 1), 0) AS wordCount FROM story_segments WHERE project_id = ?`;
-    const setQuery = `SELECT COUNT(*) AS count FROM settings WHERE project_id = ?`;
+    const setQuery = `SELECT 
+                        (geography IS NOT NULL) +
+                        (climate IS NOT NULL) +
+                        (time_period IS NOT NULL) +
+                        (political_system IS NOT NULL) +
+                        (culture IS NOT NULL) +
+                        (note IS NOT NULL) AS count
+                    FROM settings
+                    WHERE project_id = ?`;
 
     let stats = {};
     config.query(charQuery, [projectId], (err, charResult) => {
-        if (err) return res.status(500).json({ error: 'Failed to count characters' });
+        if (err) return res.status(500).json({error: 'Failed to count characters'});
         stats.characters = charResult[0].count;
 
         config.query(segQuery, [projectId], (err, segResult) => {
-            if (err) return res.status(500).json({ error: 'Failed to count segments' });
+            if (err) return res.status(500).json({error: 'Failed to count segments'});
             stats.segments = segResult[0].count;
             stats.words = segResult[0].wordCount;
 
             config.query(setQuery, [projectId], (err, setResult) => {
-                if (err) return res.status(500).json({ error: 'Failed to count settings' });
+                if (err) return res.status(500).json({error: 'Failed to count settings'});
                 stats.settings = setResult[0].count;
 
                 res.json(stats);

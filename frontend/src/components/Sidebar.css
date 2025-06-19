@@ -2,7 +2,7 @@
     width: 280px;
     height: 100vh;
     background-color: #f8f9fa;
-    padding: 1rem;
+    padding: 2rem 1.5rem;
     box-sizing: border-box;
     border-right: 1px solid #ddd;
     overflow-y: auto;
@@ -11,24 +11,38 @@
     top: 0;
 }
 
-.sidebar h2 {
-    margin-bottom: 1rem;
+.sidebar-header {
+    margin-bottom: 2rem;
 }
 
-.sidebar ul {
-    list-style: none;
-    padding: 0;
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: #222;
 }
 
-.sidebar li {
-    margin-bottom: 0.75rem;
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem; /* adds vertical spacing between nav items */
 }
 
-.sidebar li a {
+.sidebar-link {
     color: #333;
+    text-decoration: none;
+    font-size: 1.05rem;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background-color: #e9ecef;
     text-decoration: none;
 }
 
-.sidebar li a:hover {
-    text-decoration: underline;
+.sidebar-link.active {
+    background-color: #dfe3ea;
+    font-weight: 600;
+    color: #000;
 }

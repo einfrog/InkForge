@@ -202,13 +202,13 @@ function CharacterForm() {
                             </div>
                         </div>
 
-                        <div className="d-flex mt-3">
-                            <button type="submit" className="btn btn-primary me-2" disabled={isSubmitting}>
+                        <div className="form-buttons">
+                            <button type="submit" className="action-btn" disabled={isSubmitting}>
                                 {isSubmitting
                                     ? (characterId ? 'Updating...' : 'Creating...')
                                     : (characterId ? 'Update' : 'Create Character')}
                             </button>
-                            <Link to={`/projects/${id}/characters`} className="btn btn-secondary">
+                            <Link to={`/projects/${id}/characters`} className="cancel-btn">
                                 Cancel
                             </Link>
                         </div>

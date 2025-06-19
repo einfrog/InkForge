@@ -128,8 +128,8 @@ function WorldbuildingPage() {
                                                 className="form-input"
                                             />
                                             <div className="flex gap-2">
-                                                <button onClick={() => handleSave(field)} className="btn btn-primary">Save</button>
-                                                <button onClick={() => handleCancel(field)} className="btn btn-secondary">Cancel</button>
+                                                <button onClick={() => handleSave(field)} className="action-btn">Save</button>
+                                                <button onClick={() => handleCancel(field)} className="cancel-btn">Cancel</button>
                                             </div>
                                         </div>
                                     ) : (
@@ -137,8 +137,8 @@ function WorldbuildingPage() {
                                             <p>{settings[field] || <em>No setting set</em>}</p>
                                             {!isPublicView && (
                                                 <div className="flex gap-2 mt-4">
-                                                    <button onClick={() => handleEdit(field)} className="btn btn-secondary">Edit</button>
-                                                    <button onClick={() => handleDelete(field)} className="btn btn-secondary">Delete</button>
+                                                    <button onClick={() => handleEdit(field)} className="action-btn">Edit</button>
+                                                    <button onClick={() => handleDelete(field)} className="alarm-btn">Delete</button>
                                                 </div>
                                             )}
                                         </div>

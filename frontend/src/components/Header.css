@@ -1,67 +1,168 @@
 .rowdies-regular {
-  font-family: "Rowdies", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Rowdies", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .header {
-  padding: 1.5rem 3rem;
-  border-bottom: 1px solid #ccc;
-  background: #222;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid #ccc;
+    background: #263B43;
 }
 
 .header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 3rem;
-  margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3rem;
+    margin: 0 auto;
 }
 
 .header-title {
-  font-family: "Rowdies";
-  margin: 0;
-  color: white;
-  font-size: 2.2rem;
-  letter-spacing: 2px;
+    font-family: "Rowdies";
+    margin: 0;
+    color: white;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
 }
 
+.header-btn {
+    all: unset; /* Reset all default button styles */
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-block;
+    line-height: 1.5;  /* Matches <a> default line-height */
+    padding: 0;        /* Ensure it's not shorter vertically */
+    margin: 0;         /* Reset default spacing */
+    text-decoration: none; /* Matches <a> */
+    vertical-align: middle; /* Helps with alignment */
+}
+
+.header-btn:hover {
+    color: #abd0d3; !important;
+}
+
+/* Optional for light mode hover if you're using media query */
+@media (prefers-color-scheme: light) {
+    .header-btn:hover {
+        color: #abd0d3;
+    }
+}
+
+.nav-link {
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 0.2rem;
+}
+
+.nav-link:hover {
+    color: #abd0d3;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 2px;
+    width: 100%;
+    background-color: #abd0d3; /* or any highlight color */
+}
+
+.nav-link,
+.header-btn {
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 0.2rem;
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.nav-link:hover,
+.header-btn:hover {
+    color: #abd0d3;
+}
+
+.nav-link.active::after,
+.header-btn.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 2px;
+    width: 100%;
+    background-color: #abd0d3; /* Or any highlight color */
+}
+
+
+
+
 .header-nav {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
 }
 
 .profile-dropdown-wrapper {
-  position: relative;
+    position: relative;
 }
 
 .profile-dropdown {
-  position: absolute;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-top: 0.5rem;
-  z-index: 1000;
-  min-width: 170px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    z-index: 1000;
+    min-width: 170px;
+    width: 200px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .dropdown-item {
-  display: block;
-  width: 100%;
-  padding: 0.7rem 1.2rem;
-  color: #222;
-  text-decoration: none;
-  background: none;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  font-size: 1rem;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem 1.2rem;
+    color: #222;
+    text-decoration: none;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: inherit;
+    line-height: 1.2;
 }
 
 .dropdown-item:hover {
-  background: #f5f5f5;
+    background: #f5f5f5;
 }
 
+.dropdown-item:focus {
+    outline: none;
+    background: #eee;
+}
+
+.dropdown-btn {
+    font-weight: 500;
+    text-decoration: none;
+    position: relative;
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.dropdown-btn:hover {
+    color: #589384;
+}

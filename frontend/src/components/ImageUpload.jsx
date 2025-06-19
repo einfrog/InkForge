@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import * as apiService from '../services/apiService';
 
-function ImageUpload({ 
-    type, // 'profile', 'project', or 'character'
-    id, // user_id, project_id, or character_id
-    currentImage,
-    onImageUploaded,
-    className,
-    shape = 'circle', // 'circle' or 'square'
-    size = 'medium', // 'small', 'medium', or 'large'
-    disabled
-}) {
+function ImageUpload({
+                         type, // 'profile', 'project', or 'character'
+                         id, // user_id, project_id, or character_id
+                         currentImage,
+                         onImageUploaded,
+                         className,
+                         shape = 'circle', // 'circle' or 'square'
+                         size = 'medium', // 'small', 'medium', or 'large'
+                         disabled,
+                         variant = 'default' // 'default', 'overlay', 'minimal'
+                     }) {
     const [isUploading, setIsUploading] = useState(false);
     const [error, setError] = useState('');
     const [preview, setPreview] = useState(null);
@@ -113,14 +114,82 @@ function ImageUpload({
         }
     };
 
+    // Overlay variant for profile pages
+    if (variant === 'overlay') {
+        return (
+            <div className={`image-upload-overlay ${className || ''}`}>
+                <div className="image-upload-overlay-wrapper">
+                    <img
+                        src={preview || getImageUrl(currentImage)}
+                        alt={getLabel()}
+                        className={`image-upload-overlay-img ${shape === 'circle' ? 'rounded-circle' : 'rounded'}`}
+                        style={{
+                            ...getSizeStyles(),
+                            objectFit: 'cover'
+                        }}
+                    />
+                    <div className="image-upload-overlay-hover">
+                        <input
+                            type="file"
+                            className="image-upload-overlay-input"
+                            id={`imageUpload-${id}`}
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            disabled={isUploading || disabled}
+                        />
+                        <label
+                            htmlFor={`imageUpload-${id}`}
+                            className="image-upload-overlay-label"
+                        >
+                            {isUploading ? 'Uploading...' : 'Change Photo'}
+                        </label>
+                    </div>
+                </div>
+                {error && <div className="image-upload-error">{error}</div>}
+            </div>
+        );
+    }
+
+    // Minimal variant - just image with hidden file input
+    if (variant === 'minimal') {
+        return (
+            <div className={`image-upload-minimal ${className || ''}`}>
+                <input
+                    type="file"
+                    className="image-upload-minimal-input"
+                    id={`imageUpload-${id}`}
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    disabled={isUploading || disabled}
+                />
+                <label htmlFor={`imageUpload-${id}`} className="image-upload-minimal-label">
+                    <img
+                        src={preview || getImageUrl(currentImage)}
+                        alt={getLabel()}
+                        className={`image-upload-minimal-img ${shape === 'circle' ? 'rounded-circle' : 'rounded'}`}
+                        style={{
+                            ...getSizeStyles(),
+                            objectFit: 'cover'
+                        }}
+                    />
+                    <div className="image-upload-minimal-overlay">
+                        {isUploading ? 'Uploading...' : 'Click to change'}
+                    </div>
+                </label>
+                {error && <div className="image-upload-error">{error}</div>}
+            </div>
+        );
+    }
+
+    // Default variant - original form layout
     return (
         <div className={`image-upload ${className || ''}`}>
             <div className="mb-3">
-                <label htmlFor="imageUpload" className="form-label">{getLabel()}</label>
+                <label htmlFor={`imageUpload-${id}`} className="form-label">{getLabel()}</label>
                 <input
                     type="file"
                     className="form-control"
-                    id="imageUpload"
+                    id={`imageUpload-${id}`}
                     accept="image/*"
                     onChange={handleImageChange}
                     disabled={isUploading || disabled}
@@ -143,4 +212,4 @@ function ImageUpload({
     );
 }
 
-export default ImageUpload; 
+export default ImageUpload;
