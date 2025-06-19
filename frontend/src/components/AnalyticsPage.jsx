@@ -54,30 +54,44 @@ function AnalyticsPage() {
                     projectId={project.project_id}
                     isPublicView={isPublicView}
                 />
-                <div className="flex-grow-1 p-4">
-                    <h1>Analytics Page</h1>
-                    <p>This is the analytics page where you can view various statistics and insights.</p>
-                    {graphError ? (
-                        <div style={{ color: 'red' }}>
-                            <p>Error loading graph: {graphError}</p>
-                        </div>
-                    ) : graphData && graphData.nodes && graphData.links ? (
-                        <div>
-                            <p>Graph loaded with {graphData.nodes?.length || 0} nodes and {graphData.links?.length || 0} links</p>
-                            <CharacterGraph data={graphData} />
-                        </div>
-                    ) : graphData === null ? (
-                        <p>Loading graph...</p>
-                    ) : (
-                        <div style={{ color: 'orange' }}>
-                            <p>Graph data received but invalid structure:</p>
-                            <pre>{JSON.stringify(graphData, null, 2)}</pre>
-                        </div>
-                    )}
+                <div className="project-detail-content">
+                    <section className="content-section">
+                        <header className="content-section__header">
+                            <h2 className="content-section__title">Analytics Page</h2>
+                        </header>
+
+                        <p className="content-section__description">
+                            This is the analytics page where you can view various statistics and insights.
+                        </p>
+
+                        {graphError && (
+                            <div className="text-red-500 mb-4">
+                                <p>Error loading graph: {graphError}</p>
+                            </div>
+                        )}
+
+                        {graphData && graphData.nodes && graphData.links ? (
+                            <section className="content-item graph-section">
+                                <p>
+                                    Graph loaded with {graphData.nodes.length} nodes and {graphData.links.length} links
+                                </p>
+                                <CharacterGraph data={graphData} />
+                            </section>
+                        ) : graphData === null ? (
+                            <p>Loading graph...</p>
+                        ) : (
+                            <div className="text-yellow-600 mb-4">
+                                <p>Graph data received but invalid structure:</p>
+                                <pre>{JSON.stringify(graphData, null, 2)}</pre>
+                            </div>
+                        )}
+                    </section>
                 </div>
             </div>
         </div>
     );
+
+
 }
 
 export default AnalyticsPage;

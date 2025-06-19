@@ -4,6 +4,7 @@ import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
 import './UserPages.css';
 import ImageUpload from "./ImageUpload.jsx";
+import './components.css';
 
 function UserDetailPage() {
     const [user, setUser] = useState({});
@@ -70,29 +71,40 @@ function UserDetailPage() {
 
     return (
         <div className="userdetail-root">
-            <Header/>
+            <Header />
             <div className="userdetail-main">
                 <div className="userdetail-card">
-                    <img
-                        src={getImageUrl(user.profile_picture)}
-                        alt={`${user.username}'s profile`}
-                        className="user-profile-picture"
-                    />
-                    <h1 className="userdetail-title">{user.username}</h1>
+                    <div className="userdetail-header">
+                        <img
+                            src={getImageUrl(user.profile_picture)}
+                            alt={`${user.username}'s profile`}
+                            className="user-profile-picture"
+                        />
+                        <div className="user-basic-info">
+                            <h1 className="userdetail-title">{user.username}</h1>
+                            <p className="user-email">{user.email}</p>
+                        </div>
+                    </div>
+
                     <ul className="userdetail-list">
                         <li><strong>ID:</strong> {user.user_id}</li>
-                        <li><strong>Username:</strong> {user.username}</li>
-                        <li><strong>Email:</strong> {user.email}</li>
-                        <li><strong>Biography:</strong> {user.biography || 'No biography provided.'}</li>
+                        <li>
+                            <strong>Biography:</strong>{' '}
+                            {user.biography || <em>No biography provided.</em>}
+                        </li>
                     </ul>
+
                     <div className="userdetail-actions">
-                        <Link to="/socials" className="userdetail-btn">Back to Users</Link>
+                        <Link to="/socials" className="userdetail-btn">
+                            Back to Users
+                        </Link>
                     </div>
                 </div>
             </div>
         </div>
+    );
 
-    )
+
 
 }
 

@@ -101,7 +101,7 @@ function CharacterPage() {
                                         </div>
                                     </div>
                                     <div className="character-card__content">
-                                        <p className="character-card__description">{char.biography}</p>
+                                        <p className="character-card__description">{char.description}</p>
                                         <div className="flex gap-4 mt-4">
                                             <Link
                                                 to={getCharacterDetailPath(char.character_id)}

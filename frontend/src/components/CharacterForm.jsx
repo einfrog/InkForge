@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { createCharacter, getCharacterById, updateCharacter, uploadCharacterImage } from '../services/apiService';
 import Header from "./Header.jsx";
 import ImageUpload from './ImageUpload';
+import './components.css';
 
 function CharacterForm() {
     const { id, characterId } = useParams();
@@ -112,63 +113,76 @@ function CharacterForm() {
         <>
             <Header />
 
-            <div className="container mt-5 mb-5">
-                <div className="card shadow p-4 transparent-item border-white">
-                    <h1 className="mb-4 display-5">{characterId ? 'Edit Character' : 'Create New Character'}</h1>
+            <div className="container mt-5 mb-5 character-form-container">
+                <div className="card">
+                    <h1 className="segment__title">{characterId ? 'Edit Character' : 'Create New Character'}</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="row">
                             <div className="col-md-8">
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="name" className="form-label">Name</label>
                                     <input
                                         type="text"
                                         id="name"
-                                        className="form-control"
+                                        className="form-input"
                                         value={character.name}
                                         onChange={(e) => setCharacter({ ...character, name: e.target.value })}
                                         required
                                     />
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="role" className="form-label">Role</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         id="role"
-                                        className="form-control"
+                                        className="form-input"
                                         value={character.role}
                                         onChange={(e) => setCharacter({ ...character, role: e.target.value })}
                                         required
-                                    />
+                                    >
+                                        <option value="">Select a role</option>
+                                        <option value="Protagonist">Protagonist</option>
+                                        <option value="Main Protagonist">Main Protagonist</option>
+                                        <option value="Antagonist">Antagonist</option>
+                                        <option value="Main Antagonist">Main Antagonist</option>
+                                        <option value="Supporting Character">Supporting Character</option>
+                                        <option value="Ally">Ally</option>
+                                        <option value="Love Interest">Love Interest</option>
+                                        <option value="Mentor">Mentor</option>
+                                        <option value="Comic Relief">Comic Relief</option>
+                                        <option value="Narrator">Narrator</option>
+                                        <option value="Villain">Villain</option>
+                                        <option value="Background Character">Background Character</option>
+                                    </select>
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="personality" className="form-label">Personality</label>
                                     <textarea
                                         id="personality"
-                                        className="form-control"
+                                        className="form-input form-textarea"
                                         value={character.personality}
                                         onChange={(e) => setCharacter({ ...character, personality: e.target.value })}
                                         placeholder="Describe the character's personality"
                                     />
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="biography" className="form-label">Biography</label>
                                     <textarea
                                         id="biography"
-                                        className="form-control"
+                                        className="form-input form-textarea"
                                         value={character.biography}
                                         onChange={(e) => setCharacter({ ...character, biography: e.target.value })}
                                         placeholder="Character biography (optional)"
                                     />
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="description" className="form-label">Description</label>
                                     <textarea
                                         id="description"
-                                        className="form-control"
+                                        className="form-input form-textarea"
                                         value={character.description}
                                         onChange={(e) => setCharacter({ ...character, description: e.target.value })}
                                         placeholder="Additional description (optional)"
@@ -188,12 +202,13 @@ function CharacterForm() {
                             </div>
                         </div>
 
-                        <div className="d-flex">
-                            <button type="submit" className="btn btn-dark me-2" disabled={isSubmitting}>
-                                {isSubmitting ? (characterId ? 'Updating...' : 'Creating...') : (characterId ? 'Update' : 'Create Character')}
+                        <div className="d-flex mt-3">
+                            <button type="submit" className="btn btn-primary me-2" disabled={isSubmitting}>
+                                {isSubmitting
+                                    ? (characterId ? 'Updating...' : 'Creating...')
+                                    : (characterId ? 'Update' : 'Create Character')}
                             </button>
-
-                            <Link to={`/projects/${id}/characters`} className="btn btn-dark">
+                            <Link to={`/projects/${id}/characters`} className="btn btn-secondary">
                                 Cancel
                             </Link>
                         </div>
@@ -205,6 +220,7 @@ function CharacterForm() {
             </div>
         </>
     );
+
 }
 
 export default CharacterForm;

@@ -8,6 +8,7 @@ import {jwtDecode} from "jwt-decode";
 
 function ProjectDetailPage() {
     const [project, setProject] = useState({});
+    const [stats, setStats] = useState({ characters: 0, segments: 0, words: 0, settings: 0 });
     const params = useParams();
     const location = useLocation();
     const projectId = params.id;
@@ -43,9 +44,18 @@ function ProjectDetailPage() {
                 setIsLoading(false);
             }
         };
-
         void fetchProject();
-    }, [projectId, token]);
+        // Fetch project stats
+        const fetchStats = async () => {
+            try {
+                const statsResponse = await apiService.getProjectStats(projectId);
+                setStats(statsResponse);
+            } catch (error) {
+                console.error("Failed to fetch project stats: ", error);
+            }
+        };
+        fetchStats();
+    }, [projectId]);
 
     // const handleDelete = async () => {
     //     if (!isOwner) return;
@@ -95,6 +105,15 @@ function ProjectDetailPage() {
                             style={{ width: '100%', maxHeight: '300px', objectFit: 'cover' }}
                         />
                         <h1>{project.project_name}</h1>
+                        {/* Project Stats */}
+                        <div className="project-detail-stats" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+                            <ul>
+                                <li><strong>Characters:</strong> {stats.characters}</li>
+                                <li><strong>Story Segments:</strong> {stats.segments}</li>
+                                <li><strong>Total Words:</strong> {stats.words}</li>
+                                <li><strong>Worldbuilding Settings:</strong> {stats.settings}</li>
+                            </ul>
+                        </div>
                     </div>
                     <div className="project-detail-card">
                         <div className="project-detail-card-body">

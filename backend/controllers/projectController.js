@@ -205,3 +205,31 @@ exports.getCharacterGraphs = (req, res) => {
         });
     });
 };
+
+exports.getProjectStats = (req, res) => {
+    const projectId = req.params.id;
+
+    // Query for all stats in parallel (nested for now)
+    const charQuery = `SELECT COUNT(*) AS count FROM characters WHERE project_id = ?`;
+    const segQuery = `SELECT COUNT(*) AS count, COALESCE(SUM(LENGTH(content) - LENGTH(REPLACE(content, ' ', '')) + 1), 0) AS wordCount FROM story_segments WHERE project_id = ?`;
+    const setQuery = `SELECT COUNT(*) AS count FROM settings WHERE project_id = ?`;
+
+    let stats = {};
+    config.query(charQuery, [projectId], (err, charResult) => {
+        if (err) return res.status(500).json({ error: 'Failed to count characters' });
+        stats.characters = charResult[0].count;
+
+        config.query(segQuery, [projectId], (err, segResult) => {
+            if (err) return res.status(500).json({ error: 'Failed to count segments' });
+            stats.segments = segResult[0].count;
+            stats.words = segResult[0].wordCount;
+
+            config.query(setQuery, [projectId], (err, setResult) => {
+                if (err) return res.status(500).json({ error: 'Failed to count settings' });
+                stats.settings = setResult[0].count;
+
+                res.json(stats);
+            });
+        });
+    });
+};

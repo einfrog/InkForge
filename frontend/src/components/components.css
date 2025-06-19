@@ -108,6 +108,50 @@
     line-height: 1.5;
 }
 
+.character-detail-container {
+    flex-grow: 1;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.character-header.card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    align-items: center;
+}
+.character-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+.character-info {
+    flex-grow: 1;
+}
+.character-name {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.character-info p {
+    margin: 0.25rem 0;
+    font-size: 1rem;
+    color: #555;
+}
+
 /* Form Styles */
 .form-container {
     max-width: 600px;
@@ -267,6 +311,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
+    background-color: white;
 }
 
 .content-section__title {
@@ -375,4 +420,242 @@
 
 .text-green-500 {
     color: #22c55e;
-} 
+}
+
+.character-form-container {
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.character-form-container .card {
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* or center if you want vertical centering too */
+    width: 100%;
+    padding-top: 1rem; /* optional spacing */
+}
+
+.form-page {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.form-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 1rem;
+    max-width: 1200px;
+    width: 100%;
+    border: 1px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.form-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.form-left {
+    flex: 1;
+    min-width: 300px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.image-upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-width: 250px;
+}
+
+.analytics-content {
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
+    color: #333;
+    font-family: Arial, sans-serif;
+    min-height: 80vh;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: #222;
+}
+
+.page-description {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+.graph-section {
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+.error-message {
+    background-color: #ffe6e6;
+    border: 1px solid #d9534f;
+    color: #a94442;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.warning-message {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    white-space: pre-wrap;
+}
+
+.userdetail-main {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.userdetail-card {
+    width: 50%;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    background-color: white;
+}
+
+.userdetail-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.user-profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-basic-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.userdetail-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.user-email {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 0.3rem;
+}
+
+.userdetail-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+    color: #333;
+}
+
+.userdetail-list li {
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+}
+
+.userdetail-actions {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.userdetail-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.3rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.userdetail-btn:hover {
+    background-color: #0056b3;
+}
+
+.profile-content {
+    display: flex;
+    align-items: flex-start; /* top align */
+    gap: 3rem; /* larger gap */
+    padding: 1rem 0;
+}
+
+.profile-image {
+    flex-shrink: 0;
+    width: 180px;
+    height: 180px;
+    margin-right: 2rem;
+}
+
+.profile-info {
+    flex-grow: 1;
+    padding-right: 1rem;
+    word-wrap: break-word;
+}
+
+.profile-info p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.profile-image-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.choose-file-text {
+    margin-top: 0.5rem;
+    cursor: pointer;
+    color: #555;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+

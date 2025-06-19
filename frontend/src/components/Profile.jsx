@@ -71,11 +71,10 @@ function Profile() {
     return (
         <>
             <Header />
-            <div className="container mt-5">
-                <div className="card shadow p-4">
-                    <h1 className="mb-4">Profile</h1>
-                    {user && (
-                        <div>
+            <div className="userdetail-main">
+                <div className="userdetail-card">
+                    <div className="userdetail-header d-flex align-items-center gap-4">
+                        <div style={{ flexShrink: 0 }}>
                             <ImageUpload
                                 type="profile"
                                 id={userId}
@@ -83,29 +82,38 @@ function Profile() {
                                 onImageUploaded={handleImageUploaded}
                                 shape="circle"
                                 size="medium"
-                                className="mb-4"
+                                className="user-profile-picture"
                             />
-                            <p><strong>Username:</strong> {user.username}</p>
-                            <p><strong>Email:</strong> {user.email}</p>
-                            <p><strong>Biography:</strong> {user.biography || 'No biography yet'}</p>
-                            <div className="mt-4">
-                                <Link to={`/socials/${userId}/edit`} className="btn btn-dark me-2">
-                                    Edit Profile
-                                </Link>
-                                <button 
-                                    onClick={handleDelete} 
-                                    className="btn btn-danger"
-                                    disabled={isDeleting}
-                                >
-                                    {isDeleting ? 'Deleting...' : 'Delete Account'}
-                                </button>
-                            </div>
                         </div>
-                    )}
+                        <div className="user-basic-info">
+                            <h1 className="userdetail-title">{user.username}</h1>
+                            <p className="user-email">{user.email}</p>
+                        </div>
+                    </div>
+
+                    <ul className="userdetail-list mt-4">
+                        <li><strong>ID:</strong> {user.user_id}</li>
+                        <li><strong>Biography:</strong> {user.biography || <em>No biography yet</em>}</li>
+                    </ul>
+
+                    <div className="userdetail-actions mt-4">
+                        <Link to={`/socials/${userId}/edit`} className="userdetail-btn me-2">
+                            Edit Profile
+                        </Link>
+                        <button
+                            onClick={handleDelete}
+                            className="userdetail-btn btn-danger"
+                            disabled={isDeleting}
+                        >
+                            {isDeleting ? 'Deleting...' : 'Delete Account'}
+                        </button>
+                    </div>
                 </div>
             </div>
         </>
     );
+
+
 }
 
 export default Profile;

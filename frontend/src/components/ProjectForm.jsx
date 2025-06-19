@@ -3,6 +3,7 @@ import {useNavigate, useParams, Link} from 'react-router-dom';
 import {createProject, getProjectById, updateProject, uploadProjectImage} from '../services/apiService';
 import Header from "./Header.jsx";
 import ImageUpload from './ImageUpload';
+import './components.css';
 
 function ProjectFormPage() {
     const {id} = useParams();
@@ -127,31 +128,31 @@ function ProjectFormPage() {
         <>
             <Header />
 
-            <div className="container mt-5 mb-5">
-                <div className="card shadow p-4 transparent-item border-white">
-                    <h1 className="mb-4 display-5">{id ? 'Edit Project' : 'Create New Project'}</h1>
+            <div className="container mt-5 mb-5 character-form-container">
+                <div className="card">
+                    <h1 className="segment__title">{id ? 'Edit Project' : 'Create New Project'}</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="row">
                             <div className="col-md-8">
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="project_name" className="form-label">Project Name</label>
                                     <input
                                         type="text"
                                         id="project_name"
-                                        className="form-control"
+                                        className="form-input"
                                         value={newProject.project_name}
-                                        onChange={(e) => setNewProject({...newProject, project_name: e.target.value})}
+                                        onChange={(e) => setNewProject({ ...newProject, project_name: e.target.value })}
                                         required
                                     />
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="category" className="form-label">Category</label>
                                     <select
                                         id="category"
-                                        className="form-select"
+                                        className="form-input"
                                         value={newProject.category}
-                                        onChange={(e) => setNewProject({...newProject, category: e.target.value})}
+                                        onChange={(e) => setNewProject({ ...newProject, category: e.target.value })}
                                         required
                                     >
                                         <option value="">Select a category</option>
@@ -165,18 +166,16 @@ function ProjectFormPage() {
                                         <option value="Auto-Biography">Auto-Biography</option>
                                         <option value="DnD Campaign">DnD Campaign</option>
                                         <option value="Misc">Misc</option>
-
                                     </select>
                                 </div>
 
-
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="genre" className="form-label">Genre</label>
                                     <select
                                         id="genre"
-                                        className="form-select"
+                                        className="form-input"
                                         value={newProject.genre}
-                                        onChange={(e) => setNewProject({...newProject, genre: e.target.value})}
+                                        onChange={(e) => setNewProject({ ...newProject, genre: e.target.value })}
                                         required
                                     >
                                         <option value="">Select a genre</option>
@@ -196,24 +195,25 @@ function ProjectFormPage() {
                                     </select>
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="description" className="form-label">Description</label>
                                     <textarea
                                         id="description"
-                                        className="form-control"
+                                        className="form-input form-textarea"
                                         value={newProject.description}
-                                        onChange={(e) => setNewProject({...newProject, description: e.target.value})}
+                                        onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
                                         rows="4"
+                                        placeholder="Enter project description (optional)"
                                     />
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="form-group">
                                     <label htmlFor="visibility" className="form-label">Visibility</label>
                                     <select
                                         id="visibility"
-                                        className="form-select"
+                                        className="form-input"
                                         value={newProject.visibility}
-                                        onChange={(e) => setNewProject({...newProject, visibility: e.target.value})}
+                                        onChange={(e) => setNewProject({ ...newProject, visibility: e.target.value })}
                                     >
                                         <option value="private">Private</option>
                                         <option value="public">Public</option>
@@ -227,20 +227,19 @@ function ProjectFormPage() {
                                     id={id}
                                     currentImage={pendingCover !== null ? pendingCover : newProject.cover}
                                     onImageUploaded={handleImageUploaded}
-                                    onFileSelected={handleFileSelected}
                                     shape="square"
-                                    size="large"
-                                    // disabled={!id}
+                                    size="medium"
                                 />
                             </div>
                         </div>
 
-                        <div className="d-flex">
-                            <button type="submit" className="btn btn-dark me-2" disabled={isSubmitting}>
-                                {isSubmitting ? (id ? 'Updating...' : 'Creating...') : (id ? 'Update' : 'Create Project')}
+                        <div className="d-flex mt-3">
+                            <button type="submit" className="btn btn-primary me-2" disabled={isSubmitting}>
+                                {isSubmitting
+                                    ? (id ? 'Updating...' : 'Creating...')
+                                    : (id ? 'Update' : 'Create Project')}
                             </button>
-
-                            <Link to="/projects" className="btn btn-dark">
+                            <Link to="/projects" className="btn btn-secondary">
                                 Cancel
                             </Link>
                         </div>

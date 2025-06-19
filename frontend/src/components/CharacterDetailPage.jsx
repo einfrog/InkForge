@@ -63,6 +63,9 @@ function CharacterDetailPage() {
 
     const handleSave = async (e) => {
         e.preventDefault();
+        // Clear any previous errors
+        setError(null);
+
         try {
             if (editMode === 'new') {
                 await apiService.addCharacterRelation(
@@ -89,20 +92,47 @@ function CharacterDetailPage() {
             setEditFields({target_character_id: "", relationship_type: ""});
         } catch (err) {
             console.error("Failed to save relationship:", err);
-            setError("Failed to save relationship.");
+            // Display the specific error message from the backend
+            setError(err.message || "Failed to save relationship.");
         }
     };
 
     const handleDelete = async (targetId) => {
-        if (!window.confirm("Are you sure you want to delete this character?")) return;
+        if (!window.confirm("Are you sure you want to delete this relationship?")) return;
+        // Clear any previous errors
+        setError(null);
+
         try {
             await apiService.deleteCharacterRelation(routeProjectId, characterId, targetId, token);
             const updated = await apiService.getCharacterRelationsById(routeProjectId, characterId, token);
             setRelations(updated.relations || []);
         } catch (err) {
             console.error("Failed to delete relationship:", err);
-            setError("Failed to delete relationship.");
+            setError(err.message || "Failed to delete relationship.");
         }
+    };
+
+    // Clear error when starting to edit or canceling
+    const handleStartEdit = (targetId = 'new') => {
+        setError(null);
+        if (targetId === 'new') {
+            setEditMode('new');
+            setEditFields({target_character_id: "", relationship_type: "", notes: ""});
+        } else {
+            const rel = relations.find(r => r.target_character_id === targetId);
+            setEditMode(targetId);
+            setEditFields({
+                target_character_id: rel.target_character_id,
+                relationship_type: rel.relationship_type,
+                notes: rel.notes || ''
+            });
+        }
+    };
+
+    const handleCancel = () => {
+        setError(null);
+        setEditMode(null);
+        setEditFields({target_character_id: "", relationship_type: "", notes: ""});
     };
 
     if (isLoading || !character || !project) return <div>Loading...</div>;
@@ -116,93 +146,148 @@ function CharacterDetailPage() {
                     projectId={project.project_id}
                     isPublicView={isPublicView}
                 />
-                <div className="flex-grow-1 p-4">
-                    <div className="d-flex align-items-start mb-4">
+                <main className="character-detail-container">
+                    <section className="character-header card">
                         <img
                             src={character.image ? `http://localhost:5000${character.image}` : '/default-character.png'}
                             alt={character.name}
-                            className="rounded me-4"
-                            style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+                            className="character-image"
                         />
-                        <div>
-                            <h1>{character.name}</h1>
+                        <div className="character-info">
+                            <h1 className="character-name">{character.name}</h1>
                             <p><strong>Role:</strong> {character.role || 'None specified'}</p>
                             <p><strong>Affiliated Project:</strong> {project.project_name}</p>
                         </div>
-                    </div>
-                    <p><strong>Personality:</strong> {character.personality || 'No personality available'}</p>
-                    <p><strong>Biography:</strong> {character.biography || 'No description available'}</p>
-                    <p><strong>Description:</strong> {character.description || 'No description available'}</p>
-                    <h2>Relations</h2>
-                    {relations.length === 0 ? (
-                        <p>No relations defined.</p>
-                    ) : (
-                        <ul>
-                            {relations.map(rel => (
-                                <li key={rel.target_character_id}>
-                                    <strong>Type:</strong> {rel.relationship_type} <br/>
-                                    <strong>Target-character-id:</strong> {rel.target_character_name} <br/>
-                                    <strong>Notes:</strong> {rel.notes}
+                    </section>
 
-                                    {isOwner && (
-                                        <>
-                                            <button onClick={() => {
-                                                setEditMode(rel.target_character_id);
-                                                setEditFields({
-                                                    target_character_id: rel.target_character_id,
-                                                    relationship_type: rel.relationship_type
-                                                });
-                                            }}>Edit
-                                            </button>
-                                            <button onClick={() => handleDelete(rel.target_character_id)}>Delete
-                                            </button>
-                                        </>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                    {isOwner && (
-                        <>
-                    {!editMode && (
-                        <button onClick={() => setEditMode('new')}>Add Relationship</button>
-                    )}
-                    {editMode && (
+                    <section className="character-description segment">
+                        <p><strong>Personality:</strong> {character.personality || 'No personality available'}</p>
+                        <p><strong>Biography:</strong> {character.biography || 'No description available'}</p>
+                        <p><strong>Description:</strong> {character.description || 'No description available'}</p>
+                    </section>
 
-                        <form onSubmit={handleSave}>
-                            <input
-                                type="text"
-                                value={editFields.relationship_type}
-                                onChange={e => setEditFields(f => ({...f, relationship_type: e.target.value}))}
-                                placeholder="Relationship Type"
-                            />
-                            <select
-                                value={editFields.target_character_id}
-                                onChange={e => setEditFields(f => ({...f, target_character_id: e.target.value}))}
-                            >
-                                <option value="">Select character</option>
-                                {allCharacters
-                                    .filter(c => c.character_id !== character.character_id)
-                                    .map(c => (
-                                        <option key={c.character_id} value={c.character_id}>
-                                            {c.name}
-                                        </option>
-                                    ))}
-                            </select>
-                            <input
-                                type="text"
-                                value={editFields.notes || ''}
-                                onChange={e => setEditFields(f => ({...f, notes: e.target.value}))}
-                                placeholder="Notes"
-                            />
-                            <button type="submit">Save</button>
-                            <button type="button" onClick={() => setEditMode(null)}>Cancel</button>
-                        </form>
-                    )}
-                        </>
-                    )}
+                    <section className="relations-section segment">
+                        <h2 className="segment__title">Relations</h2>
 
-                </div>
+                        {/* Error Display - Show above the relations list */}
+                        {error && (
+                            <div className="error-message" style={{
+                                backgroundColor: '#fee',
+                                border: '1px solid #fcc',
+                                color: '#c33',
+                                padding: '10px',
+                                borderRadius: '4px',
+                                marginBottom: '15px'
+                            }}>
+                                <strong>Error:</strong> {error}
+                            </div>
+                        )}
+
+                        {relations.length === 0 ? (
+                            <p className="empty-text">No relations defined.</p>
+                        ) : (
+                            <ul className="relations-list">
+                                {relations.map(rel => (
+                                    <li key={rel.target_character_id} className="relation-item">
+                                        <div>
+                                            <span className="relation-label">Type:</span> {rel.relationship_type}
+                                        </div>
+                                        <div>
+                                            <span className="relation-label">Target:</span> {rel.target_character_name}
+                                        </div>
+                                        <div>
+                                            <span className="relation-label">Notes:</span> {rel.notes || 'None'}
+                                        </div>
+                                        {isOwner && (
+                                            <div className="relation-actions">
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-secondary btn-small"
+                                                    onClick={() => handleStartEdit(rel.target_character_id)}
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger btn-small"
+                                                    onClick={() => handleDelete(rel.target_character_id)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        {isOwner && (
+                            <>
+                                {!editMode && (
+                                    <button
+                                        className="btn btn-primary mt-3"
+                                        onClick={() => handleStartEdit('new')}
+                                    >
+                                        Add Relationship
+                                    </button>
+                                )}
+                                {editMode && (
+                                    <form onSubmit={handleSave} className="relation-form mt-3">
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="relationship_type">Relationship Type</label>
+                                            <input
+                                                id="relationship_type"
+                                                type="text"
+                                                className="form-input"
+                                                value={editFields.relationship_type}
+                                                onChange={e => setEditFields(f => ({...f, relationship_type: e.target.value}))}
+                                                placeholder="e.g., Friend, Rival"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="target_character_id">Target Character</label>
+                                            <select
+                                                id="target_character_id"
+                                                className="form-input"
+                                                value={editFields.target_character_id}
+                                                onChange={e => setEditFields(f => ({...f, target_character_id: e.target.value}))}
+                                                required
+                                            >
+                                                <option value="">Select character</option>
+                                                {allCharacters
+                                                    .filter(c => c.character_id !== character.character_id)
+                                                    .map(c => (
+                                                        <option key={c.character_id} value={c.character_id}>
+                                                            {c.name}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="notes">Notes</label>
+                                            <input
+                                                id="notes"
+                                                type="text"
+                                                className="form-input"
+                                                value={editFields.notes || ''}
+                                                onChange={e => setEditFields(f => ({...f, notes: e.target.value}))}
+                                                placeholder="Optional notes"
+                                            />
+                                        </div>
+
+                                        <div className="form-actions">
+                                            <button type="submit" className="btn btn-primary me-2">Save</button>
+                                            <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
+                                        </div>
+                                    </form>
+                                )}
+                            </>
+                        )}
+                    </section>
+                </main>
             </div>
         </div>
     );

@@ -109,13 +109,15 @@ upload/display pictures for projects, characters and users✅
 
 ## June 18th
 
-styling
+styling🔁
 
 hardcoded genres and categories for projects✅
 
 relationship graphs✅
 
-charactersPage should not have biography but description!!!!!!! (figure out)
+## June 19th
+
+charactersPage should not have biography but description!!!!!!! (figure out)✅
 
 feedback when trying to create another relationship with the same character
 
@@ -126,6 +128,8 @@ continue working on docs
 for projects, if no picture is uploaded, choose color
 
 ## Optional:
+
+fun fact of the day für loading screens
 
 delete old/unused pictures from uploads folder when updating a project, character or user picture
 

@@ -25,9 +25,13 @@ router.get('/:id', checkProjectAccess, projectController.getProjectById);
 // Update project
 router.put('/:id', authenticateJWT, projectController.updateProject);
 
+router.get('/:id/stats', projectController.getProjectStats);
+
 // Delete project
 router.delete('/:id', authenticateJWT, projectController.deleteProject);
 
 router.get('/:id/graphs', projectController.getCharacterGraphs);
+
+
 
 module.exports = router;

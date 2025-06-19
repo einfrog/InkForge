@@ -599,3 +599,14 @@ export async function getCharacterGraphs(projectId) {
         throw error;
     }
 }
+
+export async function getProjectStats(projectId) {
+    const response = await fetch(`${API}/projects/${projectId}/stats`, {
+        method: 'GET'
+        // No headers needed for public access
+    });
+    if (!response.ok) {
+        throw new Error('Failed to fetch project stats');
+    }
+    return await response.json();
+}
