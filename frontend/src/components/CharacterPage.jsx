@@ -81,67 +81,71 @@ function CharacterPage() {
                     projectId={project.project_id}
                     isPublicView={isPublicView}
                 />
-                <div className="segment flex-grow-1">
-                    <h2 className="segment__title">Characters</h2>
-                    {characters.length > 0 ? (
-                        <div className="grid-container character-container">
-                            {characters.map((char) => (
-                                <div key={char.character_id} className="card character-card">
-                                    <div className="character-card__header">
-                                        <div className="character-card__image-container">
-                                            <img
-                                                src={char.image ? `http://localhost:5000${char.image}` : '/default-character.png'}
-                                                alt={char.name}
-                                                className="character-card__image"
-                                            />
-                                        </div>
-                                        <div className="character-card__title-group">
-                                            <h3 className="character-card__name">{char.name}</h3>
-                                            <p className="character-card__role">{char.role || 'No role'}</p>
-                                        </div>
-                                    </div>
-                                    <div className="character-card__content">
-                                        <p className="character-card__description">{char.description}</p>
-                                        <div className="flex gap-4 mt-4">
-                                            <Link
-                                                to={getCharacterDetailPath(char.character_id)}
-                                                className="action-btn"
-                                            >
-                                                View Profile
-                                            </Link>
-                                            {isOwner && (
-                                                <>
-                                                    <Link
-                                                        to={`/projects/${projectId}/characters/${char.character_id}/edit`}
-                                                        className="action-btn"
-                                                    >
-                                                        Edit
-                                                    </Link>
-                                                    <button
-                                                        onClick={() => handleDelete(char.character_id)}
-                                                        className="alarm-btn"
-                                                        disabled={deletingCharacter[char.character_id]}
-                                                    >
-                                                        {deletingCharacter[char.character_id] ? 'Deleting...' : 'Delete'}
-                                                    </button>
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                <div className="project-detail-content">
+                    <div className="content-section">
+                        <div className="content-section__header">
+                            <h2 className="content-section__title">Characters</h2>
                         </div>
-                    ) : (
-                        <p>No characters found for this project.</p>
-                    )}
-                    {isOwner && (
-                        <Link
-                            to={`/projects/${project.project_id}/characters/new`}
-                            className="action-btn"
-                        >
-                            Create New Character
-                        </Link>
-                    )}
+                        {characters.length > 0 ? (
+                            <div className="grid-container character-container">
+                                {characters.map((char) => (
+                                    <div key={char.character_id} className="card character-card">
+                                        <div className="character-card__header">
+                                            <div className="character-card__image-container">
+                                                <img
+                                                    src={char.image ? `http://localhost:5000${char.image}` : '/default-character.png'}
+                                                    alt={char.name}
+                                                    className="character-card__image"
+                                                />
+                                            </div>
+                                            <div className="character-card__title-group">
+                                                <h3 className="character-card__name">{char.name}</h3>
+                                                <p className="character-card__role">{char.role || 'No role'}</p>
+                                            </div>
+                                        </div>
+                                        <div className="character-card__content">
+                                            <p className="character-card__description">{char.description}</p>
+                                            <div className="flex gap-4 mt-4">
+                                                <Link
+                                                    to={getCharacterDetailPath(char.character_id)}
+                                                    className="action-btn"
+                                                >
+                                                    View Profile
+                                                </Link>
+                                                {isOwner && (
+                                                    <>
+                                                        <Link
+                                                            to={`/projects/${projectId}/characters/${char.character_id}/edit`}
+                                                            className="action-btn"
+                                                        >
+                                                            Edit
+                                                        </Link>
+                                                        <button
+                                                            onClick={() => handleDelete(char.character_id)}
+                                                            className="alarm-btn"
+                                                            disabled={deletingCharacter[char.character_id]}
+                                                        >
+                                                            {deletingCharacter[char.character_id] ? 'Deleting...' : 'Delete'}
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p>No characters found for this project.</p>
+                        )}
+                        {isOwner && (
+                            <Link
+                                to={`/projects/${project.project_id}/characters/new`}
+                                className="action-btn"
+                            >
+                                Create New Character
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

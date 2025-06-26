@@ -4,6 +4,7 @@ import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import './ProjectDetailPage.css';
+import './components.css';
 import {jwtDecode} from "jwt-decode";
 
 function ProjectDetailPage() {
@@ -12,6 +13,8 @@ function ProjectDetailPage() {
     const params = useParams();
     const location = useLocation();
     const projectId = params.id;
+    const [deletingProjects, setDeletingProjects] = useState({});
+
 
     //for loading states
     const [isLoading, setIsLoading] = useState(false);
@@ -57,18 +60,21 @@ function ProjectDetailPage() {
         fetchStats();
     }, [projectId]);
 
-    // const handleDelete = async () => {
-    //     if (!isOwner) return;
-    //
-    //     if (!window.confirm('Are you sure you want to delete this project?')) return;
-    //
-    //     try {
-    //         await apiService.deleteProject(projectId, token);
-    //         navigate('/projects');
-    //     } catch (error) {
-    //         console.error('Error deleting project: ', error);
-    //     }
-    // };
+    const handleDelete = async () => {
+        setDeletingProjects(true);
+        if (!isOwner) return;
+
+        if (!window.confirm('Are you sure you want to delete this project?')) return;
+
+        try {
+            await apiService.deleteProject(project.project_id, token); // ✅ Correct
+            navigate('/projects');
+        } catch (error) {
+            console.error(`Failed to delete project ${project.project_id}:`, error);
+        } finally {
+            setDeletingProjects(false);
+        }
+    };
 
     function getCurrentUserId() {
         let token = localStorage.getItem('token');
@@ -139,16 +145,29 @@ function ProjectDetailPage() {
                     </div>
 
                     <div className="project-detail-description">
-                    <h2>Description</h2>
+                    <h2 className="content-section__title">Description</h2>
                         <p>{project.description || 'No description provided.'}</p>
                     </div>
 
 
 
-                    <div className="project-detail-actions">
-                        <Link to={getBackPath()} className="project-detail-back-btn">
+                    <div className="form-buttons">
+                        <Link to={getBackPath()} className="action-btn">
                             {getBackLabel()}
                         </Link>
+                        {isOwner && !isPublicView && (
+                            <>
+                                <Link to={`/projects/${projectId}/edit`} className="action-btn">
+                                    Edit
+                                </Link>
+                                <button
+                                    onClick={handleDelete}
+                                    className="alarm-btn"
+                                >
+                                    Delete
+                                </button>
+                            </>
+                        )}
                     </div>
                 </div>
 

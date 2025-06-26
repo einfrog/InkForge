@@ -131,13 +131,40 @@ remove displayed ids everywhere, not necessary✅
 
 adjust styling to fit visual prototype✅
 
-clean up database, set up attack on titan project
+## June 20th
 
-generally display error messages in the UI instead of console
+clean up database, set up attack on titan project✅
+
+## June 26th:
+
+fix styling for headlines and form field that portrude container✅
+
+make cards clickable instead of "view" button✅
+
+profile component fix profile picture✅
+
+email unique in db config
+
+fix db config, make pool instead
+
+mock path buttons for navigating through project sections and back to projects
+
+footer
+
+adjust to look like visual prototype
+
+flavicon
+
+
+second admin for miachel
+
+WCAG
 
 continue working on docs
 
 ## Optional:
+
+generally display error messages in the UI instead of console
 
 fun fact of the day für loading screens
 

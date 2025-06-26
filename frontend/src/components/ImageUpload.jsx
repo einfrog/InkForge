@@ -41,7 +41,7 @@ function ImageUpload({
             case 'large':
                 return { width: '300px', height: '300px' };
             default: // medium
-                return { width: '150px', height: '150px' };
+                return { width: '120px', height: '120px' };
         }
     };
 

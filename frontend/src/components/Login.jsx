@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import * as apiService from "../services/apiService.js"
 import './UserPages.css';
+import './components.css';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -62,7 +63,7 @@ function LoginPage() {
                     </div>
 
                     <div className="mt-6">
-                        <button type="submit" className="btn btn-primary w-full">Login</button>
+                        <button type="submit" className="login-btn">Login</button>
                     </div>
                 </form>
             </div>

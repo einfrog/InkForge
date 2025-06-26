@@ -175,6 +175,7 @@
     max-width: 600px;
     margin: 0 auto;
     padding: 24px;
+    border: 1px solid #8f8f8f !important;
 }
 
 .form-group {
@@ -191,16 +192,18 @@
 .form-input {
     width: 100%;
     padding: 12px;
+
     border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.2s ease;
+    box-sizing: border-box;
 }
 
 .form-input:focus {
     outline: none;
-    border-color: #646cff;
-    box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
+    border-color: #589283;
+    box-shadow: 0 0 0 2px rgb(158, 210, 196);
 }
 
 .form-textarea {
@@ -255,7 +258,7 @@
     font-weight: 600;
     margin-bottom: 16px;
     color: #1a1a1a;
-    padding-left: 3rem;
+    padding-left: 32px;
 }
 
 /* Project Detail Styles */
@@ -691,6 +694,13 @@
     overflow: hidden;
 }
 
+.profile-image-container .image-upload-overlay {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: inline-block;
+}
+
 .choose-file-text {
     margin-top: 0.5rem;
     cursor: pointer;
@@ -712,6 +722,76 @@
     width: 120px;
     height: 120px;
     display: inline-block;
+}
+
+.profile-image-container .image-upload-overlay-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: block;
+}
+
+.profile-image-container .image-upload-overlay-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.profile-image-container .image-upload-overlay-wrapper:hover .image-upload-overlay-img {
+    opacity: 0.8;
+}
+
+.profile-image-container .image-upload-overlay-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 120px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.profile-image-container .image-upload-overlay-wrapper:hover .image-upload-overlay-hover {
+    opacity: 1;
+}
+
+.profile-image-container .image-upload-overlay-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.profile-image-container .image-upload-overlay-label {
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.2s ease;
+}
+
+.profile-image-container .image-upload-overlay-label:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.user-profile-picture {
+    width: 120px;
+    height: 120px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .image-upload-overlay-img {
@@ -883,6 +963,22 @@
     border: none;
 }
 
+.login-btn {
+    height: fit-content;
+    font-family: "Nunito", sans-serif;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 100%;
+    background-color: #589384;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    border: none;
+}
+
 .alarm-btn {
     font-family: "Nunito", sans-serif;
     display: inline-block;
@@ -902,9 +998,10 @@
     cursor: pointer;
 }
 
-.action-btn:hover {
+.action-btn:hover, .login-btn:hover {
     background-color: #467a6c;
     color: white;
+    cursor: pointer;
 }
 
 .cancel-btn {
@@ -925,4 +1022,17 @@
     background-color: #a9adac;
     color: black;
     cursor: pointer;
+}
+
+.title-container {
+    width: fit-content;
+    margin: auto;
+    padding: 0 0 3rem;
+}
+
+.users_title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #1a1a1a;
 }

@@ -176,7 +176,7 @@ function CharacterDetailPage() {
                     </section>
 
                     <section className="relations-section segment">
-                        <h2 className="segment__title">Relations</h2>
+                        <h2 className="content-section__title">Relations</h2>
 
                         {/* Error Display - Show above the relations list */}
                         {error && (

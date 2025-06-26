@@ -64,7 +64,7 @@ const Socials = () => {
         <>
             <Header/>
             <div className="socials-root">
-                <h2 className="segment__title">Find Users</h2>
+                <h2 className="users_title">Find Users</h2>
                 <ul className="socials-list">
                     {users.map(user => (
                         <li key={user.user_id} className="socials-list-item">
