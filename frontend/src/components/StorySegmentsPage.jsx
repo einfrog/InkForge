@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation, useParams} from "react-router-dom";
 import * as apiService from "../services/apiService.js";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import './components.css';
 
 function SegmentsPage() {
-    const { id: projectId } = useParams();
+    const {id: projectId} = useParams();
     const token = localStorage.getItem("token");
     const location = useLocation();
     const isPublicView = location.pathname.startsWith("/explore/");
@@ -15,7 +15,7 @@ function SegmentsPage() {
     const [segments, setSegments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [editMode, setEditMode] = useState(null); // current editing segmentId or 'new'
-    const [editFields, setEditFields] = useState({ title: "", content: "" });
+    const [editFields, setEditFields] = useState({title: "", content: ""});
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
@@ -23,10 +23,10 @@ function SegmentsPage() {
         async function fetchData() {
             setIsLoading(true);
             try {
-                const { project: fetchedProject } = await apiService.getProjectById(projectId, token);
+                const {project: fetchedProject} = await apiService.getProjectById(projectId, token);
                 setProject(fetchedProject);
 
-                const { segments: fetchedSegments } = await apiService.getStorySegmentsByProjectId(projectId, token);
+                const {segments: fetchedSegments} = await apiService.getStorySegmentsByProjectId(projectId, token);
                 console.log("Fetched segments:", fetchedSegments);
                 setSegments(fetchedSegments);
             } catch (err) {
@@ -35,13 +35,14 @@ function SegmentsPage() {
                 setIsLoading(false);
             }
         }
+
         fetchData();
     }, [projectId, token]);
 
     // Start editing a new blank segment (not created on backend yet)
     const startNewSegment = () => {
         setEditMode("new");
-        setEditFields({ title: "", content: "" });
+        setEditFields({title: "", content: ""});
         setError(null);
         setSuccess(null);
     };
@@ -50,13 +51,13 @@ function SegmentsPage() {
     const startEditSegment = (segment) => {
         console.log("Starting edit for segment:", segment);
         setEditMode(segment.segment_id);
-        setEditFields({ title: segment.title, content: segment.content });
+        setEditFields({title: segment.title, content: segment.content});
         setError(null);
         setSuccess(null);
     };
 
     const handleEditChange = (field, value) => {
-        setEditFields((prev) => ({ ...prev, [field]: value }));
+        setEditFields((prev) => ({...prev, [field]: value}));
     };
 
     const saveSegment = async () => {
@@ -66,7 +67,7 @@ function SegmentsPage() {
                 console.log("Created new segment:", newSegment);
 
                 // Fetch fresh data to ensure we have the latest state
-                const { segments: updatedSegments } = await apiService.getStorySegmentsByProjectId(projectId, token);
+                const {segments: updatedSegments} = await apiService.getStorySegmentsByProjectId(projectId, token);
                 setSegments(updatedSegments);
 
                 // reset editing state and show success
@@ -84,7 +85,7 @@ function SegmentsPage() {
                 await apiService.updateStorySegment(projectId, editMode, editFields, token);
 
                 // Fetch fresh data to ensure we have the latest state
-                const { segments: updatedSegments } = await apiService.getStorySegmentsByProjectId(projectId, token);
+                const {segments: updatedSegments} = await apiService.getStorySegmentsByProjectId(projectId, token);
                 setSegments(updatedSegments);
 
                 setEditMode(null);
@@ -102,11 +103,11 @@ function SegmentsPage() {
     const deleteSegment = async (segmentId) => {
         try {
             await apiService.deleteStorySegment(projectId, segmentId, token);
-            
+
             // Fetch fresh data to ensure we have the latest state
-            const { segments: updatedSegments } = await apiService.getStorySegmentsByProjectId(projectId, token);
+            const {segments: updatedSegments} = await apiService.getStorySegmentsByProjectId(projectId, token);
             setSegments(updatedSegments);
-            
+
             setSuccess("Segment deleted!");
             setError(null);
             if (editMode === segmentId) setEditMode(null);
@@ -120,23 +121,32 @@ function SegmentsPage() {
 
     return (
         <div className="project-detail-root">
-            <Header />
+            <Header/>
             <div className="project-detail-main">
-                <Sidebar 
-                    projectName={project.project_name} 
-                    projectId={project.project_id} 
-                    isPublicView={isPublicView} 
+                <Sidebar
+                    projectName={project.project_name}
+                    projectId={project.project_id}
+                    isPublicView={isPublicView}
                 />
                 <div className="project-detail-content">
                     <div className="content-section">
                         <div className="content-section__header">
+                            <div className="title-button-container">
                             <h2 className="content-section__title">Story Segments</h2>
                             {!isPublicView && editMode !== "new" && (
                                 <button onClick={startNewSegment} className="action-btn">
                                     Create Segment
                                 </button>
                             )}
+                            </div>
+                            <div className="breadcrumb">
+                                <Link to={'/projects'} className="breadcrumb-element">Projects</Link> <Link
+                                to={`/projects/${projectId}`}
+                                className="breadcrumb-element">{project.project_name}</Link> <span
+                                className="breadcrumb-element">Story Segments</span>
+                            </div>
                         </div>
+
 
                         {error && <div className="text-red-500 mb-4">{error}</div>}
                         {success && <div className="text-green-500 mb-4">{success}</div>}
@@ -164,8 +174,12 @@ function SegmentsPage() {
                                                 />
                                                 <div className="flex gap-2">
                                                     <button onClick={saveSegment} className="action-btn">Save</button>
-                                                    <button onClick={() => setEditMode(null)} className="cancel-btn">Cancel</button>
-                                                    <button onClick={() => deleteSegment(segment.segment_id)} className="alarm-btn">Delete</button>
+                                                    <button onClick={() => setEditMode(null)}
+                                                            className="cancel-btn">Cancel
+                                                    </button>
+                                                    <button onClick={() => deleteSegment(segment.segment_id)}
+                                                            className="alarm-btn">Delete
+                                                    </button>
                                                 </div>
                                             </div>
                                         ) : (
@@ -175,8 +189,12 @@ function SegmentsPage() {
                                                     <p>{segment.content || "No content available"}</p>
                                                     {!isPublicView && (
                                                         <div className="flex gap-2 mt-4">
-                                                            <button onClick={() => startEditSegment(segment)} className="action-btn">Edit</button>
-                                                            <button onClick={() => deleteSegment(segment.segment_id)} className="alarm-btn">Delete</button>
+                                                            <button onClick={() => startEditSegment(segment)}
+                                                                    className="action-btn">Edit
+                                                            </button>
+                                                            <button onClick={() => deleteSegment(segment.segment_id)}
+                                                                    className="alarm-btn">Delete
+                                                            </button>
                                                         </div>
                                                     )}
                                                 </div>
@@ -203,8 +221,11 @@ function SegmentsPage() {
                                             className="form-input form-textarea"
                                         />
                                         <div className="flex gap-2">
-                                            <button onClick={saveSegment} className="btn btn-primary">Save New Segment</button>
-                                            <button onClick={() => setEditMode(null)} className="btn btn-secondary">Cancel</button>
+                                            <button onClick={saveSegment} className="btn btn-primary">Save New Segment
+                                            </button>
+                                            <button onClick={() => setEditMode(null)}
+                                                    className="btn btn-secondary">Cancel
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

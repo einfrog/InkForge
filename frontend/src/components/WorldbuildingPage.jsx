@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import {useParams, useLocation} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation, useParams} from "react-router-dom";
 import * as apiService from "../services/apiService.js";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
@@ -9,7 +9,7 @@ function WorldbuildingPage() {
     const [project, setProject] = useState({});
     const [settings, setSettings] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const { id: projectId } = useParams();
+    const {id: projectId} = useParams();
     const token = localStorage.getItem('token');
     const location = useLocation();
 
@@ -55,27 +55,27 @@ function WorldbuildingPage() {
     }, [projectId, token]);
 
     const handleEdit = (field) => {
-        setEditMode((prev) => ({ ...prev, [field]: true }));
+        setEditMode((prev) => ({...prev, [field]: true}));
         setSuccess(null);
         setError(null);
     };
 
     const handleCancel = (field) => {
-        setEditMode((prev) => ({ ...prev, [field]: false }));
-        setEditFields((prev) => ({ ...prev, [field]: settings[field] || '' }));
+        setEditMode((prev) => ({...prev, [field]: false}));
+        setEditFields((prev) => ({...prev, [field]: settings[field] || ''}));
         setSuccess(null);
         setError(null);
     };
 
     const handleChange = (field, value) => {
-        setEditFields((prev) => ({ ...prev, [field]: value }));
+        setEditFields((prev) => ({...prev, [field]: value}));
     };
 
     const handleSave = async (field) => {
         try {
             await apiService.createOrUpdateSetting(projectId, field, editFields[field], token, !!settings[field]);
-            setSettings((prev) => ({ ...prev, [field]: editFields[field] }));
-            setEditMode((prev) => ({ ...prev, [field]: false }));
+            setSettings((prev) => ({...prev, [field]: editFields[field]}));
+            setEditMode((prev) => ({...prev, [field]: false}));
             setSuccess(`${field} saved!`);
         } catch (e) {
             setError(e.message);
@@ -85,8 +85,8 @@ function WorldbuildingPage() {
     const handleDelete = async (field) => {
         try {
             await apiService.deleteSetting(projectId, field, token);
-            setSettings((prev) => ({ ...prev, [field]: '' }));
-            setEditFields((prev) => ({ ...prev, [field]: '' }));
+            setSettings((prev) => ({...prev, [field]: ''}));
+            setEditFields((prev) => ({...prev, [field]: ''}));
             setSuccess(`${field} deleted!`);
         } catch (e) {
             setError(e.message);
@@ -97,7 +97,7 @@ function WorldbuildingPage() {
 
     return (
         <div className="project-detail-root">
-            <Header />
+            <Header/>
             <div className="project-detail-main d-flex flex-row">
                 <Sidebar
                     projectName={project.project_name}
@@ -108,7 +108,14 @@ function WorldbuildingPage() {
                     <div className="content-section">
                         <div className="content-section__header">
                             <h2 className="content-section__title">Worldbuilding Settings</h2>
+                            <div className="breadcrumb">
+                                <Link to={'/projects'} className="breadcrumb-element">Projects</Link> <Link
+                                to={`/projects/${projectId}`}
+                                className="breadcrumb-element">{project.project_name}</Link> <span
+                                className="breadcrumb-element">Worldbuilding</span>
+                            </div>
                         </div>
+
 
                         {error && <div className="text-red-500 mb-4">{error}</div>}
                         {success && <div className="text-green-500 mb-4">{success}</div>}
@@ -128,8 +135,11 @@ function WorldbuildingPage() {
                                                 className="form-input"
                                             />
                                             <div className="flex gap-2">
-                                                <button onClick={() => handleSave(field)} className="action-btn">Save</button>
-                                                <button onClick={() => handleCancel(field)} className="cancel-btn">Cancel</button>
+                                                <button onClick={() => handleSave(field)} className="action-btn">Save
+                                                </button>
+                                                <button onClick={() => handleCancel(field)}
+                                                        className="cancel-btn">Cancel
+                                                </button>
                                             </div>
                                         </div>
                                     ) : (
@@ -137,8 +147,12 @@ function WorldbuildingPage() {
                                             <p>{settings[field] || <em>No setting set</em>}</p>
                                             {!isPublicView && (
                                                 <div className="flex gap-2 mt-4">
-                                                    <button onClick={() => handleEdit(field)} className="action-btn">Edit</button>
-                                                    <button onClick={() => handleDelete(field)} className="alarm-btn">Delete</button>
+                                                    <button onClick={() => handleEdit(field)}
+                                                            className="action-btn">Edit
+                                                    </button>
+                                                    <button onClick={() => handleDelete(field)}
+                                                            className="alarm-btn">Delete
+                                                    </button>
                                                 </div>
                                             )}
                                         </div>

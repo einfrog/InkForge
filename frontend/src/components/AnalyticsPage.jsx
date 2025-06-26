@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useLocation, useParams} from 'react-router-dom';
 import * as apiService from '../services/apiService';
 import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
@@ -8,7 +8,7 @@ import CharacterGraph from './CharacterGraph.jsx';
 function AnalyticsPage() {
     const [project, setProject] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const { id: projectId } = useParams();
+    const {id: projectId} = useParams();
     const token = localStorage.getItem('token');
     const location = useLocation();
     const [graphData, setGraphData] = useState(null);
@@ -47,8 +47,8 @@ function AnalyticsPage() {
 
     return (
         <div className="project-detail-root">
-            <Header />
-            <div className="project-detail-main d-flex flex-row">
+            <Header/>
+            <div className="project-detail-main">
                 <Sidebar
                     projectName={project.project_name}
                     projectId={project.project_id}
@@ -58,7 +58,14 @@ function AnalyticsPage() {
                     <section className="content-section">
                         <header className="content-section__header">
                             <h2 className="content-section__title">Analytics Page</h2>
+                            <div className="breadcrumb">
+                                <Link to={'/projects'} className="breadcrumb-element">Projects</Link> <Link
+                                to={`/projects/${projectId}`}
+                                className="breadcrumb-element">{project.project_name}</Link> <span
+                                className="breadcrumb-element">Analytics</span>
+                            </div>
                         </header>
+
 
                         <p className="content-section__description">
                             This is the analytics page where you can view various statistics and insights.
@@ -66,7 +73,7 @@ function AnalyticsPage() {
 
                         {graphError && (
                             <div className="text-red-500 mb-4">
-                                <p>Error loading graph: {graphError}</p>
+                            <p>Error loading graph: {graphError}</p>
                             </div>
                         )}
 
@@ -75,7 +82,7 @@ function AnalyticsPage() {
                                 <p>
                                     {/*Graph loaded with {graphData.nodes.length} nodes and {graphData.links.length} links*/}
                                 </p>
-                                <CharacterGraph data={graphData} />
+                                <CharacterGraph data={graphData}/>
                             </section>
                         ) : graphData === null ? (
                             <p>Loading graph...</p>

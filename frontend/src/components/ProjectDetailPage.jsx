@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams, useLocation} from 'react-router-dom';
+import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
 import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
@@ -9,7 +9,7 @@ import {jwtDecode} from "jwt-decode";
 
 function ProjectDetailPage() {
     const [project, setProject] = useState({});
-    const [stats, setStats] = useState({ characters: 0, segments: 0, words: 0, settings: 0 });
+    const [stats, setStats] = useState({characters: 0, segments: 0, words: 0, settings: 0});
     const params = useParams();
     const location = useLocation();
     const projectId = params.id;
@@ -103,72 +103,80 @@ function ProjectDetailPage() {
                     canEdit={isOwner && !isPublicView}
                 />
                 <div className="project-detail-content">
-                    <h1>{project.project_name}</h1>
-                    {isPublicView && (
-                        <div className="project-owner">
-                            <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>
-                        </div>
-                    )}
+                    <section className="content-section">
+                        <header className="content-section__header">
+                            <h2 className="content-section__title">Overview</h2>
+                            <div className="breadcrumb">
+                                <Link to={'/projects'} className="breadcrumb-element">Projects</Link> <span
+                                className="breadcrumb-element">{project.project_name}</span>
+                            </div>
+                            {isPublicView && (
+                                <div className="project-owner">
+                                    <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>
+                                </div>
+                            )}
+                        </header>
 
-                    <div className="project-detail-top-row">
-                        <div className="project-detail-info-stats">
-                            <div className="project-detail-info">
+                        <div className="project-detail-top-row">
+                            <div className="project-detail-info-stats">
+                                <div className="project-detail-info">
 
-                                <ul>
-                                    <li><strong>Category:</strong> {project.category}</li>
-                                    <li><strong>Genre:</strong> {project.genre}</li>
-                                    <li><strong>Visibility:</strong> {project.visibility}</li>
-                                    <li><strong>Created at:</strong> {new Date(project.created_at).toLocaleDateString()}
-                                    </li>
-                                </ul>
+                                    <ul>
+                                        <li><strong>Category:</strong> {project.category}</li>
+                                        <li><strong>Genre:</strong> {project.genre}</li>
+                                        <li><strong>Visibility:</strong> {project.visibility}</li>
+                                        <li><strong>Created
+                                            at:</strong> {new Date(project.created_at).toLocaleDateString()}
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div className="project-detail-stats">
+                                    {/* Optional: owner info, actions */}
+
+                                    <ul>
+                                        <li><strong>Characters:</strong> {stats.characters}</li>
+                                        <li><strong>Story Segments:</strong> {stats.segments}</li>
+                                        <li><strong>Total Words:</strong> {stats.words}</li>
+                                        <li><strong>Worldbuilding Settings:</strong> {stats.settings}</li>
+                                    </ul>
+                                </div>
                             </div>
 
-                            <div className="project-detail-stats">
-                                {/* Optional: owner info, actions */}
-
-                                <ul>
-                                    <li><strong>Characters:</strong> {stats.characters}</li>
-                                    <li><strong>Story Segments:</strong> {stats.segments}</li>
-                                    <li><strong>Total Words:</strong> {stats.words}</li>
-                                    <li><strong>Worldbuilding Settings:</strong> {stats.settings}</li>
-                                </ul>
+                            <div className="project-detail-cover-container">
+                                <img
+                                    src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
+                                    alt={project.project_name}
+                                    className="project-detail-cover"
+                                />
                             </div>
                         </div>
 
-                        <div className="project-detail-cover-container">
-                            <img
-                                src={project.cover ? `http://localhost:5000${project.cover}` : '/default-project.png'}
-                                alt={project.project_name}
-                                className="project-detail-cover"
-                            />
+                        <div className="project-detail-description">
+                            <h2 className="content-section__title">Description</h2>
+                            <p>{project.description || 'No description provided.'}</p>
                         </div>
-                    </div>
-
-                    <div className="project-detail-description">
-                    <h2 className="content-section__title">Description</h2>
-                        <p>{project.description || 'No description provided.'}</p>
-                    </div>
 
 
-
-                    <div className="form-buttons">
-                        <Link to={getBackPath()} className="action-btn">
-                            {getBackLabel()}
-                        </Link>
-                        {isOwner && !isPublicView && (
-                            <>
-                                <Link to={`/projects/${projectId}/edit`} className="action-btn">
-                                    Edit
-                                </Link>
-                                <button
-                                    onClick={handleDelete}
-                                    className="alarm-btn"
-                                >
-                                    Delete
-                                </button>
-                            </>
-                        )}
-                    </div>
+                        <div className="form-buttons">
+                            <Link to={getBackPath()} className="action-btn">
+                                {getBackLabel()}
+                            </Link>
+                            {isOwner && !isPublicView && (
+                                <>
+                                    <Link to={`/projects/${projectId}/edit`} className="action-btn">
+                                        Edit
+                                    </Link>
+                                    <button
+                                        onClick={handleDelete}
+                                        className="alarm-btn"
+                                    >
+                                        Delete
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    </section>
                 </div>
 
             </div>

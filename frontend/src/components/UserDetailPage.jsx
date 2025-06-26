@@ -74,6 +74,10 @@ function UserDetailPage() {
             <Header />
             <div className="userdetail-main">
                 <div className="userdetail-card">
+                    <div className="breadcrumb">
+                        <Link to={'/socials'} className="breadcrumb-element">Socials</Link> <span
+                        className="breadcrumb-element">{user.username}</span>
+                    </div>
                     <div className="userdetail-header">
                         <img
                             src={getImageUrl(user.profile_picture)}
@@ -103,7 +107,6 @@ function UserDetailPage() {
             </div>
         </div>
     );
-
 
 
 }

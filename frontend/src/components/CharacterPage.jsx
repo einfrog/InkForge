@@ -85,7 +85,14 @@ function CharacterPage() {
                     <div className="content-section">
                         <div className="content-section__header">
                             <h2 className="content-section__title">Characters</h2>
+                            <div className="breadcrumb">
+                                <Link to={'/projects'} className="breadcrumb-element">Projects</Link><Link
+                                to={`/projects/${projectId}`}
+                                className="breadcrumb-element">{project.project_name}</Link><span
+                                className="breadcrumb-element">Characters</span>
+                            </div>
                         </div>
+
                         {characters.length > 0 ? (
                             <div className="grid-container character-container">
                                 {characters.map((char) => (
@@ -152,11 +159,11 @@ function CharacterPage() {
                                     //         </div>
                                     //     </div>
                                     //</div>
-                                    ))}
+                                ))}
                             </div>
-                            ) : (
+                        ) : (
                             <p>No characters found for this project.</p>
-                            )}
+                        )}
                         {isOwner && (
                             <Link
                                 to={`/projects/${project.project_id}/characters/new`}

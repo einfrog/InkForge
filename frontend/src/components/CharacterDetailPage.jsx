@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useLocation, useParams, useNavigate, Link} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import * as apiService from "../services/apiService.js";
@@ -187,6 +187,15 @@ function CharacterDetailPage() {
                             </div>
                         </section>
                     </div>
+                    <div className="breadcrumb">
+                        <Link to={'/projects'} className="breadcrumb-element">Projects</Link>
+                        <Link to={`/projects/${project.project_id}`}
+                              className="breadcrumb-element">{project.project_name}</Link>
+                        <Link to={`/projects/${project.project_id}/characters`}
+                              className="breadcrumb-element">Characters</Link>
+                        <span className="breadcrumb-element">{character.name}</span>
+                    </div>
+
 
                     <section className="character-description segment">
                         <p><strong>Personality:</strong> {character.personality || 'No personality available'}</p>
@@ -281,25 +290,33 @@ function CharacterDetailPage() {
                                 {editMode && (
                                     <form onSubmit={handleSave} className="relation-form mt-3">
                                         <div className="form-group">
-                                            <label className="form-label" htmlFor="relationship_type">Relationship Type</label>
+                                            <label className="form-label" htmlFor="relationship_type">Relationship
+                                                Type</label>
                                             <input
                                                 id="relationship_type"
                                                 type="text"
                                                 className="form-input"
                                                 value={editFields.relationship_type}
-                                                onChange={e => setEditFields(f => ({...f, relationship_type: e.target.value}))}
+                                                onChange={e => setEditFields(f => ({
+                                                    ...f,
+                                                    relationship_type: e.target.value
+                                                }))}
                                                 placeholder="e.g., Friend, Rival"
                                                 required
                                             />
                                         </div>
 
                                         <div className="form-group">
-                                            <label className="form-label" htmlFor="target_character_id">Target Character</label>
+                                            <label className="form-label" htmlFor="target_character_id">Target
+                                                Character</label>
                                             <select
                                                 id="target_character_id"
                                                 className="form-input"
                                                 value={editFields.target_character_id}
-                                                onChange={e => setEditFields(f => ({...f, target_character_id: e.target.value}))}
+                                                onChange={e => setEditFields(f => ({
+                                                    ...f,
+                                                    target_character_id: e.target.value
+                                                }))}
                                                 required
                                             >
                                                 <option value="">Select character</option>
@@ -327,7 +344,8 @@ function CharacterDetailPage() {
 
                                         <div className="form-buttons">
                                             <button type="submit" className="action-btn">Save</button>
-                                            <button type="button" className="cancel-btn" onClick={handleCancel}>Cancel</button>
+                                            <button type="button" className="cancel-btn" onClick={handleCancel}>Cancel
+                                            </button>
                                         </div>
                                     </form>
                                 )}
