@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams, useNavigate, Link} from "react-router-dom";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import * as apiService from "../services/apiService.js";
@@ -11,8 +11,10 @@ function CharacterDetailPage() {
     const [project, setProject] = useState(null);
     const [relations, setRelations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [deletingCharacter, setDeletingCharacter] = useState(false);
     const token = localStorage.getItem("token");
     const location = useLocation();
+    const navigate = useNavigate();
     const [editMode, setEditMode] = useState(null); // current editing segmentId or 'new'
     const [editFields, setEditFields] = useState({target_character_id: "", relationship_type: ""});
     const [error, setError] = useState(null);
@@ -60,6 +62,23 @@ function CharacterDetailPage() {
             }
         }
     }
+
+    const handleDeleteCharacter = async () => {
+        if (!window.confirm("Are you sure you want to delete this character?")) return;
+
+        const projectIdToUse = project?.project_id || routeProjectId;
+        setDeletingCharacter(true);
+        try {
+            await apiService.deleteCharacter(projectIdToUse, characterId, token);
+            // Navigate back to characters page after successful deletion
+            navigate(`/projects/${projectIdToUse}/characters`);
+        } catch (error) {
+            console.error("Failed to delete character:", error);
+            alert("Failed to delete character, please try again.");
+        } finally {
+            setDeletingCharacter(false);
+        }
+    };
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -173,6 +192,25 @@ function CharacterDetailPage() {
                         <p><strong>Personality:</strong> {character.personality || 'No personality available'}</p>
                         <p><strong>Biography:</strong> {character.biography || 'No description available'}</p>
                         <p><strong>Description:</strong> {character.description || 'No description available'}</p>
+                        <div className="form-buttons">
+                            {isOwner && (
+                                <>
+                                    <Link
+                                        to={`/projects/${project.project_id || routeProjectId}/characters/${characterId}/edit`}
+                                        className="action-btn"
+                                    >
+                                        Edit Character
+                                    </Link>
+                                    <button
+                                        onClick={handleDeleteCharacter}
+                                        className="alarm-btn"
+                                        disabled={deletingCharacter}
+                                    >
+                                        {deletingCharacter ? 'Deleting...' : 'Delete Character'}
+                                    </button>
+                                </>
+                            )}
+                        </div>
                     </section>
 
                     <section className="relations-section segment">
@@ -287,7 +325,7 @@ function CharacterDetailPage() {
                                             />
                                         </div>
 
-                                        <div className="form-actions">
+                                        <div className="form-buttons">
                                             <button type="submit" className="action-btn">Save</button>
                                             <button type="button" className="cancel-btn" onClick={handleCancel}>Cancel</button>
                                         </div>

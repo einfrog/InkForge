@@ -62,7 +62,9 @@ function validateCharacterIds(charId1, charId2, res) {
 exports.createRelation = async (req, res) => {
     try {
         console.log('Create relation request body:', req.body);
-        console.log('Create relation params:', req.params);
+        const { character_id } = req.params;
+        const { target_character_id } = req.body;
+        console.log(`Creating relation from character ${character_id} to ${target_character_id}`);
         console.log('User ID:', req.user?.user_id);
 
         const charId = Number(req.params.character_id || req.body.source_character_id);

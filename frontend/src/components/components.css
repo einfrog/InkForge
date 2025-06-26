@@ -259,6 +259,7 @@
     margin-bottom: 16px;
     color: #1a1a1a;
     padding-left: 32px;
+    padding-right: 32px;
 }
 
 /* Project Detail Styles */
@@ -1005,11 +1006,11 @@
 }
 
 .cancel-btn {
+    font-family: "Nunito", sans-serif;
     display: inline-block;
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: 500;
-    font-family: sytem-ui, sans-serif;
     background-color: #bec2c1;
     color: black;
     text-decoration: none;

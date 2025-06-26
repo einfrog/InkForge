@@ -145,9 +145,9 @@ profile component fix profile picture✅
 
 email unique in db config✅
 
-fix db config, make pool instead
+fix db config, make pool instead✅
 
-make character cards clickable
+make character cards clickable✅
 
 mock path buttons for navigating through project sections and back to projects
 
@@ -156,7 +156,6 @@ footer
 adjust to look like visual prototype
 
 flavicon
-
 
 second admin for miachel
 
