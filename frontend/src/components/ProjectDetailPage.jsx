@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
 import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
 import Sidebar from "./Sidebar.jsx";
 import './ProjectDetailPage.css';
 import './components.css';
@@ -180,6 +181,7 @@ function ProjectDetailPage() {
                 </div>
 
             </div>
+            <Footer />
         </div>
     );
 }

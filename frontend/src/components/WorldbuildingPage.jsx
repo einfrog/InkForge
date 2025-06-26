@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link, useLocation, useParams} from "react-router-dom";
 import * as apiService from "../services/apiService.js";
 import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
 import Sidebar from "./Sidebar.jsx";
 import './components.css';
 
@@ -163,6 +164,7 @@ function WorldbuildingPage() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

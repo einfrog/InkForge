@@ -1,10 +1,11 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createUser, getUserById, updateUser} from '../services/apiService';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import Header from "./Header.jsx";
 import * as apiService from '../services/apiService';
 import './UserPages.css';
 import './components.css';
+import Footer from "./Footer.jsx";
 
 function UserForm() {
     useEffect(() => {
@@ -108,7 +109,7 @@ function UserForm() {
     };
 
     return (
-        <>
+        <div className="page-container">
             <Header />
 
             <div className="container mt-5 mb-5 character-form-container">
@@ -181,7 +182,9 @@ function UserForm() {
                     </form>
                 </div>
             </div>
-        </>
+            <Footer />
+
+        </div>
     );
 }
 

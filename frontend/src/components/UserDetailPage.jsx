@@ -5,6 +5,7 @@ import Header from "./Header.jsx";
 import './UserPages.css';
 import ImageUpload from "./ImageUpload.jsx";
 import './components.css';
+import Footer from "./Footer.jsx";
 
 function UserDetailPage() {
     const [user, setUser] = useState({});
@@ -70,7 +71,7 @@ function UserDetailPage() {
     if (isLoading) return <div>Loading ... </div>
 
     return (
-        <div className="userdetail-root">
+        <div className="page-container">
             <Header />
             <div className="userdetail-main">
                 <div className="userdetail-card">
@@ -105,6 +106,8 @@ function UserDetailPage() {
                     </div>
                 </div>
             </div>
+            <Footer />
+
         </div>
     );
 

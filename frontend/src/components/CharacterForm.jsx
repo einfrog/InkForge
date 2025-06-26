@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
-import { createCharacter, getCharacterById, updateCharacter, uploadCharacterImage } from '../services/apiService';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {createCharacter, getCharacterById, updateCharacter, uploadCharacterImage} from '../services/apiService';
 import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
 import ImageUpload from './ImageUpload';
 import './components.css';
 
 function CharacterForm() {
-    const { id, characterId } = useParams();
+    const {id, characterId} = useParams();
     const navigate = useNavigate();
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,7 +76,7 @@ function CharacterForm() {
                 setSuccess(`Character "${character.name}" updated successfully.`);
             } else {
                 const createdCharacter = await createCharacter(id, characterToSend, localStorage.getItem('token'));
-                
+
                 // Now upload the image if there's a pending one
                 if (pendingImageFile) {
                     console.log('Uploading image for new character');
@@ -110,8 +111,8 @@ function CharacterForm() {
     };
 
     return (
-        <>
-            <Header />
+        <div className="page-container">
+            <Header/>
 
             <div className="container mt-5 mb-5 character-form-container">
                 <div className="card">
@@ -126,7 +127,7 @@ function CharacterForm() {
                                         id="name"
                                         className="form-input"
                                         value={character.name}
-                                        onChange={(e) => setCharacter({ ...character, name: e.target.value })}
+                                        onChange={(e) => setCharacter({...character, name: e.target.value})}
                                         required
                                     />
                                 </div>
@@ -137,7 +138,7 @@ function CharacterForm() {
                                         id="role"
                                         className="form-input"
                                         value={character.role}
-                                        onChange={(e) => setCharacter({ ...character, role: e.target.value })}
+                                        onChange={(e) => setCharacter({...character, role: e.target.value})}
                                         required
                                     >
                                         <option value="">Select a role</option>
@@ -162,7 +163,7 @@ function CharacterForm() {
                                         id="personality"
                                         className="form-input form-textarea"
                                         value={character.personality}
-                                        onChange={(e) => setCharacter({ ...character, personality: e.target.value })}
+                                        onChange={(e) => setCharacter({...character, personality: e.target.value})}
                                         placeholder="Describe the character's personality"
                                     />
                                 </div>
@@ -173,7 +174,7 @@ function CharacterForm() {
                                         id="biography"
                                         className="form-input form-textarea"
                                         value={character.biography}
-                                        onChange={(e) => setCharacter({ ...character, biography: e.target.value })}
+                                        onChange={(e) => setCharacter({...character, biography: e.target.value})}
                                         placeholder="Character biography (optional)"
                                     />
                                 </div>
@@ -184,7 +185,7 @@ function CharacterForm() {
                                         id="description"
                                         className="form-input form-textarea"
                                         value={character.description}
-                                        onChange={(e) => setCharacter({ ...character, description: e.target.value })}
+                                        onChange={(e) => setCharacter({...character, description: e.target.value})}
                                         placeholder="Additional description (optional)"
                                     />
                                 </div>
@@ -218,8 +219,12 @@ function CharacterForm() {
                     {success && <p className="text-success mt-3">{success}</p>}
                 </div>
             </div>
-        </>
-    );
+            <Footer />
+        </div>
+
+
+    )
+
 
 }
 

@@ -4,6 +4,7 @@ import {createProject, getProjectById, updateProject, uploadProjectImage} from '
 import Header from "./Header.jsx";
 import ImageUpload from './ImageUpload';
 import './components.css';
+import Footer from "./Footer.jsx";
 
 function ProjectFormPage() {
     const {id} = useParams();
@@ -251,6 +252,8 @@ function ProjectFormPage() {
                     {createSuccess && <p className="text-success mt-3">{createSuccess}</p>}
                 </div>
             </div>
+            <Footer />
+
         </>
     );
 }

@@ -4,6 +4,7 @@ import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import * as apiService from "../services/apiService.js";
 import {jwtDecode} from "jwt-decode";
+import Footer from "./Footer.jsx";
 
 function CharacterDetailPage() {
     const {project_id: routeProjectId, characterId} = useParams();
@@ -354,6 +355,8 @@ function CharacterDetailPage() {
                     </section>
                 </main>
             </div>
+            <Footer/>
+
         </div>
     );
 }

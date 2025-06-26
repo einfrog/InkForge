@@ -3,6 +3,7 @@ import Header from './Header';
 import * as apiService from '../services/apiService';
 import {Link} from "react-router-dom";
 import './components.css';
+import Footer from "./Footer.jsx";
 
 const Explore = () => {
     const [publicProjects, setPublicProjects] = useState([]);
@@ -54,6 +55,8 @@ const Explore = () => {
                     )}
                 </div>
             </div>
+            <Footer/>
+
         </>
     );
 }

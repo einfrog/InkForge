@@ -3,6 +3,7 @@ import Header from "./Header.jsx";
 import * as apiService from "../services/apiService.js";
 import {Link, useNavigate} from "react-router-dom";
 import './UserPages.css';
+import Footer from "./Footer.jsx";
 
 const Socials = () => {
     const [users, setUsers] = useState([]);
@@ -100,6 +101,8 @@ const Socials = () => {
                     ))}
                 </ul>
             </div>
+            <Footer />
+
         </>
     );
 };

@@ -4,6 +4,7 @@ import * as apiService from '../services/apiService';
 import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
 import CharacterGraph from './CharacterGraph.jsx';
+import Footer from "./Footer.jsx";
 
 function AnalyticsPage() {
     const [project, setProject] = useState({});
@@ -95,7 +96,10 @@ function AnalyticsPage() {
                     </section>
                 </div>
             </div>
+            <Footer/>
+
         </div>
+
     );
 
 

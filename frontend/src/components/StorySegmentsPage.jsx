@@ -4,6 +4,7 @@ import * as apiService from "../services/apiService.js";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import './components.css';
+import Footer from "./Footer.jsx";
 
 function SegmentsPage() {
     const {id: projectId} = useParams();
@@ -234,6 +235,8 @@ function SegmentsPage() {
                     </div>
                 </div>
             </div>
+            <Footer />
+
         </div>
     );
 }

@@ -5,6 +5,7 @@ import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import {jwtDecode} from "jwt-decode";
 import './components.css';
+import Footer from "./Footer.jsx";
 
 function CharacterPage() {
     const [project, setProject] = useState({});
@@ -115,50 +116,6 @@ function CharacterPage() {
                                             <p className="character-card__description">{char.description}</p>
                                         </div>
                                     </Link>
-
-                                    // <div key={char.character_id} className="card character-card">
-                                    // <div className="character-card__header">
-                                    // <div className="character-card__image-container">
-                                    // <img
-                                    //                 src={char.image ? `http://localhost:5000${char.image}` : '/default-character.png'}
-                                    //                 alt={char.name}
-                                    //                 className="character-card__image"
-                                    //             />
-                                    //         </div>
-                                    //         <div className="character-card__title-group">
-                                    //             <h3 className="character-card__name">{char.name}</h3>
-                                    //             <p className="character-card__role">{char.role || 'No role'}</p>
-                                    //         </div>
-                                    //     </div>
-                                    //     <div className="character-card__content">
-                                    //         <p className="character-card__description">{char.description}</p>
-                                    //         <div className="flex gap-4 mt-4">
-                                    //             <Link
-                                    //                 to={getCharacterDetailPath(char.character_id)}
-                                    //                 className="action-btn"
-                                    //             >
-                                    //                 View Profile
-                                    //             </Link>
-                                    //             {isOwner && (
-                                    //                 <>
-                                    //                     <Link
-                                    //                         to={`/projects/${projectId}/characters/${char.character_id}/edit`}
-                                    //                         className="action-btn"
-                                    //                     >
-                                    //                         Edit
-                                    //                     </Link>
-                                    //                     <button
-                                    //                         onClick={() => handleDelete(char.character_id)}
-                                    //                         className="alarm-btn"
-                                    //                         disabled={deletingCharacter[char.character_id]}
-                                    //                     >
-                                    //                         {deletingCharacter[char.character_id] ? 'Deleting...' : 'Delete'}
-                                    //                     </button>
-                                    //                 </>
-                                    //             )}
-                                    //         </div>
-                                    //     </div>
-                                    //</div>
                                 ))}
                             </div>
                         ) : (
@@ -175,6 +132,8 @@ function CharacterPage() {
                     </div>
                 </div>
             </div>
+            <Footer/>
+
         </div>
     );
 }

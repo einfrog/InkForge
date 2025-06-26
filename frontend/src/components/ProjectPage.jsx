@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Header from './Header';
+import Footer from './Footer';
 import * as apiService from '../services/apiService';
 import {Link} from "react-router-dom";
 import './components.css';
@@ -60,6 +61,7 @@ const ProjectPage = () => {
                     <Link to="/projects-new" className="action-btn">Create New Project</Link>
                 </div>
             </div>
+            <Footer/>
         </>
     );
 };

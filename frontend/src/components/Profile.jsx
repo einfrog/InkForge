@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'
 import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
 import ImageUpload from './ImageUpload';
+import Footer from "./Footer.jsx";
+import './components.css'
 
 function Profile() {
     const [user, setUser] = useState({});
@@ -69,7 +71,7 @@ function Profile() {
     if (isLoading) return <div>Loading...</div>;
 
     return (
-        <>
+        <div className="page-container">
             <Header />
             <div className="userdetail-main">
                 <div className="userdetail-card">
@@ -111,7 +113,9 @@ function Profile() {
                     </div>
                 </div>
             </div>
-        </>
+            <Footer/>
+
+        </div>
     );
 
 
