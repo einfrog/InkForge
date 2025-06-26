@@ -49,6 +49,11 @@ exports.registerUser = (req, res) => {
                 (err, result) => {
                     if (err) {
                         console.error('Error creating user:', err);
+                        console.error('err.code:', err.code, typeof err.code);
+                        if (String(err.code).toUpperCase() === 'ER_DUP_ENTRY') {
+                            console.log('Sending 400: Email already registered');
+                            return res.status(400).json({ error: 'Email already registered' });
+                        }
                         return res.status(500).json({error: 'Failed to create user'});
                     }
 

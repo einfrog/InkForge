@@ -87,7 +87,7 @@ export const createUser = async (userData) => {
     }
     if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create user');
+        throw new Error(errorData.error || 'Failed to create user');
     }
 
     return await response.json();

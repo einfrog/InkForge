@@ -143,9 +143,11 @@ make cards clickable instead of "view" button✅
 
 profile component fix profile picture✅
 
-email unique in db config
+email unique in db config✅
 
 fix db config, make pool instead
+
+make character cards clickable
 
 mock path buttons for navigating through project sections and back to projects
 
