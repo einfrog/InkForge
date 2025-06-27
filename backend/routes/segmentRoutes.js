@@ -3,7 +3,7 @@ const router = express.Router({ mergeParams: true });
 const segmentController = require('../controllers/segmentController');
 const {authenticateJWT} = require('../services/authentication')
 
-// Define routes for segments
+// Defined routes for segments
 router.post('/', authenticateJWT, segmentController.createSegment); // POST /projects/:project_id/characters
 router.get('/', segmentController.getSegmentsByProject); // GET /projects/:project_id/characters
 router.get('/:id', authenticateJWT, segmentController.getSegmentsById);

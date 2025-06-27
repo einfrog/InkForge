@@ -53,7 +53,7 @@ function CharacterDetailPage() {
 
     function getCurrentUserId() {
         let token = localStorage.getItem('token');
-        let userId;
+        //decode user id from token
         if (token) {
             try {
                 const decoded = jwtDecode(token);
@@ -160,7 +160,7 @@ function CharacterDetailPage() {
     return (
         <div className="project-detail-root">
             <Header/>
-            <div className="project-detail-main d-flex flex-row">
+            <div className="project-detail-main">
                 <Sidebar
                     projectName={project.project_name}
                     projectId={project.project_id}
@@ -183,7 +183,7 @@ function CharacterDetailPage() {
 
                             <div className="character-info">
                                 <h1 className="character-name">{character.name}</h1>
-                                <p><strong>Role:</strong> {character.role || 'None specified'}</p>
+                                <p><strong>Role:</strong> {character.role || 'No role specified.'}</p>
                                 <p><strong>Affiliated Project:</strong> {project.project_name}</p>
                             </div>
                         </section>
@@ -302,7 +302,7 @@ function CharacterDetailPage() {
                                                     ...f,
                                                     relationship_type: e.target.value
                                                 }))}
-                                                placeholder="e.g., Friend, Rival"
+                                                placeholder="e.g. friends with, hates, mentor of, ..."
                                                 required
                                             />
                                         </div>

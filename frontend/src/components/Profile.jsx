@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode'
 import * as apiService from '../services/apiService';
 import Header from "./Header.jsx";
 import ImageUpload from './ImageUpload';
@@ -46,7 +46,7 @@ function Profile() {
     const handleImageUploaded = async (path) => {
         try {
             // Update the user's profile picture in the database
-            const updatedUser = await apiService.updateUser(userId, { profile_picture: path }, token);
+            const updatedUser = await apiService.updateUser(userId, {profile_picture: path}, token);
             setUser(updatedUser);
             console.log("Profile picture updated:", updatedUser);
         } catch (error) {
@@ -72,7 +72,7 @@ function Profile() {
 
     return (
         <div className="page-container">
-            <Header />
+            <Header/>
             <div className="userdetail-main">
                 <div className="userdetail-card">
                     <div className="userdetail-header">
@@ -95,8 +95,7 @@ function Profile() {
                     </div>
 
                     <ul className="userdetail-list mt-4">
-                        {/*<li><strong>ID:</strong> {user.user_id}</li>*/}
-                        <li>{user.biography || <em>No biography yet</em>}</li>
+                        <li>{user.biography || <em>No biography yet.</em>}</li>
                     </ul>
 
                     <div className="form-buttons">

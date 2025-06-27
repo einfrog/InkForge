@@ -80,7 +80,6 @@ const Socials = () => {
                                     <p style={{fontSize: '0.95rem', color: '#555'}}>{user.email}</p>
                                 </div>
                             </div>
-                            {/*<p style={{fontSize: '0.95rem', color: '#555', marginTop: '1rem'}}>{user.biography}</p>*/}
                             <div className="socials-actions">
                                 <Link to={`/socials/${user.user_id}/`} className='userform-btn'>View</Link>
                                 {isAdmin && (

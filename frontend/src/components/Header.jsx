@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as apiService from '../services/apiService';
 import './Header.css';
 
+//for the login/logout/view profile functionality
 function decodeToken(token) {
     try {
         const payload = token.split('.')[1];

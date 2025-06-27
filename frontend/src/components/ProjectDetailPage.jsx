@@ -68,7 +68,7 @@ function ProjectDetailPage() {
         if (!window.confirm('Are you sure you want to delete this project?')) return;
 
         try {
-            await apiService.deleteProject(project.project_id, token); // ✅ Correct
+            await apiService.deleteProject(project.project_id, token);
             navigate('/projects');
         } catch (error) {
             console.error(`Failed to delete project ${project.project_id}:`, error);
@@ -111,18 +111,20 @@ function ProjectDetailPage() {
                                 <Link to={'/projects'} className="breadcrumb-element">Projects</Link> <span
                                 className="breadcrumb-element">{project.project_name}</span>
                             </div>
-                            {isPublicView && (
-                                <div className="project-owner">
-                                    <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>
-                                </div>
-                            )}
+
                         </header>
 
                         <div className="project-detail-top-row">
                             <div className="project-detail-info-stats">
                                 <div className="project-detail-info">
 
+
                                     <ul>
+                                        {isPublicView && (
+                                            <li>
+                                                <p><strong>By:</strong> {project.username || 'Unknown Author'}</p>
+                                            </li>
+                                        )}
                                         <li><strong>Category:</strong> {project.category}</li>
                                         <li><strong>Genre:</strong> {project.genre}</li>
                                         <li><strong>Visibility:</strong> {project.visibility}</li>
@@ -133,8 +135,6 @@ function ProjectDetailPage() {
                                 </div>
 
                                 <div className="project-detail-stats">
-                                    {/* Optional: owner info, actions */}
-
                                     <ul>
                                         <li><strong>Characters:</strong> {stats.characters}</li>
                                         <li><strong>Story Segments:</strong> {stats.segments}</li>

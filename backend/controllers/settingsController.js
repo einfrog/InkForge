@@ -1,6 +1,6 @@
 const { config } = require('../services/database');
 
-// 🔁Reusable helper to check if the user owns the project
+// reusable helper to check if the user owns the project
 function checkProjectOwnership(projectId, userId, callback) {
     const sql = `SELECT * FROM projects WHERE project_id = ? AND user_id = ?`;
     config.query(sql, [projectId, userId], (err, result) => {
@@ -11,7 +11,7 @@ function checkProjectOwnership(projectId, userId, callback) {
     });
 }
 
-// ✅ Get all settings for the project
+// get all settings for the project
 exports.getSettingsByProject = (req, res) => {
     const { project_id } = req.params;
 
@@ -25,7 +25,7 @@ exports.getSettingsByProject = (req, res) => {
     });
 };
 
-// 🔁 Reusable upsert function factory (for both POST and PUT)
+// reusable upsert function factory (for both POST and PUT)
 const upsertSettingField = (field) => {
     return (req, res) => {
         const { project_id } = req.params;
@@ -45,6 +45,7 @@ const upsertSettingField = (field) => {
             config.query(checkSql, [project_id], (err, results) => {
                 if (err) return res.status(500).json({ error: 'Database check error' });
 
+                // update or insert logic
                 const sql = results.length > 0
                     ? `UPDATE settings SET ${field} = ? WHERE project_id = ?`
                     : `INSERT INTO settings (project_id, ${field}) VALUES (?, ?)`;
@@ -61,7 +62,7 @@ const upsertSettingField = (field) => {
     };
 };
 
-// 🔁 Reusable delete function factory (sets field to NULL)
+// reusable delete function factory (sets field to NULL)
 const deleteSettingField = (field) => {
     return (req, res) => {
         const { project_id } = req.params;
@@ -82,7 +83,7 @@ const deleteSettingField = (field) => {
     };
 };
 
-// Export modular handlers
+// export modular handlers
 exports.createGeography = upsertSettingField('geography');
 exports.updateGeography = upsertSettingField('geography');
 exports.deleteGeography = deleteSettingField('geography');

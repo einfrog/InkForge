@@ -1,10 +1,11 @@
 const {config} = require('../services/database');
 
 function checkUserOwnership(userIdToUpdate, userIdLoggedIn, callback) {
-    // For user profile pic, user can only update their own profile picture
+    // For user profile pic, user can only update their own profile picture, if true, then returns true
     callback(userIdToUpdate === userIdLoggedIn);
 }
 
+// reusable function to check if user owns the project
 function checkProjectOwnership(projectId, userId, callback) {
     console.log(projectId);
     console.log(typeof projectId);
@@ -18,6 +19,7 @@ function checkProjectOwnership(projectId, userId, callback) {
     });
 }
 
+//reusable function to check if user owns the character
 function checkCharacterOwnership(characterId, userId, callback) {
     if (isNaN(characterId)) {
         return callback(true);
@@ -33,6 +35,7 @@ function checkCharacterOwnership(characterId, userId, callback) {
     });
 }
 
+// Upload user profile image, secured
 exports.uploadUserImage = (req, res) => {
     const userIdLoggedIn = req.user.user_id;
     const userIdToUpdate = Number(req.params.id);
@@ -47,6 +50,7 @@ exports.uploadUserImage = (req, res) => {
     });
 };
 
+// Upload project cover image, secured
 exports.uploadProjectImage = (req, res) => {
     const userId = parseInt(req.user.user_id);
     const projectId = Number(req.params.id);
@@ -61,6 +65,7 @@ exports.uploadProjectImage = (req, res) => {
     });
 };
 
+// Upload character image, secured
 exports.uploadCharacterImage = (req, res) => {
     const userId = req.user.user_id;
     const characterId = Number(req.params.id);

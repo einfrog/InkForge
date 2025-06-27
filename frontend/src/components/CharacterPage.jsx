@@ -13,18 +13,10 @@ function CharacterPage() {
     const [isLoading, setIsLoading] = useState(true);
     const {id: projectId} = useParams();
     const location = useLocation();
-    const [deletingCharacter, setDeletingCharacter] = useState({});
     const token = localStorage.getItem('token');
 
     const isPublicView = location.pathname.startsWith('/explore/');
     const isOwner = project.user_id === getCurrentUserId();
-    const canEdit = isOwner && !isPublicView;
-
-    const getCharacterDetailPath = (characterId) => {
-        return isPublicView
-            ? `/explore/${projectId}/characters/${characterId}`
-            : `/projects/${projectId}/characters/${characterId}`;
-    };
 
     useEffect(() => {
         const fetchProjectAndCharacters = async () => {
@@ -47,7 +39,6 @@ function CharacterPage() {
 
     function getCurrentUserId() {
         let token = localStorage.getItem('token');
-        let userId;
         if (token) {
             try {
                 const decoded = jwtDecode(token);
@@ -57,19 +48,6 @@ function CharacterPage() {
             }
         }
     }
-
-    const handleDelete = async (characterId) => {
-        if (!window.confirm("Are you sure you want to delete this character?")) return;
-
-        try {
-            await apiService.deleteCharacter(projectId, characterId, token);
-            // Remove deleted character from state to update UI:
-            setCharacters((prevChars) => prevChars.filter((c) => c.character_id !== characterId));
-        } catch (error) {
-            console.error("Failed to delete character:", error);
-            alert("Failed to delete character, please try again.");
-        }
-    };
 
     if (isLoading) return <div><p>Loading...</p></div>;
 

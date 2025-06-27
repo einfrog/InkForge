@@ -31,9 +31,9 @@ function LoginPage() {
     return (
         <div className="form-page">
             <div className="form-container card" style={{ maxWidth: '400px' }}>
-                <h1 className="segment__title mb-4">Login</h1>
+                <h1 className="form__title">Login</h1>
 
-                {error && <p className="text-red-500 mb-4">{error}</p>}
+                {error && <p style={{color: 'red'}}>{error}</p>}
 
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
@@ -62,7 +62,7 @@ function LoginPage() {
                         />
                     </div>
 
-                    <div className="mt-6">
+                    <div>
                         <button type="submit" className="login-btn">Login</button>
                     </div>
                 </form>

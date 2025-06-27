@@ -10,14 +10,14 @@ function query(sql, params) {
     });
 }
 
-// 🔁Project ownership check
+// 🔁 reusable Project ownership check
 async function checkUserOwnsProject(projectId, userId) {
     const sql = `SELECT 1 FROM projects WHERE project_id = ? AND user_id = ?`;
     const result = await query(sql, [projectId, userId]);
     return result.length > 0;
 }
 
-// 🔁Get project IDs of both characters for checking if they belong to the same project
+// 🔁 reusable Get project IDs of both characters for checking if they belong to the same project
 async function getCharactersProjectIds(charId1, charId2) {
     const sql = `
         SELECT character_id, project_id
@@ -39,7 +39,7 @@ async function getCharactersProjectIds(charId1, charId2) {
     };
 }
 
-// 🔁Shared character ID validation - FIXED: Better validation and debugging
+// 🔁 reusable Shared character ID validation
 function validateCharacterIds(charId1, charId2, res) {
     console.log('Validating character IDs:', { charId1, charId2, type1: typeof charId1, type2: typeof charId2 });
 
@@ -59,6 +59,7 @@ function validateCharacterIds(charId1, charId2, res) {
     return true;
 }
 
+// create character relation (secured)
 exports.createRelation = async (req, res) => {
     try {
         console.log('Create relation request body:', req.body);
@@ -114,6 +115,7 @@ exports.createRelation = async (req, res) => {
     }
 };
 
+// get all relations for a character (available to all users)
 exports.getRelationsByCharacter = (req, res) => {
     const charId = Number(req.params.character_id);
     if (!charId) {
@@ -136,6 +138,7 @@ exports.getRelationsByCharacter = (req, res) => {
     });
 };
 
+// update relation (secured)
 exports.updateRelation = async (req, res) => {
     try {
         console.log('Update relation params:', req.params);
@@ -186,6 +189,7 @@ exports.updateRelation = async (req, res) => {
     }
 };
 
+// delete relation (secured)
 exports.deleteRelation = async (req, res) => {
     try {
         console.log('Delete relation params:', req.params);

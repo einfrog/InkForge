@@ -42,7 +42,7 @@ function AnalyticsPage() {
         };
 
         fetchGraphData();
-    }, [projectId, token]);
+    }, [projectId, token]); //execute when projectId or token changes
 
     if (isLoading) return <div>Loading...</div>;
 
@@ -73,7 +73,7 @@ function AnalyticsPage() {
                         </p>
 
                         {graphError && (
-                            <div className="text-red-500 mb-4">
+                            <div>
                             <p>Error loading graph: {graphError}</p>
                             </div>
                         )}
@@ -85,7 +85,7 @@ function AnalyticsPage() {
                         ) : graphData === null ? (
                             <p>Loading graph...</p>
                         ) : (
-                            <div className="text-yellow-600 mb-4">
+                            <div >
                                 <p>Graph data received but invalid structure:</p>
                                 <pre>{JSON.stringify(graphData, null, 2)}</pre>
                             </div>

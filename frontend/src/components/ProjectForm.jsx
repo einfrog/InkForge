@@ -50,11 +50,6 @@ function ProjectFormPage() {
         }
     }, [id]);
 
-    const handleFileSelected = (file) => {
-        setPendingCover(null);
-        setPendingCoverFile(file);
-    }
-
     const handleImageUploaded = (path, file) => {
         console.log('Image uploaded, path:', path);
         setPendingCover(path);
@@ -129,13 +124,13 @@ function ProjectFormPage() {
         <>
             <Header />
 
-            <div className="container mt-5 mb-5 character-form-container">
+            <div className="container character-form-container">
                 <div className="card">
 
                     <h1 className="form__title">{id ? 'Edit Project' : 'Create New Project'}</h1>
                     <form onSubmit={handleSubmit}>
-                        <div className="row">
-                            <div className="col-md-8">
+                        <div>
+                            <div>
                                 <div className="form-group">
                                     <label htmlFor="project_name" className="form-label">Project Name</label>
                                     <input
@@ -207,7 +202,7 @@ function ProjectFormPage() {
                                         value={newProject.description}
                                         onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
                                         rows="4"
-                                        placeholder="Enter project description (optional)"
+                                        placeholder="Optionally enter project description here..."
                                     />
                                 </div>
 
@@ -225,7 +220,7 @@ function ProjectFormPage() {
                                 </div>
                             </div>
 
-                            <div className="col-md-4">
+                            <div>
                                 <ImageUpload
                                     type="project"
                                     id={id}
@@ -249,8 +244,8 @@ function ProjectFormPage() {
                         </div>
                     </form>
 
-                    {createError && <p className="text-danger mt-3">{createError}</p>}
-                    {createSuccess && <p className="text-success mt-3">{createSuccess}</p>}
+                    {createError && <p>{createError}</p>}
+                    {createSuccess && <p>{createSuccess}</p>}
                 </div>
             </div>
             <Footer />

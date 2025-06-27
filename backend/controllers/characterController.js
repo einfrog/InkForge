@@ -16,7 +16,7 @@ function checkProjectOwnershipByCharacter(characterId, userId, callback) {
     });
 }
 
-// ✅ Create character (secured)
+// create character (secured)
 exports.createCharacter = (req, res) => {
     const userId = req.user.user_id;
     const { project_id } = req.params;
@@ -49,7 +49,7 @@ exports.createCharacter = (req, res) => {
     });
 };
 
-// 👁️ Get all characters for a project (no auth needed)
+// get all characters for a project (no auth needed)
 exports.getCharactersByProject = (req, res) => {
     const { project_id } = req.params;
 
@@ -64,7 +64,7 @@ exports.getCharactersByProject = (req, res) => {
     });
 };
 
-// 👁️ Get a single character (no auth needed)
+// get a single character (no auth needed)
 exports.getCharacterById = (req, res) => {
     const { id } = req.params;
 
@@ -79,7 +79,7 @@ exports.getCharacterById = (req, res) => {
     });
 };
 
-// ✅ Update character (secured)
+// update character (secured)
 exports.updateCharacter = (req, res) => {
     const userId = req.user.user_id;
     const { id } = req.params;
@@ -114,7 +114,7 @@ exports.updateCharacter = (req, res) => {
     });
 };
 
-// ✅ Delete character (secured)
+// delete character (secured)
 exports.deleteCharacter = (req, res) => {
     const userId = req.user.user_id;
     const { id } = req.params;

@@ -164,7 +164,7 @@ function WorldbuildingPage() {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 }

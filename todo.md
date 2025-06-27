@@ -157,42 +157,14 @@ footer✅
 
 second admin for miachel✅
 
-WCAG
+WCAG❓
 
 analytics accessibility✅
 
 get pictures from filezilla✅
 
-header keyboard navigation feedback
+comments✅
 
-adjust to look like visual prototype
+documentation
 
-continue working on docs
-
-## Optional:
-
-generally display error messages in the UI instead of console
-
-fun fact of the day für loading screens
-
-delete old/unused pictures from uploads folder when updating a project, character or user picture
-
-restrict delete of admin (can't be deleted)(?)
-
-fix error messages (zb trying to create account with existing email) and generally so it doesnt get displayed in the console but in the UI
-
-exchange jwt token in localstorage with http only cookie:
-res.cookie('token', accessToken, {
-httpOnly: true,
-secure: true,
-sameSite: 'Strict',
-maxAge: 86400000, // 1 day
-});
-
-and call APIs with 
-credentials: 'include'
-
-
-
-
-
+upload on campus cloud

@@ -7,6 +7,7 @@ const segmentRoutes = require("./segmentRoutes");
 const settingsRoutes = require('./settingsRoutes');
 const {checkProjectAccess} = require("../services/authorization");
 
+//establish routes for project-related operations
 router.use('/:project_id/characters', characterRoutes);
 router.use('/:project_id/segments', segmentRoutes);
 router.use('/:project_id/settings', settingsRoutes);
@@ -25,11 +26,13 @@ router.get('/:id', checkProjectAccess, projectController.getProjectById);
 // Update project
 router.put('/:id', authenticateJWT, projectController.updateProject);
 
+// separate endpoint to GET stats
 router.get('/:id/stats', projectController.getProjectStats);
 
 // Delete project
 router.delete('/:id', authenticateJWT, projectController.deleteProject);
 
+//separate endpoint to get character graphs
 router.get('/:id/graphs', projectController.getCharacterGraphs);
 
 

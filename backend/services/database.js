@@ -12,9 +12,4 @@ const config = mysql.createPool({
     queueLimit: 0
 })
 
-// config.connect(function (err) {
-//     if (err) throw err;
-//     console.log("Connected to database...");
-// });
-
 module.exports = {config}

@@ -26,10 +26,10 @@
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 32px; /* Increased gap */
-    padding: 32px; /* Added padding to all sides */
-    max-width: 1400px; /* Optional: max width for very large screens */
-    margin: 0 auto; /* Optional: center the grid */
+    gap: 32px;
+    padding: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 /* Project Card */
@@ -38,8 +38,6 @@
     flex-direction: column;
     height: 100%;
     min-width: 330px;
-    /* Removed fixed width: width: 360px; */
-    /* Now the card will use the full width available from the grid */
 }
 
 .project-card__image {
@@ -72,8 +70,6 @@
     flex-direction: column;
     height: 100%;
     width: 330px;
-
-    /* Removed fixed width: width: 360px; */
 }
 
 .character-card__header {
@@ -248,11 +244,11 @@
 /* Segment Styles */
 .segment {
     width: 100%;
-    height: 100%;
     background: white;
     border-radius: 12px;
     padding: 24px;
     margin-bottom: 24px;
+    flex: 1;
 }
 
 .segment__title {
@@ -339,8 +335,7 @@
     border-radius: 12px;
     padding: 24px;
     margin-bottom: 24px;
-    /*align-content: center;*/
-    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);*/
+
 }
 
 .content-section__header {
@@ -477,9 +472,9 @@
 .image-upload-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* or center if you want vertical centering too */
+    align-items: flex-start;
     width: 100%;
-    padding-top: 1rem; /* optional spacing */
+    padding-top: 1rem;
 }
 
 .form-page {
@@ -584,7 +579,7 @@
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: center; /* center vertically */
+    align-items: center;
     padding: 5rem;
 }
 
@@ -598,7 +593,6 @@
 
 .userdetail-header {
     display: flex;
-    /*justify-content: space-between;*/
     align-items: center;
     gap: 1.5rem;
     margin-bottom: 1.5rem;
@@ -668,8 +662,8 @@
 
 .profile-content {
     display: flex;
-    align-items: flex-start; /* top align */
-    gap: 3rem; /* larger gap */
+    align-items: flex-start;
+    gap: 3rem;
     padding: 1rem 0;
 }
 
@@ -958,8 +952,8 @@
 .character-container {
     display: flex;
     flex-direction: row !important;
-    flex-wrap: wrap;  /* this makes items wrap to next line */
-    gap: 1rem;        /* optional: adds spacing between items */
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .action-btn {
@@ -1069,7 +1063,7 @@
     text-decoration: none;
     color: #222222;
     cursor: pointer;
-    white-space: nowrap; /* prevent line breaks inside links */
+    white-space: nowrap;
     transition: color 0.2s ease;
     border-radius: 8px;
     padding-left: 2px;
@@ -1081,16 +1075,15 @@
 }
 
 .breadcrumb-element:last-child {
-    color: #333333; /* darker color for current page */
+    color: #333333;
     cursor: default;
     text-decoration: none;
-    pointer-events: none; /* disables link behavior */
+    pointer-events: none;
     font-weight: 600;
 }
 
-/* Optional: Add a small separator instead of using ">" in your JSX */
 .breadcrumb-element:not(:last-child)::after {
-    content: "›"; /* nicer separator */
+    content: "›";
     margin-left: 8px;
     color: #aaa;
     user-select: none;
@@ -1119,4 +1112,19 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+}
+
+.relation-item {
+    list-style: square;
+}
+
+.relation-label {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }

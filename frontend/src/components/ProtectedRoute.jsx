@@ -22,6 +22,7 @@ function ProtectedRoute({children}) {
                 return;
             }
             try {
+                //check access to the project
                 const response = await getProjectById(projectId, token);
                 const project = response.project;
                 if (project.visibility === 'public') {

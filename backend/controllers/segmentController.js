@@ -1,5 +1,6 @@
 const { config } = require('../services/database');
 
+// reusable ownership check for segments
 function checkProjectOwnershipBySegment(segmentId, userId, callback) {
     const sql = `
         SELECT p.user_id
@@ -15,6 +16,7 @@ function checkProjectOwnershipBySegment(segmentId, userId, callback) {
     });
 }
 
+//create a new segment (secured)
 exports.createSegment = (req, res) => {
     const { project_id } = req.params; // from route params
     const { title, content } = req.body;
@@ -50,6 +52,7 @@ exports.createSegment = (req, res) => {
 
 }
 
+// get all segments for a project (no auth needed)
 exports.getSegmentsByProject = (req, res) => {
     const { project_id } = req.params;
 
@@ -63,6 +66,8 @@ exports.getSegmentsByProject = (req, res) => {
         res.json({ segments: result });
     });
 }
+
+// get a single segment by ID (no auth needed)
 exports.getSegmentsById = (req, res) => {
     const { id } = req.params; // from route params
 
@@ -81,6 +86,7 @@ exports.getSegmentsById = (req, res) => {
     });
 }
 
+// update a segment (secured)
 exports.updateSegment = (req, res) => {
     const userId = req.user.user_id; // from JWT middleware
     const { id } = req.params; // from route params
@@ -110,6 +116,8 @@ exports.updateSegment = (req, res) => {
     });
 
 }
+
+// delete a segment (secured)
 exports.deleteSegment = (req, res) => {
     const userId = req.user.user_id; // from JWT middleware
     const { id } = req.params; // from route params

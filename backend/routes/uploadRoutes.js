@@ -18,7 +18,6 @@ const updateWithErrorHandler = (req, res, next) => {
 router.post('/users/:id', updateWithErrorHandler, authenticateJWT, uploadController.uploadUserImage);
 // POST /api/upload/projects/:id
 router.post('/projects/:id', updateWithErrorHandler, authenticateJWT, uploadController.uploadProjectImage);
-
 // POST /api/upload/characters/:id
 router.post('/characters/:id', updateWithErrorHandler, authenticateJWT, uploadController.uploadCharacterImage);
 

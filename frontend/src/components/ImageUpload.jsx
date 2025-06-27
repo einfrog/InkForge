@@ -14,9 +14,10 @@ function ImageUpload({
                      }) {
     const [isUploading, setIsUploading] = useState(false);
     const [error, setError] = useState('');
-    const [preview, setPreview] = useState(null);
+    const [preview, setPreview] = useState(null); // Stores base64 preview of selected file
     const [uploadedImage, setUploadedImage] = useState(null);
 
+    // Helper function to construct proper image URLs based on image path
     const getImageUrl = (path) => {
         if (!path) {
             switch (type) {
@@ -30,6 +31,7 @@ function ImageUpload({
                     return '/default-profile.png';
             }
         }
+        // If already a full URL (starts with http), return as-is
         if (path.startsWith('http')) return path;
         return `http://localhost:5000${path}`;
     };
@@ -45,6 +47,7 @@ function ImageUpload({
         }
     };
 
+    // Main function to handle file selection and upload process
     const handleImageChange = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -75,6 +78,7 @@ function ImageUpload({
             const token = localStorage.getItem('token');
             let result;
 
+            // Call different API endpoints based on upload type
             if (type === 'profile') {
                 result = await apiService.uploadUserImage(id, file, token);
             } else if (type === 'project') {
@@ -83,9 +87,10 @@ function ImageUpload({
                 result = await apiService.uploadCharacterImage(id, file, token);
             }
 
+            // Handle successful upload response
             if (result && result.path) {
                 console.log('Upload successful, path:', result.path);
-                onImageUploaded(result.path, file);
+                onImageUploaded(result.path, file); // notify parent component
                 setUploadedImage(result);
                 setPreview(null); // Clear preview after successful upload
             } else {
@@ -101,6 +106,7 @@ function ImageUpload({
         }
     };
 
+    // Helper function to get appropriate label text based on upload type
     const getLabel = () => {
         switch (type) {
             case 'profile':

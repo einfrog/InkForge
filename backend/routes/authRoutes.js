@@ -1,10 +1,11 @@
 const express = require('express');
-const { authenticateUser, authenticateJWT } = require('../services/authentication');
+const { authenticateUser } = require('../services/authentication');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
 console.log("auth routes loaded")
 
+// handle logic here because I couldn't find a more appropriate place
 router.post('/login', async (req, res) => {
     console.log('Login attempt received:', req.body);
     const { email, password } = req.body;

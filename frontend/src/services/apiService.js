@@ -507,6 +507,7 @@ export async function deleteStorySegment(projectId, segmentId, token) {
     return await response.json(); // returns deleted segment object
 }
 
+// UPLOAD API CALLS
 export async function uploadUserImage(userId, imageFile, token) {
     const formData = new FormData();
     formData.append('image', imageFile);
@@ -571,6 +572,7 @@ export async function uploadCharacterImage(characterId, imageFile, token) {
     return await response.json();
 }
 
+// GRAPH API CALLS
 export async function getCharacterGraphs(projectId) {
     console.log('Fetching character graphs for project:', projectId);
 
@@ -600,6 +602,7 @@ export async function getCharacterGraphs(projectId) {
     }
 }
 
+// PROJECT STATS API CALLS
 export async function getProjectStats(projectId) {
     const response = await fetch(`${API}/projects/${projectId}/stats`, {
         method: 'GET'

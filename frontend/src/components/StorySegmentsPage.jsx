@@ -189,7 +189,7 @@ function SegmentsPage() {
                                                 <div className="content-item__content">
                                                     <p>{segment.content || "No content available"}</p>
                                                     {!isPublicView && (
-                                                        <div className="flex gap-2 mt-4">
+                                                        <div className="form-buttons">
                                                             <button onClick={() => startEditSegment(segment)}
                                                                     className="action-btn">Edit
                                                             </button>

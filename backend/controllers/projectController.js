@@ -1,5 +1,6 @@
 const {config} = require('../services/database');
 
+//reusable function to check if user owns the project
 function checkProjectOwnership(projectId, userId, callback) {
     const sql = `SELECT * FROM projects WHERE project_id = ? AND user_id = ?`;
     config.query(sql, [projectId, userId], (err, result) => {
@@ -10,6 +11,7 @@ function checkProjectOwnership(projectId, userId, callback) {
     });
 }
 
+//get all projects with optional visibility filter, available to all users
 exports.getAllProjects = (req, res) => {
     const {visibility} = req.query;
 
@@ -33,6 +35,7 @@ exports.getAllProjects = (req, res) => {
     });
 };
 
+//create a new project (secured)
 exports.createProject = (req, res) => {
     const userId = req.user.user_id; // from JWT middleware
     const {project_name, category, genre, description, visibility} = req.body;
@@ -70,7 +73,7 @@ exports.createProject = (req, res) => {
     });
 };
 
-
+// get all projects for the authenticated user
 exports.getMyProjects = (req, res) => {
     const userId = req.user.user_id; // from JWT middleware
 
@@ -93,6 +96,7 @@ exports.getMyProjects = (req, res) => {
     });
 }
 
+// get a single project by ID
 exports.getProjectById = (req, res) => {
     const projectId = req.params.id;
 
@@ -113,6 +117,7 @@ exports.getProjectById = (req, res) => {
     });
 };
 
+// update a project (secured)
 exports.updateProject = (req, res) => {
     const userId = req.user.user_id;
     const projectId = req.params.id;
@@ -143,6 +148,7 @@ exports.updateProject = (req, res) => {
     });
 };
 
+// delete a project (secured)
 exports.deleteProject = (req, res) => {
     const userId = req.user.user_id;
     const projectId = req.params.id;
@@ -171,17 +177,18 @@ exports.deleteProject = (req, res) => {
     });
 };
 
+// get character graphs for a project
 exports.getCharacterGraphs = (req, res) => {
     const projectId = req.params.id;
 
-    // First, get characters
+    // first, get characters
     config.query('SELECT character_id AS id, name FROM characters WHERE project_id = ?', [projectId], (err, characters) => {
         if (err) {
             console.error('Error fetching characters:', err);
             return res.status(500).json({error: 'Failed to load characters'});
         }
 
-        // Then, get relationships
+        // then, get relationships
         config.query(`
             SELECT source_character_id AS source, target_character_id AS target, relationship_type AS type, notes 
             FROM character_relations 
@@ -192,7 +199,7 @@ exports.getCharacterGraphs = (req, res) => {
                 return res.status(500).json({error: 'Failed to load relationships'});
             }
 
-            // Send the response with both datasets
+            // send the response with both datasets
             console.log('Sending graph data:', {
                 nodes: characters.length,
                 links: relations.length
@@ -206,10 +213,11 @@ exports.getCharacterGraphs = (req, res) => {
     });
 };
 
+//get project stats for overview page
 exports.getProjectStats = (req, res) => {
     const projectId = req.params.id;
 
-    // Query for all stats in parallel (nested for now)
+    // query for all stats in parallel
     const charQuery = `SELECT COUNT(*) AS count FROM characters WHERE project_id = ?`;
     const segQuery = `SELECT COUNT(*) AS count, COALESCE(SUM(LENGTH(content) - LENGTH(REPLACE(content, ' ', '')) + 1), 0) AS wordCount FROM story_segments WHERE project_id = ?`;
     const setQuery = `SELECT 

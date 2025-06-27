@@ -71,6 +71,8 @@ function UserForm() {
         setIsSubmitting(true);
 
         const userToSend = {...newUser};
+
+        //temporarily replace password with placeholder if editing, if still the placeholder, remove it from req body
         if (userToSend.password === '********') {
             delete userToSend.password;
         }
@@ -164,7 +166,7 @@ function UserForm() {
                                 className="form-input form-textarea"
                                 value={newUser.biography}
                                 onChange={(e) => setNewUser({ ...newUser, biography: e.target.value })}
-                                placeholder="Write something about yourself"
+                                placeholder="Write something about yourself :>"
                             />
                         </div>
 

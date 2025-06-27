@@ -92,9 +92,7 @@ function UserDetailPage() {
                     </div>
 
                     <ul className="userdetail-list">
-                        {/*<li><strong>ID:</strong> {user.user_id}</li>*/}
                         <li>
-                            {/*<strong>Biography:</strong>{' '}*/}
                             {user.biography || <em>No biography provided.</em>}
                         </li>
                     </ul>

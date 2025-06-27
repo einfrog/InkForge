@@ -7,6 +7,7 @@ import ImageUpload from './ImageUpload';
 import './components.css';
 
 function CharacterForm() {
+    //characterId is used for editing an existing character, while id is the project ID
     const {id, characterId} = useParams();
     const navigate = useNavigate();
 

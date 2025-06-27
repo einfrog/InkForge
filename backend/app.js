@@ -1,10 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+
+//establish all routes
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
@@ -31,9 +34,9 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/upload', uploadRoutes);
 console.log('Routes registered successfully');
 
-app.get('/test', (req, res) => {
-    res.json({ message: 'Server is working' });
-});
+// app.get('/test', (req, res) => {
+//     res.json({ message: 'Server is working' });
+// });
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

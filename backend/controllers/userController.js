@@ -50,6 +50,7 @@ exports.registerUser = (req, res) => {
                     if (err) {
                         console.error('Error creating user:', err);
                         console.error('err.code:', err.code, typeof err.code);
+                        // Check for duplicate entry error, if true, return appropriate response
                         if (String(err.code).toUpperCase() === 'ER_DUP_ENTRY') {
                             console.log('Sending 400: Email already registered');
                             return res.status(400).json({ error: 'Email already registered' });
@@ -81,7 +82,7 @@ exports.registerUser = (req, res) => {
     });
 };
 
-// PUT update user
+// PUT update user, secured
 exports.updateUser = async (req, res) => {
     const userId = req.params.id;
     const token = req.headers.authorization.split(' ')[1];
@@ -106,6 +107,7 @@ exports.updateUser = async (req, res) => {
             [email, userId]
         );
 
+        //prevent users from setting their email to an already registered email
         if (existingUsers.length > 0) {
             return res.status(400).json({ error: 'Email already registered' });
         }
@@ -114,6 +116,7 @@ exports.updateUser = async (req, res) => {
         queryParams.push(email);
     }
 
+    //temporarily handle password as a string '********' to avoid accidental updates, if not updated, remove from put request body
     if (password && password !== '********') {
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -123,10 +126,12 @@ exports.updateUser = async (req, res) => {
             return res.status(500).json({error: 'Error when hashing password'});
         }
     }
+
     if (biography !== undefined) {
         updateFields.push('biography = ?');
         queryParams.push(biography);
     }
+
     if (profile_picture !== undefined) {
         updateFields.push('profile_picture = ?');
         queryParams.push(profile_picture);
@@ -162,7 +167,7 @@ exports.updateUser = async (req, res) => {
     });
 };
 
-// DELETE user
+// DELETE user, secured
 exports.deleteUser = (req, res) => {
     const userId = req.params.id;
     const token = req.headers.authorization.split(' ')[1];

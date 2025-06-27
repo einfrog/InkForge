@@ -1,8 +1,6 @@
 .footer {
-    left: 0;
-    bottom: 0;
     width: 100%;
-    display:flex;
+    display: flex;
     justify-content: center;
     padding: 1rem;
     font-size: 1rem;
@@ -10,4 +8,5 @@
     background-color: #e7e5e5;
     user-select: none;
     gap: 0.5rem;
+    margin-top: auto;
 }

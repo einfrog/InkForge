@@ -10,6 +10,7 @@ router.get('/:id', characterController.getCharacterById);
 router.put('/:id', authenticateJWT, characterController.updateCharacter);
 router.delete('/:id', authenticateJWT, characterController.deleteCharacter);
 
+//establish character relations routes
 router.use('/:character_id/relations', characterRelationsRouter);
 
 module.exports = router;
