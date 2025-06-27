@@ -92,12 +92,13 @@ Open website, explore public projects on the explore page, when trying to naviga
 - Flexibility for users (what they name and write in the story segments is up to them, same for worldbuilding settings, they can create whatever they want)
 
 ### Known issues or limitations
-- When forgetting to log out and accessing the webpage after some time, the session might expire and own projects cannot be fetched, leading to an error. Solution: log out and log back in.
+- When forgetting to log out and then accessing the webpage after some time, the session might expire and own projects cannot be fetched, leading to an error. Solution: log out and log back in.
 - When creating a new segment or worldbuilding setting, the success/error message is displayed until reloading the page.
 - Some styling issues, f.e. footer might behave strangely when entering scenarios I haven't thought to test while development.
 - Accessibility on the Analytics page. Currently the text for the screen reader is being visually displayed, because if it is hidden it is not read out by the screen reader. This is a known issue that I have tried and failed to fixed. Displaying the text-based description is the most graceful way I could find to solve this.
 - When navigation the website via keyboard, the "Profile" Link in the header does not give feedback that it is currently in focus.
-  - The flavicon only works for the Explore Page and the Project Detail Views for the Projects from the Explore Page.    I could not figure out the reason for this, but it is a known issue.
+- The flavicon only works for the Explore Page and the Project Detail Views for the Projects from the Explore Page. I could not figure out the reason for this, but it is a known issue. When deployed via campus cloud, it works as intended.
+- Before, when the campus cloud instance had been running for some time, the connection to the database was closed, leading to an error when trying to access the database the backend. I tried fixing this by setting the connection to the database as pool, but I do not have enough time to test if the issue is resolved. Usually the issue occurred after some days. If the error occurs again, and the campus cloud Node Log shows an error like "Connection to the database was closed", restarting the Node instance temporarily fixes the issue.
 
 ## Accessibility
 - **Perceivable**: All images have alt text. The color contrast is sufficient for readability (tested with Lighthouse). The Graph on the Analytics page has a text-based description for screen readers, although it is visually displayed. All buttons have descriptive text. Form inputs have labels.
