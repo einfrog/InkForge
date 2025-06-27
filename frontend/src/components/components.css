@@ -227,13 +227,13 @@
 }
 
 .btn-primary {
-    background-color: #589384;
+    background-color: #437a6c;
     color: white;
 }
 
 .btn-primary:hover {
     color: white;
-    background-color: #467a6c;
+    background-color: #306456;
 }
 
 .btn-secondary {
@@ -652,7 +652,7 @@
 }
 
 .userdetail-btn {
-    background-color: #589384;
+    background-color: #437a6c;
     color: white;
     padding: 0.6rem 1.2rem;
     border-radius: 0.3rem;
@@ -663,7 +663,7 @@
 
 .userdetail-btn:hover {
     color: white;
-    background-color: #467a6c;
+    background-color: #346457;
 }
 
 .profile-content {
@@ -969,7 +969,7 @@
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: 500;
-    background-color: #589384;
+    background-color: #437a6c;
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -985,7 +985,7 @@
     font-size: 1rem;
     font-weight: 500;
     width: 100%;
-    background-color: #589384;
+    background-color: #437a6c;
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -999,21 +999,22 @@
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: 500;
-    background-color: #CF5045;
+    background-color: #b23c32;
     color: white;
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.2s ease;
     border: none;
 }
+
 .alarm-btn:hover {
-    background-color: #b43f3a;
+    background-color: #912a21;
     color: white;
     cursor: pointer;
 }
 
 .action-btn:hover, .login-btn:hover {
-    background-color: #467a6c;
+    background-color: #346457;
     color: white;
     cursor: pointer;
 }

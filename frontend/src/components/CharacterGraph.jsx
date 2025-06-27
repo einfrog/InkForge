@@ -63,7 +63,7 @@ function CharacterGraph({ data }) {
                         selector: 'node',
                         style: {
                             'label': 'data(label)',
-                            'background-color': '#007bff',
+                            'background-color': '#589283',
                             'color': 'black',
                             'text-valign': 'center',
                             'text-halign': 'center',
@@ -188,7 +188,7 @@ function CharacterGraph({ data }) {
                         left: '10px',
                         zIndex: 1000,
                         padding: '6px 12px',
-                        backgroundColor: '#007bff',
+                        backgroundColor: '#263b43',
                         color: 'white',
                         border: 'none',
                         borderRadius: '4px',

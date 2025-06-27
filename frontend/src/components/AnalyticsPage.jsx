@@ -69,7 +69,7 @@ function AnalyticsPage() {
 
 
                         <p className="content-section__description">
-                            This is the analytics page where you can view how your characters are connected to each other!
+                            Here you can see how your characters are connected to each other! Try moving nodes around to get a better view. A text-based description is provided below.
                         </p>
 
                         {graphError && (
@@ -80,9 +80,6 @@ function AnalyticsPage() {
 
                         {graphData && graphData.nodes && graphData.links ? (
                             <section className="content-item graph-section">
-                                <p>
-                                    {/*Graph loaded with {graphData.nodes.length} nodes and {graphData.links.length} links*/}
-                                </p>
                                 <CharacterGraph data={graphData}/>
                             </section>
                         ) : graphData === null ? (

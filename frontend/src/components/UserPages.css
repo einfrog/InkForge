@@ -94,7 +94,7 @@
     padding: 9px 16px;
     border: none;
     border-radius: 4px;
-    background: #ce5045;
+    background: #b23c32;
     color: white;
     text-decoration: none;
     cursor: pointer;
@@ -105,7 +105,7 @@
 
 .userform-delete-btn:hover {
     color: white;
-    background: #9d342b;
+    background: #932b22;
 }
 
 .userform-btn:disabled {

@@ -159,7 +159,9 @@ second admin for miachel✅
 
 WCAG
 
-analytics accessibility
+analytics accessibility✅
+
+get pictures from filezilla✅
 
 header keyboard navigation feedback
 
