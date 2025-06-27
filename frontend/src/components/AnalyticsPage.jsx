@@ -69,7 +69,7 @@ function AnalyticsPage() {
 
 
                         <p className="content-section__description">
-                            This is the analytics page where you can view various statistics and insights.
+                            This is the analytics page where you can view how your characters are connected to each other!
                         </p>
 
                         {graphError && (

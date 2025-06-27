@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
 cytoscape.use(coseBilkent);
@@ -6,10 +6,17 @@ cytoscape.use(coseBilkent);
 function CharacterGraph({ data }) {
     const cyRef = useRef(null);
     const containerRef = useRef(null);
+    const [graphDescription, setGraphDescription] = useState("Loading graph description..."); // State for the main description
+
+    // State for live region updates (if graph changes dynamically after initial load)
+    const [liveMessage, setLiveMessage] = useState("");
 
     useEffect(() => {
-        if (!data || !data.nodes || !data.links) {
-            return;
+        // Generate and set the description as soon as data is available
+        if (data && data.nodes && data.links) {
+            setGraphDescription(generateGraphDescription());
+        } else {
+            setGraphDescription("No graph data available yet.");
         }
 
         const cleanup = () => {
@@ -26,7 +33,7 @@ function CharacterGraph({ data }) {
 
         cleanup();
 
-        if (!containerRef.current) {
+        if (!containerRef.current || !data || !data.nodes || !data.links) {
             return;
         }
 
@@ -118,13 +125,96 @@ function CharacterGraph({ data }) {
 
         } catch (error) {
             console.error('Error creating cytoscape instance:', error);
+            setGraphDescription("Failed to load graph. " + error.message);
         }
 
         return cleanup;
     }, [data]);
 
+    // Generate accessible description
+    const generateGraphDescription = () => {
+        if (!data || !data.nodes || !data.links) return "Graph data is loading or not available.";
+
+        const nodeCount = data.nodes.length;
+        const linkCount = data.links.length;
+
+        let description = `Character relationship graph with ${nodeCount} characters and ${linkCount} relationships. `;
+
+        // List characters
+        const characterNames = data.nodes.map(node => node.name).join(', ');
+        description += `Characters: ${characterNames}. `;
+
+        // Describe relationships
+        if (data.links.length > 0) {
+            description += "Relationships: ";
+            const relationships = data.links.map(link => {
+                const sourceNode = data.nodes.find(n => n.id === link.source);
+                const targetNode = data.nodes.find(n => n.id === link.target);
+                return `${sourceNode?.name || link.source} ${link.type} ${targetNode?.name || link.target}`;
+            }).join('; ');
+            description += relationships + ".";
+        }
+
+        return description;
+    };
+
     return (
         <div style={{ width: '100%', height: '600px', position: 'relative' }}>
+            {/* Primary description: Place it visually hidden but still in the DOM flow.
+                This allows screen readers to read it as part of the normal page traversal.
+                It should also be the target of aria-labelledby/aria-describedby.
+            */}
+            <div
+                id="graph-description"
+                // Using a utility class that hides visually but is still read by SRs.
+                // Ensure this class is properly defined in your CSS to not use `display: none` or `visibility: hidden`.
+                // A common implementation for "sr-only" or "visually-hidden" is as provided previously.
+                className="sr-only"
+                role="region" // Indicate it's a distinct region for accessibility
+                aria-live="polite" // Still useful for dynamic updates if you implement them later
+                aria-atomic="true" // Ensure the whole message is read
+            >
+                {graphDescription}
+                {/* Optionally, if you have additional live updates that need to be announced
+                    separately from the main description, you can add them here.
+                    For now, it's combined for simplicity of initial read.
+                */}
+                {liveMessage}
+            </div>
+
+            {/* Alternative text-based representation for screen readers (highly recommended fallback) */}
+            {/* This provides a structured, navigable alternative for complex graphs */}
+            <div className="sr-only-alt-content" aria-hidden="false"> {/* Make sure this class is visually hidden but read */}
+                <h3>Character Relationships Summary (Text Format)</h3>
+                <p>{graphDescription}</p> {/* Re-use the generated description */}
+                {data && data.nodes && (
+                    <div>
+                        <h4>Characters ({data.nodes.length})</h4>
+                        <ul>
+                            {data.nodes.map(node => (
+                                <li key={node.id}>{node.name}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                {data && data.links && data.links.length > 0 && (
+                    <div>
+                        <h4>Relationships ({data.links.length})</h4>
+                        <ul>
+                            {data.links.map((link, index) => {
+                                const sourceNode = data.nodes?.find(n => n.id === link.source);
+                                const targetNode = data.nodes?.find(n => n.id === link.target);
+                                return (
+                                    <li key={index}>
+                                        {sourceNode?.name || link.source} {link.type} {targetNode?.name || link.target}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                )}
+            </div>
+
             <button
                 onClick={() => cyRef.current?.fit(null, 50)}
                 style={{
@@ -139,6 +229,7 @@ function CharacterGraph({ data }) {
                     borderRadius: '4px',
                     cursor: 'pointer'
                 }}
+                aria-label="Reset graph view to fit all characters"
             >
                 Reset View
             </button>
@@ -153,10 +244,16 @@ function CharacterGraph({ data }) {
                     top: 0,
                     left: 0
                 }}
+                role="img"
+                aria-labelledby="graph-title" // Use a clearer label for the graph itself
+                aria-describedby="graph-description" // This links to the main description
+                tabIndex="0"
+                title="Interactive Character Relationship Graph" // A simple title for hover/initial context
             />
+            {/* Add a visually hidden heading that can serve as the label */}
+            <h2 id="graph-title" className="sr-only">Character Relationship Graph</h2>
         </div>
     );
-
 }
 
 export default CharacterGraph;
