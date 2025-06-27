@@ -29,7 +29,6 @@ function App() {
                 }/>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/admin-test" element={<AdminTest/>}/>
-                {/*<Route path='/socials/new' element={<UserForm/>}></Route>*/}
                 <Route path="/register" element={<UserForm/>}/>
                 <Route path="/socials/:id" element={
                     <ProtectedRoute>

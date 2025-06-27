@@ -131,7 +131,8 @@ function ProjectFormPage() {
 
             <div className="container mt-5 mb-5 character-form-container">
                 <div className="card">
-                    <h1 className="segment__title">{id ? 'Edit Project' : 'Create New Project'}</h1>
+
+                    <h1 className="form__title">{id ? 'Edit Project' : 'Create New Project'}</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="row">
                             <div className="col-md-8">

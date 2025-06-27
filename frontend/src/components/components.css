@@ -122,6 +122,8 @@
 
 .character-card__description {
     color: #666;
+    font-family: "Nunito", sans-serif;
+    font-weight: normal;
     margin-bottom: 16px;
     line-height: 1.5;
 }
@@ -260,6 +262,13 @@
     color: #1a1a1a;
     padding-left: 32px;
     padding-right: 32px;
+}
+.form__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #1a1a1a;
+    align-items: center;
 }
 
 /* Project Detail Styles */

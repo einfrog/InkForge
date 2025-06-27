@@ -151,15 +151,19 @@ make character cards clickable✅
 
 mock path buttons for navigating through project sections and back to projects✅
 
-footer
+footer✅
 
-adjust to look like visual prototype
+## June 27th:
 
-flavicon
-
-second admin for miachel
+second admin for miachel✅
 
 WCAG
+
+analytics accessibility
+
+header keyboard navigation feedback
+
+adjust to look like visual prototype
 
 continue working on docs
 

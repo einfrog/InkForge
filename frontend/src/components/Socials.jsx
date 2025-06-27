@@ -88,8 +88,7 @@ const Socials = () => {
                                         <Link to={`/socials/${user.user_id}/edit`} className='userform-btn'>Edit</Link>
                                         <button
                                             onClick={() => handleDelete(user.user_id)} 
-                                            className='userform-btn'
-                                            style={{background: '#b91c1c'}}
+                                            className='userform-delete-btn'
                                             disabled={deletingUsers[user.user_id]}
                                         >
                                             {deletingUsers[user.user_id] ? 'Deleting...' : 'Delete'}

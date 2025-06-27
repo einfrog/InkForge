@@ -113,7 +113,11 @@ function CharacterPage() {
                                             </div>
                                         </div>
                                         <div className="character-card__content">
-                                            <p className="character-card__description">{char.description}</p>
+                                            <p className="character-card__description">
+                                                {char.description && char.description.trim() !== ''
+                                                    ? char.description
+                                                    : "No description."}
+                                            </p>
                                         </div>
                                     </Link>
                                 ))}

@@ -199,9 +199,9 @@ function CharacterDetailPage() {
 
 
                     <section className="character-description segment">
-                        <p><strong>Personality:</strong> {character.personality || 'No personality available'}</p>
-                        <p><strong>Biography:</strong> {character.biography || 'No description available'}</p>
-                        <p><strong>Description:</strong> {character.description || 'No description available'}</p>
+                        <p><strong>Personality:</strong> {character.personality || 'No personality available.'}</p>
+                        <p><strong>Biography:</strong> {character.biography || 'No biography available.'}</p>
+                        <p><strong>Description:</strong> {character.description || 'No description available.'}</p>
                         <div className="form-buttons">
                             {isOwner && (
                                 <>

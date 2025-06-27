@@ -114,7 +114,7 @@ function UserForm() {
 
             <div className="container mt-5 mb-5 character-form-container">
                 <div className="card">
-                    <h1 className="segment__title">{id ? 'Edit User' : 'Create New Profile'}</h1>
+                    <h1 className="form__title">{id ? 'Edit User' : 'Create New Profile'}</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="username" className="form-label">Username</label>
