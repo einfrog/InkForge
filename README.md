@@ -19,3 +19,68 @@ InkForge is a web-application for writers to organize and further plan their sto
 - **Frontend:**	React.js
 - **Backend:**	Node.js + Express
 - **Database:**	MySQL
+
+## Screenshots
+### Exploring public projects
+<div style="text-align: center;">
+  <img src="screenshots/explore.jpeg" alt="Screenshot of the Explore Page" width="880">
+</div>
+
+### Project Details
+<div style="text-align: center;">
+  <img src="screenshots/readProject.jpeg" alt="Screenshot of the Project Details" width="880">
+</div>
+🔼Project Details of an unowned project
+<div style="text-align: center;">
+  <img src="screenshots/editProject.jpeg" alt="Screenshot of the Project Details" width="880">
+</div>
+🔼Project Details of your own project
+
+### Characters
+<div style="text-align: center;">
+  <img src="screenshots/readCharacters.jpeg" alt="Screenshot of the Character Details" width="880">
+</div>
+<div style="text-align: center;">
+  <img src="screenshots/readCharacter.jpeg" alt="Screenshot of the Character Details" width="880">
+</div>
+
+### Worldbuilding
+<div style="text-align: center;">
+  <img src="screenshots/readSettings.jpeg" alt="Screenshot of the Settings" width="880">
+</div>
+🔼Settings of an unowned Project
+<div style="text-align: center;">
+  <img src="screenshots/editSettings.jpeg" alt="Screenshot of the Settings" width="880">
+</div>
+🔼Settings of your own Project
+
+### Story Segments
+<div style="text-align: center;">
+  <img src="screenshots/readStorySegments.jpeg" alt="Screenshot of the Story Segments" width="880">
+</div>
+🔼Segments of an unowned Project
+<div style="text-align: center;">
+  <img src="screenshots/editStorySegments.jpeg" alt="Screenshot of the Story Segments" width="880">
+</div>
+🔼Segments of your own Project
+
+### Relationship Graph
+<div style="text-align: center;">
+  <img src="screenshots/readGraph.jpeg" alt="Screenshot of the Relationship Graph" width="880">
+</div>
+
+### Users
+<div style="text-align: center;">
+  <img src="screenshots/users.jpeg" alt="Screenshot of the Users Page" width="880">
+</div>
+🔼User Page for regular Users
+<div style="text-align: center;">
+  <img src="screenshots/adminUsers.jpeg" alt="Screenshot of the Users Page" width="880">
+</div>
+🔼Users Page with admin actions
+
+### Projects
+<div style="text-align: center;">
+  <img src="screenshots/ownProjects.jpeg" alt="Screenshot of the Projects Page" width="880">
+</div>
+🔼Projects page with all created (and owned) projects
