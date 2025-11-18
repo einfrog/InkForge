@@ -20,7 +20,7 @@ InkForge is a web-application for writers to organize and further plan their sto
 - **Backend:**	Node.js + Express
 - **Database:**	MySQL (managed with phpMyAdmin)
   
-Passwords are hashed with bcrypt.js, user authentication and authorization are handlet by jsonwebtoken. Cross-Origin Resource Sharing (when hosting locally) is enabled by CORS. Picture Upload is done using Multer and UUIDs. For the relationship graph I am using Cytoscape. 
+Passwords are hashed with bcrypt.js, user authentication and authorization are handled by jsonwebtoken. Cross-Origin Resource Sharing (when hosting locally) is enabled by CORS. Picture Upload is done using Multer and UUIDs. For the relationship graph I am using Cytoscape. 
 
 ## Screenshots
 ### Exploring public projects
